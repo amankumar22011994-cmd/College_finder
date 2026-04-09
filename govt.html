@@ -1,0 +1,117 @@
+<style>
+
+
+/* PAGE BACKGROUND (GREEN GOVT FEEL) */
+body{
+  background:linear-gradient(135deg,#3aebc2,#83ada2,#03827e);
+  color:#ecfdf5;
+  font-family:sans-serif;
+}
+
+/* CENTER CONTENT */
+.page{
+  padding:2.5rem 10vw;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+
+/* TITLE */
+.page-title{
+  text-align:center;
+  font-size:2rem;
+  margin-bottom:2rem;
+  color:#eef6f1; /* light green */
+}
+
+/* GRID */
+.state-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:1.5rem;
+
+  width:100%;
+  max-width:900px;   /* ⭐ ye important hai */
+  margin:0 auto;     /* ⭐ ye center karega */
+
+}
+
+/* CARD */
+.state-pill{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:1rem;
+  border-radius:12px;
+  text-decoration:none;
+  font-size:0.95rem;
+  font-weight:500;
+  color:#022c22;
+  box-shadow:0 10px 25px rgba(0,0,0,0.4);
+  transition:0.3s;
+}
+
+/* HOVER */
+.state-pill:hover{
+  transform:translateY(-5px) scale(1.05);
+  box-shadow:0 15px 35px rgba(0,0,0,0.6);
+}
+
+/* 🎨 GREEN SHADES */
+.state-pill:nth-child(1){ background:#bbf7d0; }
+.state-pill:nth-child(2){ background:#86efac; }
+.state-pill:nth-child(3){ background:#4ade80; }
+.state-pill:nth-child(4){ background:#22c55e; }
+.state-pill:nth-child(5){ background:#16a34a; }
+.state-pill:nth-child(6){ background:#bbf7d0; }
+.state-pill:nth-child(7){ background:#86efac; }
+.state-pill:nth-child(8){ background:#4ade80; }
+.state-pill:nth-child(9){ background:#22c55e; }
+.state-pill:nth-child(10){ background:#16a34a; }
+
+/* GLASS EFFECT */
+.state-pill{
+  backdrop-filter:blur(10px);
+}
+
+
+
+
+.back-btn {
+      align-self: flex-start;
+      margin-bottom: 1.5rem;
+      padding: .5rem 1rem;
+      background: #3bd1d1;
+      border: none;
+      border-radius: 8px;
+      font-size: .9rem;
+      font-weight: 500;
+      cursor: pointer;
+      color: #8b3906;
+      text-decoration: none;
+      display: inline-block;
+      transition: 0.2s;
+    }
+
+     .back-btn:hover { background: #93c5fd; }
+
+
+</style>
+    <a href="index.html" class="back-btn">← Back Home</a>
+
+
+<h1 class="page-title">Top State Government Engineering Colleges</h1>
+
+<div class="state-grid">
+  <a href="#" class="state-pill">DTU (Delhi Technological University)</a>
+  <a href="#" class="state-pill">NSUT Delhi</a>
+  <a href="#" class="state-pill">Jadavpur University</a>
+  <a href="#" class="state-pill">COEP Pune</a>
+  <a href="#" class="state-pill">Anna University</a>
+  <a href="#" class="state-pill">HBTU Kanpur</a>
+  <a href="#" class="state-pill">PEC Chandigarh</a>
+  <a href="#" class="state-pill">College of Engineering Trivandrum</a>
+  <a href="#" class="state-pill">Andhra University College of Engineering</a>
+  <a href="#" class="state-pill">MSU Baroda</a>
+</div>
