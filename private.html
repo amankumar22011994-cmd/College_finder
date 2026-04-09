@@ -1,0 +1,120 @@
+<style>
+
+
+/* PAGE BACKGROUND (PREMIUM DARK) */
+body{
+  background:linear-gradient(135deg,#020617,#111827,#1f2937);
+  color:#f9fafb;
+  font-family:sans-serif;
+}
+
+/* CENTER CONTENT */
+.page{
+  padding:2.5rem 10vw;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+
+/* TITLE */
+.page-title{
+  text-align:center;
+  font-size:2rem;
+  margin-bottom:2rem;
+  color:#facc15; /* gold */
+}
+
+/* GRID */
+.private-grid{
+
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:1.5rem;
+
+  width:100%;
+  max-width:900px;   /* ⭐ ye important hai */
+  margin:0 auto;     /* ⭐ ye center karega */
+
+}
+
+/* CARD */
+.private-pill{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:1rem;
+  border-radius:12px;
+  text-decoration:none;
+  font-size:0.95rem;
+  font-weight:500;
+  color:#111827;
+  box-shadow:0 10px 25px rgba(0,0,0,0.4);
+  transition:0.3s;
+}
+
+/* HOVER */
+.private-pill:hover{
+  transform:translateY(-5px) scale(1.05);
+  box-shadow:0 15px 35px rgba(0,0,0,0.6);
+}
+
+/* 🎨 PREMIUM COLORS */
+.private-pill:nth-child(1){ background:#fde68a; }
+.private-pill:nth-child(2){ background:#fcd34d; }
+.private-pill:nth-child(3){ background:#fbbf24; }
+.private-pill:nth-child(4){ background:#f59e0b; }
+.private-pill:nth-child(5){ background:#eab308; }
+.private-pill:nth-child(6){ background:#fde68a; }
+.private-pill:nth-child(7){ background:#fcd34d; }
+.private-pill:nth-child(8){ background:#fbbf24; }
+.private-pill:nth-child(9){ background:#f59e0b; }
+.private-pill:nth-child(10){ background:#eab308; }
+.private-pill:nth-child(11){ background:#fde68a; }
+
+/* GLASS EFFECT */
+.private-pill{
+  backdrop-filter:blur(10px);
+}
+
+
+
+.back-btn {
+      align-self: flex-start;
+      margin-bottom: 1.5rem;
+      padding: .5rem 1rem;
+      background: #3bd1d1;
+      border: none;
+      border-radius: 8px;
+      font-size: .9rem;
+      font-weight: 500;
+      cursor: pointer;
+      color: #8b3906;
+      text-decoration: none;
+      display: inline-block;
+      transition: 0.2s;
+    }
+
+     .back-btn:hover { background: #93c5fd; }
+
+
+
+</style>
+
+  <a href="index.html" class="back-btn">← Back Home</a>
+
+<h1 class="page-title">Top Private Engineering Colleges</h1>
+
+<div class="private-grid">
+  <a href="#" class="private-pill">BITS Pilani</a>
+  <a href="#" class="private-pill">BITS Goa</a>
+  <a href="#" class="private-pill">BITS Hyderabad</a>
+  <a href="#" class="private-pill">VIT Vellore</a>
+  <a href="#" class="private-pill">VIT Chennai</a>
+  <a href="#" class="private-pill">SRM University</a>
+  <a href="#" class="private-pill">Manipal Institute of Technology</a>
+  <a href="#" class="private-pill">Thapar Institute</a>
+  <a href="#" class="private-pill">Amity University</a>
+  <a href="#" class="private-pill">Shiv Nadar University</a>
+  <a href="#" class="private-pill">LPU (Lovely Professional University)</a>
+</div>
