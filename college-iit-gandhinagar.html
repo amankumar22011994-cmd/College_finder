@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>IIT Gandhinagar - College Detail</title>
+  <style>
+
+    /* ===== BASE ===== */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: linear-gradient(135deg, #fff7ed, #ffedd5);
+      color: #111827;
+      font-family: sans-serif;
+      min-height: 100vh;
+    }
+
+    /* ===== PAGE LAYOUT ===== */
+    .page {
+      padding: 2rem 6vw;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* ===== BACK BUTTON ===== */
+    .back-btn {
+      align-self: flex-start;
+      margin-bottom: 1.5rem;
+      padding: .5rem 1rem;
+      background: #ffedd5;
+      border: none;
+      border-radius: 8px;
+      font-size: .9rem;
+      font-weight: 500;
+      cursor: pointer;
+      color: #9a3412;
+      text-decoration: none;
+      display: inline-block;
+      transition: 0.2s;
+    }
+    .back-btn:hover { background: #fed7aa; }
+
+    /* ===== HERO CARD ===== */
+    .hero-card {
+      width: 100%;
+      max-width: 960px;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.18);
+      overflow: hidden;
+      margin-bottom: 2rem;
+      position: relative;
+      min-height: 200px;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background-image: url('https://c.ndtvimg.com/2019-06/5c94c87o_iit-gandhinagar_625x300_17_June_19.jpg?downsize=400:225');
+      background-size: cover;
+      background-position: center;
+      filter: brightness(0.4) saturate(1.1);
+      z-index: 0;
+    }
+
+    .hero-bg-fallback {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, #7c2d12 0%, #431407 100%);
+      z-index: 0;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      padding: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .hero-logo {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      flex-shrink: 0;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+
+    .hero-logo img {
+      width: 70%;
+      height: 70%;
+      object-fit: contain;
+    }
+
+    .hero-info h1 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin-bottom: .3rem;
+      color: #ffffff;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+    }
+    .hero-info p {
+      color: rgba(255,255,255,0.8);
+      font-size: .9rem;
+      margin-bottom: .5rem;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.5);
+    }
+    .hero-tags { display: flex; flex-wrap: wrap; gap: .5rem; }
+
+    /* ===== TAGS / BADGES ===== */
+    .tag {
+      padding: .25rem .75rem;
+      border-radius: 20px;
+      font-size: .78rem;
+      font-weight: 500;
+    }
+    .tag-blue   { background: rgba(219,234,254,0.9); color: #1e40af; }
+    .tag-green  { background: rgba(220,252,231,0.9); color: #166534; }
+    .tag-amber  { background: rgba(254,243,199,0.9); color: #92400e; }
+    .tag-purple { background: rgba(237,233,254,0.9); color: #5b21b6; }
+    .tag-red    { background: rgba(254,226,226,0.9); color: #991b1b; }
+
+    /* ===== SECTION WRAPPER ===== */
+    .section-wrap  { width: 100%; max-width: 960px; margin-bottom: 2rem; }
+    .section-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 1rem; padding-left: .25rem; color: #111827; }
+
+    /* ===== STATS GRID ===== */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 1rem;
+    }
+    .stat-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 1.1rem 1rem;
+      text-align: center;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+    }
+    .stat-num   { font-size: 1.4rem; font-weight: 700; margin-bottom: .2rem; }
+    .stat-label { font-size: .78rem; color: #6b7280; }
+
+    /* ===== COLORS ===== */
+    .blue   { color: #2563eb; }
+    .green  { color: #16a34a; }
+    .amber  { color: #d97706; }
+    .purple { color: #7c3aed; }
+    .red    { color: #dc2626; }
+    .orange { color: #f97316; }
+
+    /* ===== HIGHLIGHT ROW ===== */
+    .highlight-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 1rem;
+    }
+    .highlight-box {
+      background: #fff;
+      border-radius: 12px;
+      padding: 1.2rem;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+      border-left: 4px solid;
+    }
+    .hl-blue   { border-color: #3b82f6; }
+    .hl-green  { border-color: #22c55e; }
+    .hl-amber  { border-color: #f59e0b; }
+    .hl-purple { border-color: #8b5cf6; }
+    .hl-red    { border-color: #ef4444; }
+    .highlight-box h4 { font-size: .88rem; font-weight: 600; margin-bottom: .5rem; }
+    .highlight-box p  { font-size: .8rem; color: #6b7280; line-height: 1.5; }
+
+    /* ===== BRANCHES GRID ===== */
+    .branches-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+    }
+    .branch-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 1.2rem;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+    }
+    .branch-name { font-size: .92rem; font-weight: 600; margin-bottom: .6rem; color: #111827; }
+    .branch-row  { display: flex; justify-content: space-between; font-size: .8rem; margin-bottom: .3rem; }
+    .branch-row span:first-child { color: #6b7280; }
+    .branch-row span:last-child  { font-weight: 600; color: #ea580c; }
+    .branch-badge {
+      display: inline-block;
+      margin-top: .5rem;
+      padding: .2rem .6rem;
+      border-radius: 20px;
+      font-size: .72rem;
+      font-weight: 500;
+    }
+
+    /* ===== PLACEMENT BAR ===== */
+    .placement-bar {
+      background: #fff;
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+      margin-bottom: 1rem;
+    }
+    .bar-row { display: flex; align-items: center; gap: 1rem; margin-bottom: .9rem; }
+    .bar-row:last-child { margin-bottom: 0; }
+    .bar-label { font-size: .82rem; color: #4b5563; width: 140px; flex-shrink: 0; }
+    .bar-track { flex: 1; background: #f3f4f6; border-radius: 99px; height: 10px; overflow: hidden; }
+    .bar-fill  { height: 100%; border-radius: 99px; }
+    .bar-val   { font-size: .82rem; font-weight: 600; width: 90px; text-align: right; flex-shrink: 0; }
+
+    /* ===== INFO CARDS ===== */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+    .info-card { background: #fff; border-radius: 12px; padding: 1.2rem; box-shadow: 0 4px 14px rgba(0,0,0,0.08); }
+    .info-card h3 { font-size: .85rem; font-weight: 600; margin-bottom: .8rem; color: #374151; }
+    .info-card ul { list-style: none; }
+    .info-card ul li {
+      font-size: .82rem;
+      color: #4b5563;
+      padding: .3rem 0;
+      border-bottom: .5px solid #f3f4f6;
+      display: flex;
+      align-items: center;
+      gap: .4rem;
+    }
+    .info-card ul li:last-child { border-bottom: none; }
+
+    /* ===== DOTS ===== */
+    .dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+    .dot-blue   { background: #3b82f6; }
+    .dot-green  { background: #22c55e; }
+    .dot-amber  { background: #f59e0b; }
+    .dot-purple { background: #8b5cf6; }
+    .dot-red    { background: #ef4444; }
+
+    /* ===== COMPANIES ===== */
+    .companies-flex { display: flex; flex-wrap: wrap; gap: .75rem; }
+    .company-pill {
+      padding: .5rem 1rem;
+      border-radius: 20px;
+      font-size: .82rem;
+      font-weight: 500;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    /* ===== CAMPUS GRID ===== */
+    .campus-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+    .campus-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 1.2rem;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+      text-align: center;
+    }
+    .campus-icon { font-size: 1.6rem; margin-bottom: .6rem; }
+    .campus-card h4 { font-size: .88rem; font-weight: 600; margin-bottom: .4rem; }
+    .campus-card p  { font-size: .78rem; color: #6b7280; line-height: 1.5; }
+
+  </style>
+</head>
+<body>
+
+<main class="page">
+
+  <a href="../Main_colleges/iit.html" class="back-btn">← Back to All IITs</a>
+
+  <div class="hero-card">
+    <div class="hero-bg-fallback"></div>
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <div class="hero-logo">
+        <img src="https://upload.wikimedia.org/wikipedia/en/e/ef/Indian_Institute_of_Technology_Gandhinagar_Logo.svg" alt="IITGN Logo">
+      </div>
+      <div class="hero-info">
+        <h1>IIT Gandhinagar</h1>
+        <p>Indian Institute of Technology Gandhinagar &nbsp;|&nbsp; Palaj, Gujarat</p>
+        <div class="hero-tags">
+          <span class="tag tag-blue">Established 2008</span>
+          <span class="tag tag-red">NIRF Rank #18</span>
+          <span class="tag tag-amber">2nd Gen Leader</span>
+          <span class="tag tag-purple">400 Acres</span>
+          <span class="tag tag-green">5-Star GRIHA</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-wrap">
+    <div class="section-title">Quick Overview</div>
+    <div class="stats-grid">
+      <div class="stat-card"><div class="stat-num blue">~2,500</div><div class="stat-label">Total Students</div></div>
+      <div class="stat-card"><div class="stat-num green">180+</div><div class="stat-label">Faculty Members</div></div>
+      <div class="stat-card"><div class="stat-num amber">400 acres</div><div class="stat-label">Campus Area</div></div>
+      <div class="stat-card"><div class="stat-num purple">15+</div><div class="stat-label">Special Labs</div></div>
+      <div class="stat-card"><div class="stat-num red">₹62 LPA</div><div class="stat-label">Highest Package</div></div>
+      <div class="stat-card"><div class="stat-num blue">92%</div><div class="stat-label">Placement Rate</div></div>
+    </div>
+  </div>
+
+  <div class="section-wrap">
+    <div class="section-title">About IIT Gandhinagar</div>
+    <div class="highlight-row">
+      <div class="highlight-box hl-blue">
+        <h4>Student-Centric Vision</h4>
+        <p>IITGN is known for breaking the traditional 'mould'. It offers a flexible curriculum where students can easily take minors in humanities, arts, or management alongside their core engineering degrees.</p>
+      </div>
+      <div class="highlight-box hl-green">
+        <h4>Global Exposure</h4>
+        <p>A staggering 40% of undergraduate students travel abroad for internships or semesters. Partnerships with Caltech, Cambridge, and JAIST Japan provide unparalleled international research opportunities.</p>
+      </div>
+      <div class="highlight-box hl-amber">
+        <h4>Invention & Design</h4>
+        <p>Host to the 'Invention Factory India'—a unique 6-week summer program where students from across India create and patent new physical products from scratch with high-end mentorship.</p>
+      </div>
+      <div class="highlight-box hl-purple">
+        <h4>Eco-Sustainability</h4>
+        <p>The first campus in India to be awarded the 5-Star GRIHA LD rating. It features a zero-discharge water system, solar harvesting, and non-monolithic architectural aesthetics.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-wrap">
+    <div class="section-title">Branches & Programs</div>
+    <div class="branches-grid">
+
+      <div class="branch-card">
+        <div class="branch-name">Computer Science & Engineering</div>
+        <div class="branch-row"><span>JEE Cutoff (GEN)</span><span>~1500–2300</span></div>
+        <div class="branch-row"><span>Avg Package</span><span>₹28–32 LPA</span></div>
+        <div class="branch-row"><span>Seats</span><span>50</span></div>
+        <span class="branch-badge tag-blue">Top Branch</span>
+      </div>
+
+      <div class="branch-card">
+        <div class="branch-name">Electrical Engineering</div>
+        <div class="branch-row"><span>JEE Cutoff (GEN)</span><span>~3800–4500</span></div>
+        <div class="branch-row"><span>Avg Package</span><span>₹20–24 LPA</span></div>
+        <div class="branch-row"><span>Seats</span><span>50</span></div>
+        <span class="branch-badge tag-green">High Demand</span>
+      </div>
+
+      <div class="branch-card">
+        <div class="branch-name">Mechanical Engineering</div>
+        <div class="branch-row"><span>JEE Cutoff (GEN)</span><span>~6500–7500</span></div>
+        <div class="branch-row"><span>Avg Package</span><span>₹15–18 LPA</span></div>
+        <div class="branch-row"><span>Seats</span><span>50</span></div>
+        <span class="branch-badge tag-amber">Core Branch</span>
+      </div>
+
+      <div class="branch-card">
+        <div class="branch-name">Chemical Engineering</div>
+        <div class="branch-row"><span>JEE Cutoff (GEN)</span><span>~8500–9500</span></div>
+        <div class="branch-row"><span>Avg Package</span><span>₹14–17 LPA</span></div>
+        <div class="branch-row"><span>Seats</span><span>50</span></div>
+        <span class="branch-badge tag-purple">Research Focus</span>
+      </div>
+
+      <div class="branch-card">
+        <div class="branch-name">Materials Engineering</div>
+        <div class="branch-row"><span>JEE Cutoff (GEN)</span><span>~11000–12000</span></div>
+        <div class="branch-row"><span>Avg Package</span><span>₹13–16 LPA</span></div>
+        <div class="branch-row"><span>Seats</span><span>40</span></div>
+        <span class="branch-badge tag-blue">Emerging Field</span>
+      </div>
+
+      <div class="branch-card">
+        <div class="branch-name">Civil Engineering</div>
+        <div class="branch-row"><span>JEE Cutoff (GEN)</span><span>~10500–11500</span></div>
+        <div class="branch-row"><span>Avg Package</span><span>₹12–15 LPA</span></div>
+        <div class="branch-row"><span>Seats</span><span>45</span></div>
+        <span class="branch-badge tag-amber">Infrastructure</span>
+      </div>
+
+      <div class="branch-card">
+        <div class="branch-name">Mathematics & Computing</div>
+        <div class="branch-row"><span>JEE Cutoff (GEN)</span><span>~2800–3500</span></div>
+        <div class="branch-row"><span>Avg Package</span><span>₹22–26 LPA</span></div>
+        <div class="branch-row"><span>Seats</span><span>30</span></div>
+        <span class="branch-badge tag-red">New & Hot</span>
+      </div>
+
+      <div class="branch-card">
+        <div class="branch-name">Artificial Intelligence</div>
+        <div class="branch-row"><span>JEE Cutoff (GEN)</span><span>~1800–2500</span></div>
+        <div class="branch-row"><span>Avg Package</span><span>₹25–30 LPA</span></div>
+        <div class="branch-row"><span>Seats</span><span>25</span></div>
+        <span class="branch-badge tag-purple">Tech Focus</span>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="section-wrap">
+    <div class="section-title">JEE Advanced Cutoffs (2024, General Category)</div>
+    <div class="placement-bar">
+      <div class="bar-row"><span class="bar-label">CSE</span><div class="bar-track"><div class="bar-fill" style="width:90%;background:#3b82f6"></div></div><span class="bar-val blue">~1500</span></div>
+      <div class="bar-row"><span class="bar-label">AI & Computing</span><div class="bar-track"><div class="bar-fill" style="width:82%;background:#8b5cf6"></div></div><span class="bar-val purple">~2800</span></div>
+      <div class="bar-row"><span class="bar-label">Electrical</span><div class="bar-track"><div class="bar-fill" style="width:75%;background:#22c55e"></div></div><span class="bar-val green">~4000</span></div>
+      <div class="bar-row"><span class="bar-label">Mechanical</span><div class="bar-track"><div class="bar-fill" style="width:55%;background:#f59e0b"></div></div><span class="bar-val amber">~7000</span></div>
+      <div class="bar-row"><span class="bar-label">Chemical</span><div class="bar-track"><div class="bar-fill" style="width:40%;background:#ef4444"></div></div><span class="bar-val red">~9000</span></div>
+    </div>
+  </div>
+
+  <div class="section-wrap">
+    <div class="section-title">Placements 2024</div>
+    <div class="cards-grid">
+      <div class="info-card">
+        <h3>Package Summary</h3>
+        <ul>
+          <li><span class="dot dot-blue"></span>Highest Domestic: ₹62 LPA</li>
+          <li><span class="dot dot-green"></span>Average Package: ₹19.6 LPA</li>
+          <li><span class="dot dot-amber"></span>Median Package: ₹16.2 LPA</li>
+          <li><span class="dot dot-purple"></span>Top 10% Avg: ₹38 LPA</li>
+          <li><span class="dot dot-red"></span>Total Offers: 350+</li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <h3>Sector-wise Hiring</h3>
+        <ul>
+          <li><span class="dot dot-blue"></span>IT &amp; Software: 50%</li>
+          <li><span class="dot dot-green"></span>Core Engineering: 15%</li>
+          <li><span class="dot dot-amber"></span>Finance & Consulting: 20%</li>
+          <li><span class="dot dot-purple"></span>Higher Education: 10%</li>
+          <li><span class="dot dot-pink"></span>Public Sector: 5%</li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <h3>Key Stats</h3>
+        <ul>
+          <li><span class="dot dot-green"></span>Placement Rate: 92%</li>
+          <li><span class="dot dot-blue"></span>Global Internships: 40%</li>
+          <li><span class="dot dot-amber"></span>Double Minors: 30%</li>
+          <li><span class="dot dot-purple"></span>Post-Grad Ph.D. Rate: 15%</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-wrap">
+    <div class="section-title">Top Recruiting Companies</div>
+    <div class="companies-flex">
+      <span class="company-pill" style="background:#dbeafe;color:#1e40af">Google</span>
+      <span class="company-pill" style="background:#dcfce7;color:#166534">Microsoft</span>
+      <span class="company-pill" style="background:#fef3c7;color:#92400e">Amazon</span>
+      <span class="company-pill" style="background:#ede9fe;color:#5b21b6">Oracle</span>
+      <span class="company-pill" style="background:#cffafe;color:#155e75">Texas Instruments</span>
+      <span class="company-pill" style="background:#fbcfe8;color:#9d174d">Adobe</span>
+      <span class="company-pill" style="background:#fca5a5;color:#7f1d1d">Qualcomm</span>
+      <span class="company-pill" style="background:#bfdbfe;color:#1e3a8a">JP Morgan</span>
+      <span class="company-pill" style="background:#bbf7d0;color:#14532d">Reliance</span>
+    </div>
+  </div>
+
+  <div class="section-wrap">
+    <div class="section-title">Campus Life</div>
+    <div class="campus-grid">
+      <div class="campus-card">
+        <div class="campus-icon">🎭</div>
+        <h4>Blithchron</h4>
+        <p>Cultural extravaganza known for Synchronicity (dance) and pro-nights featuring top indie artists.</p>
+      </div>
+      <div class="campus-card">
+        <div class="campus-icon">⚙️</div>
+        <h4>Amalthea</h4>
+        <p>Annual technical summit that focuses on bridging academic learning with real industry problems.</p>
+      </div>
+      <div class="campus-card">
+        <div class="campus-icon">🍴</div>
+        <h4>Food Culture</h4>
+        <p>Management by top contractors, offering high-quality diverse meals with a night canteen culture.</p>
+      </div>
+      <div class="campus-card">
+        <div class="campus-icon">🚲</div>
+        <h4>Bicycle Only</h4>
+        <p>Zero-motorized vehicle policy in the academic area makes it clean, quiet, and eco-friendly.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-wrap">
+    <div class="section-title">Notable Alumni & Impact</div>
+    <div class="cards-grid">
+      <div class="info-card">
+        <h3>Higher Academics</h3>
+        <ul>
+          <li><span class="dot dot-blue"></span>Alumni in MIT, Harvard & Yale</li>
+          <li><span class="dot dot-blue"></span>Top 50 researchers globally</li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <h3>Entrepreneurship</h3>
+        <ul>
+          <li><span class="dot dot-green"></span>25+ Active Student Startups</li>
+          <li><span class="dot dot-green"></span>NID/IIM-A joint ventures</li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <h3>Social Leadership</h3>
+        <ul>
+          <li><span class="dot dot-amber"></span>NEEV Skilled training initiative</li>
+          <li><span class="dot dot-amber"></span>Pledge for sustainable Palaj</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <footer style="max-width: 960px; width: 100%; margin: 4rem auto 2rem; position: relative; overflow: hidden; border-radius: 30px; box-shadow: 0 15px 40px rgba(0,0,0,0.3); color: #fff; font-family: 'Segoe UI', sans-serif;">
+    <div style="position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(124, 45, 18, 0.6), rgba(0, 0, 0, 0.9)), url('https://media.edexlive.com/edexlive%2F2026-04-04%2Fu1x1adk3%2FIITGN-Campus-1.jpg.jpeg') center/cover no-repeat; z-index: -1;"></div>
+    <div style="padding: 4rem 2.5rem 1.5rem; text-shadow: 0 2px 4px rgba(0,0,0,0.8);">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 3rem; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 2.5rem;">
+        <div>
+          <h4 style="color: #fcd34d; margin-bottom: 1rem; font-size: 1.5rem;">IIT Gandhinagar</h4>
+          <p style="font-size: 1rem; line-height: 1.7; color: #e2e8f0;">The <span style="font-weight: 800; color: #fcd34d;">Future-Ready IIT</span>. A campus designed for discovery, global exposure, and social impact.</p>
+        </div>
+        <div style="text-align: right;">
+          <h4 style="color: #fcd34d; margin-bottom: 1.2rem; font-size: 1.1rem;">Contact</h4>
+          <ul style="list-style: none; font-size: 0.95rem; line-height: 2.2; padding: 0;">
+            <li>📍 Palaj, Gujarat</li>
+            <li>🌐 iitgn.ac.in</li>
+            <li>🏛️ 5-Star GRIHA Campus</li>
+          </ul>
+        </div>
+      </div>
+      <p style="text-align: center; padding-top: 1.8rem; font-size: 0.85rem;">© 2026 | Developed by <b style="color: #fcd34d;">Aman Kumar</b></p>
+    </div>
+  </footer>
+
+</main>
+</body>
+</html>
