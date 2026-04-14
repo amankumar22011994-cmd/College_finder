@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>IIT Madras - College Detail</title>
+  <style>
+
+    /* ===== BASE ===== */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
+      color: #111827;
+      font-family: sans-serif;
+      min-height: 100vh;
+    }
+
+    /* ===== PAGE LAYOUT ===== */
+    .page {
+      padding: 2rem 6vw;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* ===== BACK BUTTON ===== */
+    .back-btn {
+      align-self: flex-start;
+      margin-bottom: 1.5rem;
+      padding: .5rem 1rem;
+      background: #dbeafe;
+      border: none;
+      border-radius: 8px;
+      font-size: .9rem;
+      font-weight: 500;
+      cursor: pointer;
+      color: #1e40af;
+      text-decoration: none;
+      display: inline-block;
+      transition: 0.2s;
+    }
+    .back-btn:hover { background: #bfdbfe; }
+
+    /* ===== HERO CARD ===== */
+    .hero-card {
+      width: 100%;
+      max-width: 960px;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.18);
+      overflow: hidden;
+      margin-bottom: 2rem;
+      position: relative;
+      min-height: 200px;
+    }
+
+    /* Background photo layer */
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background-image: url('https://akm-img-a-in.tosshub.com/indiatoday/images/story/202511/iit-madras-242145297-16x9_0.jpeg?VersionId=XAqac5PdsKnekrnld2kxP7Dj70CYRYay');
+      background-size: cover;
+      background-position: center;
+      filter: brightness(0.38) saturate(1.1);
+      z-index: 0;
+    }
+
+    /* Fallback gradient in case image fails */
+    .hero-bg-fallback {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, #1e3a5f 0%, #0f4c3a 100%);
+      z-index: 0;
+    }
+
+    /* Content on top of bg */
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      padding: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    /* .hero-logo {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.18);
+      border: 2px solid rgba(255,255,255,0.5);
+      backdrop-filter: blur(6px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #ffffff;
+      flex-shrink: 0;
+      text-align: center;
+      line-height: 1.2;
+    } */
+
+
+    .hero-logo{
+     width:72px;
+     height:72px;
+     border-radius:50%;
+     background:white;              /* ⭐ change */
+     display:flex;
+     align-items:center;
+     justify-content:center;
+     overflow:hidden;               /* ⭐ important */
+     flex-shrink:0;
+     box-shadow:0 4px 10px rgba(0,0,0,0.3);
+   }
+
+    .hero-logo img{
+    width:70%;
+    height:70%;
+    object-fit:contain;
+    }
+
+
+
+
+    .hero-info h1 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin-bottom: .3rem;
+      color: #ffffff;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+    }
+    .hero-info p  {
+      color: rgba(255,255,255,0.8);
+      font-size: .9rem;
+      margin-bottom: .5rem;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.5);
+    }
+    .hero-tags    { display: flex; flex-wrap: wrap; gap: .5rem; }
+
+    /* ===== TAGS / BADGES ===== */
+    .tag {
+      padding: .25rem .75rem;
+      border-radius: 20px;
+      font-size: .78rem;
+      font-weight: 500;
+    }
+    .tag-blue   { background: rgba(219,234,254,0.9); color: #1e40af; }
+    .tag-green  { background: rgba(220,252,231,0.9); color: #166534; }
+    .tag-amber  { background: rgba(254,243,199,0.9); color: #92400e; }
+    .tag-purple { background: rgba(237,233,254,0.9); color: #5b21b6; }
+    .tag-red    { background: rgba(254,226,226,0.9); color: #991b1b; }
+
+    /* ===== SECTION WRAPPER ===== */
+    .section-wrap  { width: 100%; max-width: 960px; margin-bottom: 2rem; }
+    .section-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 1rem; padding-left: .25rem; color: #111827; }
+
+    /* ===== STATS GRID ===== */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 1rem;
+    }
+    .stat-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 1.1rem 1rem;
+      text-align: center;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+    }
+    .stat-num   { font-size: 1.4rem; font-weight: 700; margin-bottom: .2rem; }
+    .stat-label { font-size: .78rem; color: #6b7280; }
+
+    /* ===== COLORS ===== */
+    .blue   { color: #2563eb; }
+    .green  { color: #16a34a; }
+    .amber  { color: #d97706; }
+    .purple { color: #7c3aed; }
+    .red    { color: #dc2626; }
+    .orange { color: #f97316; }
+
+    /* ===== HIGHLIGHT ROW ===== */
+    .highlight-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 1rem;
+    }
+    .highlight-box {
+      background: #fff;
+      border-radius: 12px;
+      padding: 1.2rem;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+      border-left: 4px solid;
+    }
+    .hl-blue   { border-color: #3b82f6; }
+    .hl-green  { border-color: #22c55e; }
+    .hl-amber  { border-color: #f59e0b; }
+    .hl-purple { border-color: #8b5cf6; }
+    .hl-red    { border-color: #ef4444; }
+    .highlight-box h4 { font-size: .88rem; font-weight: 600; margin-bottom: .5rem; }
+    .highlight-box p  { font-size: .8rem; color: #6b7280; line-height: 1.5; }
+
+    /* ===== BRANCHES GRID ===== */
+    .branches-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+    }
+    .branch-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 1.2rem;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+    }
+    .branch-name { font-size: .92rem; font-weight: 600; margin-bottom: .6rem; color: #111827; }
+    .branch-row  { display: flex; justify-content: space-between; font-size: .8rem; margin-bottom: .3rem; }
+    .branch-row span:first-child { color: #6b7280; }
+    .branch-row span:last-child  { font-weight: 600; color: #1d4ed8; }
+    .branch-badge {
+      display: inline-block;
+      margin-top: .5rem;
+      padding: .2rem .6rem;
+      border-radius: 20px;
+      font-size: .72rem;
+      font-weight: 500;
+    }
+
+    /* ===== PLACEMENT BAR ===== */
+    .placement-bar {
+      background: #fff;
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+      margin-bottom: 1rem;
+    }
+    .bar-row { display: flex; align-items: center; gap: 1rem; margin-bottom: .9rem; }
+    .bar-row:last-child { margin-bottom: 0; }
+    .bar-label { font-size: .82rem; color: #4b5563; width: 140px; flex-shrink: 0; }
+    .bar-track { flex: 1; background: #f3f4f6; border-radius: 99px; height: 10px; overflow: hidden; }
+    .bar-fill  { height: 100%; border-radius: 99px; }
+    .bar-val   { font-size: .82rem; font-weight: 600; width: 90px; text-align: right; flex-shrink: 0; }
+
+    /* ===== INFO CARDS ===== */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+    .info-card { background: #fff; border-radius: 12px; padding: 1.2rem; box-shadow: 0 4px 14px rgba(0,0,0,0.08); }
+    .info-card h3 { font-size: .85rem; font-weight: 600; margin-bottom: .8rem; color: #374151; }
+    .info-card ul { list-style: none; }
+    .info-card ul li {
+      font-size: .82rem;
+      color: #4b5563;
+      padding: .3rem 0;
+      border-bottom: .5px solid #f3f4f6;
+      display: flex;
+      align-items: center;
+      gap: .4rem;
+    }
+    .info-card ul li:last-child { border-bottom: none; }
+
+    /* ===== DOTS ===== */
+    .dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+    .dot-blue   { background: #3b82f6; }
+    .dot-green  { background: #22c55e; }
+    .dot-amber  { background: #f59e0b; }
+    .dot-purple { background: #8b5cf6; }
+    .dot-red    { background: #ef4444; }
+    .dot-pink   { background: #ec4899; }
+    .dot-teal   { background: #14b8a6; }
+
+    /* ===== COMPANIES ===== */
+    .companies-flex { display: flex; flex-wrap: wrap; gap: .75rem; }
+    .company-pill {
+      padding: .5rem 1rem;
+      border-radius: 20px;
+      font-size: .82rem;
+      font-weight: 500;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    /* ===== CAMPUS GRID ===== */
+    .campus-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+    .campus-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 1.2rem;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+      text-align: center;
+    }
+    .campus-icon { font-size: 1.6rem; margin-bottom: .6rem; }
+    .campus-card h4 { font-size: .88rem; font-weight: 600; margin-bottom: .4rem; }
+    .campus-card p  { font-size: .78rem; color: #6b7280; line-height: 1.5; }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 600px) {
+      .hero-content { flex-direction: column; align-items: flex-start; }
+      .page { padding: 1.2rem 4vw; }
+    }
+
+  </style>
+</head>
+<body>
+
+<main class="page">
+
+  <!-- BACK BUTTON -->
+  <a href="../Main_colleges/iit.html" class="back-btn">← Back to All IITs</a>
+
+  <!-- HERO -->
+  <div class="hero-card">
+    <div class="hero-bg-fallback"></div>
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <!-- <div class="hero-logo">IIT<br>M</div> -->
+
+    <div class="hero-logo">
+      <img src="https://upload.wikimedia.org/wikipedia/en/thumb/6/69/IIT_Madras_Logo.svg/1280px-IIT_Madras_Logo.svg.png" alt="IIT Delhi">
+    </div>
+
+
+
+      <div class="hero-info">
+        <h1>IIT Madras</h1>
+        <p>Indian Institute of Technology Madras &nbsp;|&nbsp; Adyar, Chennai, Tamil Nadu</p>
+        <div class="hero-tags">
+          <span class="tag tag-blue">Established 1959</span>
+          <span class="tag tag-red">NIRF Rank #1</span>
+          <span class="tag tag-amber">QS World ~227</span>
+          <span class="tag tag-purple">Govt. Autonomous</span>
+          <span class="tag tag-green">NAAC A++</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- QUICK STATS -->
+  <div class="section-wrap">
+    <div class="section-title">Quick Overview</div>
+    <div class="stats-grid">
+      <div class="stat-card"><div class="stat-num blue">~9,500</div><div class="stat-label">Total Students</div></div>
+      <div class="stat-card"><div class="stat-num green">600+</div><div class="stat-label">Faculty Members</div></div>
+      <div class="stat-card"><div class="stat-num amber">617 acres</div><div class="stat-label">Campus Area</div></div>
+      <div class="stat-card"><div class="stat-num purple">16</div><div class="stat-label">Depts & Schools</div></div>
+      <div class="stat-card"><div class="stat-num red">₹3.5 Cr</div><div class="stat-label">Highest Package</div></div>
+      <div class="stat-card"><div class="stat-num blue">90%</div><div class="stat-label">Placement Rate</div></div>
+    </div>
+  </div>
+
+  <!-- ABOUT -->
+  <div class="section-wrap">
+    <div class="section-title">About IIT Madras</div>
+    <div class="highlight-row">
+      <div class="highlight-box hl-red">
+        <h4>Legacy & Prestige</h4>
+        <p>Founded in 1959 with West German assistance. India's #1 ranked institution (NIRF) for 8 consecutive years and home to a 617-acre forest campus inside Chennai city.</p>
+      </div>
+      <div class="highlight-box hl-green">
+        <h4>Research & Innovation</h4>
+        <p>200+ research labs including NCCRD, NCMS, and ICSR. Files 150+ patents annually with a dedicated Research Park housing 250+ companies on campus.</p>
+      </div>
+      <div class="highlight-box hl-amber">
+        <h4>Entrepreneurship</h4>
+        <p>IITM Incubation Cell has funded 300+ startups. Notable ventures include Ather Energy, Satsure, and Mad Street Den. Hosts E-Summit annually.</p>
+      </div>
+      <div class="highlight-box hl-purple">
+        <h4>Global Collaborations</h4>
+        <p>Active MoUs with TU Munich, RWTH Aachen, NTU Singapore, and 80+ global universities. First IIT to set up an overseas campus (Zanzibar, Tanzania).</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- BRANCHES -->
+  <div class="section-wrap">
+    <div class="section-title">Branches & Programs</div>
+    <div class="branches-grid">
+
+      <div class="branch-card">
+        <div class="branch-name">Computer Science & Engineering</div>
+        <div class="branch-row"><span>JEE Cutoff (GEN)</span><span>~50–100 rank</span></div>
+        <div class="branch-row"><span>Avg Package</span><span>₹30–40 LPA</span></div>
+        <div class="branch-row"><span>Seats (B.Tech)</span><span>82</span></div>
+        <span class="branch-badge tag-blue">Top Branch</span>
+      </div>
+
+      <div class="branch-card">
+        <div class="branch-name">Electrical Engineering</div>
+        <div class="branch-row"><span>JEE Cutoff (GEN)</span><span>~180–320 rank</span></div>
+        <div class="branch-row"><span>Avg Package</span><span>₹22–32 LPA</span></div>
+        <div class="branch-row"><span>Seats (B.Tech)</span><span>100</span></div>
+        <span class="branch-badge tag-green">High Demand</span>
+      </div>
+
+      <div class="branch-card">
+        <div class="branch-name">Mechanical Engineering</div>
+        <div class="branch-row"><span>JEE Cutoff (GEN)</span><span>~550–850 rank</span></div>
+        <div class="branch-row"><span>Avg Package</span><span>₹15–22 LPA</span></div>
+        <div class="branch-row"><span>Seats (B.Tech)</span><span>75</span></div>
+        <span class="branch-badge tag-amber">Core Branch</span>
+      </div>
+
+      <div class="branch-card">
+        <div class="branch-name">Chemical Engineering</div>
+        <div class="branch-row"><span>JEE Cutoff (GEN)</span><span>~900–1400 rank</span></div>
+        <div class="branch-row"><span>Avg Package</span><span>₹14–19 LPA</span></div>
+        <div class="branch-row"><span>Seats (B.Tech)</span><span>60</span></div>
+        <span class="branch-badge tag-purple">Research Focus</span>
+      </div>
+
+      <div class="branch-card">
+        <div class="branch-name">Aerospace Engineering</div>
+        <div class="branch-row"><span>JEE Cutoff (GEN)</span><span>~750–1100 rank</span></div>
+        <div class="branch-row"><span>Avg Package</span><span>₹16–24 LPA</span></div>
+        <div class="branch-row"><span>Seats (B.Tech)</span><span>50</span></div>
+        <span class="branch-badge tag-blue">Unique Offering</span>
+      </div>
+
+      <div class="branch-card">
+        <div class="branch-name">Civil Engineering</div>
+        <div class="branch-row"><span>JEE Cutoff (GEN)</span><span>~1600–2300 rank</span></div>
+        <div class="branch-row"><span>Avg Package</span><span>₹12–17 LPA</span></div>
+        <div class="branch-row"><span>Seats (B.Tech)</span><span>55</span></div>
+        <span class="branch-badge tag-amber">Core Branch</span>
+      </div>
+
+      <div class="branch-card">
+        <div class="branch-name">Engineering Design</div>
+        <div class="branch-row"><span>JEE Cutoff (GEN)</span><span>~500–750 rank</span></div>
+        <div class="branch-row"><span>Avg Package</span><span>₹18–26 LPA</span></div>
+        <div class="branch-row"><span>Seats (B.Tech)</span><span>40</span></div>
+        <span class="branch-badge tag-purple">Unique to IITM</span>
+      </div>
+
+      <div class="branch-card">
+        <div class="branch-name">Metallurgical & Mat. Engg.</div>
+        <div class="branch-row"><span>JEE Cutoff (GEN)</span><span>~2000–2800 rank</span></div>
+        <div class="branch-row"><span>Avg Package</span><span>₹13–17 LPA</span></div>
+        <div class="branch-row"><span>Seats (B.Tech)</span><span>45</span></div>
+        <span class="branch-badge tag-green">Niche Domain</span>
+      </div>
+
+      <div class="branch-card">
+        <div class="branch-name">Ocean Engineering</div>
+        <div class="branch-row"><span>JEE Cutoff (GEN)</span><span>~2800–3500 rank</span></div>
+        <div class="branch-row"><span>Avg Package</span><span>₹12–16 LPA</span></div>
+        <div class="branch-row"><span>Seats (B.Tech)</span><span>30</span></div>
+        <span class="branch-badge tag-blue">Only IIT Offering</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- CUTOFF BARS -->
+  <div class="section-wrap">
+    <div class="section-title">JEE Advanced Cutoffs (2024, General Category)</div>
+    <div class="placement-bar">
+      <div class="bar-row">
+        <span class="bar-label">CSE</span>
+        <div class="bar-track"><div class="bar-fill" style="width:99%;background:#3b82f6"></div></div>
+        <span class="bar-val blue">~50–100</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-label">Electrical</span>
+        <div class="bar-track"><div class="bar-fill" style="width:82%;background:#22c55e"></div></div>
+        <span class="bar-val green">~180–320</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-label">Engg Design</span>
+        <div class="bar-track"><div class="bar-fill" style="width:74%;background:#8b5cf6"></div></div>
+        <span class="bar-val purple">~500–750</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-label">Aerospace</span>
+        <div class="bar-track"><div class="bar-fill" style="width:68%;background:#2563eb"></div></div>
+        <span class="bar-val blue">~750–1100</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-label">Mechanical</span>
+        <div class="bar-track"><div class="bar-fill" style="width:60%;background:#f59e0b"></div></div>
+        <span class="bar-val amber">~550–850</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-label">Chemical</span>
+        <div class="bar-track"><div class="bar-fill" style="width:44%;background:#7c3aed"></div></div>
+        <span class="bar-val purple">~900–1400</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-label">Civil</span>
+        <div class="bar-track"><div class="bar-fill" style="width:30%;background:#f97316"></div></div>
+        <span class="bar-val orange">~1600–2300</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-label">Ocean Engg</span>
+        <div class="bar-track"><div class="bar-fill" style="width:14%;background:#14b8a6"></div></div>
+        <span class="bar-val" style="color:#14b8a6">~2800–3500</span>
+      </div>
+    </div>
+    <p style="font-size:.75rem;color:#9ca3af;padding-left:.25rem;margin-top:.5rem">
+      * Lower rank = more competitive. Cutoffs vary by year &amp; category.
+    </p>
+  </div>
+
+  <!-- PLACEMENTS -->
+  <div class="section-wrap">
+    <div class="section-title">Placements 2024</div>
+    <div class="cards-grid">
+      <div class="info-card">
+        <h3>Package Summary</h3>
+        <ul>
+          <li><span class="dot dot-blue"></span>Highest CTC: ₹3.5 Cr (International)</li>
+          <li><span class="dot dot-green"></span>Highest Domestic: ₹1.2 Cr</li>
+          <li><span class="dot dot-amber"></span>Average Package: ₹25 LPA</li>
+          <li><span class="dot dot-purple"></span>Median Package: ₹20 LPA</li>
+          <li><span class="dot dot-blue"></span>CSE Average: ₹45 LPA</li>
+          <li><span class="dot dot-red"></span>Total Offers: 1600+</li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <h3>Sector-wise Hiring</h3>
+        <ul>
+          <li><span class="dot dot-blue"></span>Tech &amp; Software: 45%</li>
+          <li><span class="dot dot-green"></span>Finance &amp; Consulting: 20%</li>
+          <li><span class="dot dot-amber"></span>Core Engineering: 18%</li>
+          <li><span class="dot dot-purple"></span>Research &amp; Academia: 10%</li>
+          <li><span class="dot dot-pink"></span>Startups: 7%</li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <h3>Key Stats</h3>
+        <ul>
+          <li><span class="dot dot-green"></span>Placement Rate: 90%+</li>
+          <li><span class="dot dot-blue"></span>Companies Visited: 350+</li>
+          <li><span class="dot dot-amber"></span>Pre-Placement Offers: 30%</li>
+          <li><span class="dot dot-purple"></span>International Offers: 70+</li>
+          <li><span class="dot dot-red"></span>Day 1 Offers (CSE): ~65%</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- COMPANIES -->
+  <div class="section-wrap">
+    <div class="section-title">Top Recruiting Companies</div>
+    <div class="companies-flex">
+      <span class="company-pill" style="background:#dbeafe;color:#1e40af">Google</span>
+      <span class="company-pill" style="background:#dcfce7;color:#166534">Microsoft</span>
+      <span class="company-pill" style="background:#fef3c7;color:#92400e">Goldman Sachs</span>
+      <span class="company-pill" style="background:#ede9fe;color:#5b21b6">Amazon</span>
+      <span class="company-pill" style="background:#cffafe;color:#155e75">Meta</span>
+      <span class="company-pill" style="background:#fbcfe8;color:#9d174d">Apple</span>
+      <span class="company-pill" style="background:#fde68a;color:#78350f">Flipkart</span>
+      <span class="company-pill" style="background:#bfdbfe;color:#1e3a8a">JP Morgan</span>
+      <span class="company-pill" style="background:#bbf7d0;color:#14532d">McKinsey</span>
+      <span class="company-pill" style="background:#ddd6fe;color:#4c1d95">BCG</span>
+      <span class="company-pill" style="background:#fca5a5;color:#7f1d1d">Qualcomm</span>
+      <span class="company-pill" style="background:#a5f3fc;color:#164e63">Texas Instruments</span>
+      <span class="company-pill" style="background:#c4b5fd;color:#3b0764">Uber</span>
+      <span class="company-pill" style="background:#6ee7b7;color:#065f46">Ather Energy</span>
+      <span class="company-pill" style="background:#93c5fd;color:#1e3a8a">Tower Research</span>
+      <span class="company-pill" style="background:#f9a8d4;color:#831843">D.E. Shaw</span>
+      <span class="company-pill" style="background:#fde68a;color:#78350f">Optiver</span>
+      <span class="company-pill" style="background:#bfdbfe;color:#1e3a8a">Salesforce</span>
+      <span class="company-pill" style="background:#bbf7d0;color:#14532d">Intel</span>
+      <span class="company-pill" style="background:#ede9fe;color:#5b21b6">ISRO</span>
+      <span class="company-pill" style="background:#cffafe;color:#155e75">DRDO</span>
+      <span class="company-pill" style="background:#fef3c7;color:#92400e">Schlumberger</span>
+    </div>
+  </div>
+
+  <!-- CAMPUS LIFE -->
+  <div class="section-wrap">
+    <div class="section-title">Campus Life</div>
+    <div class="campus-grid">
+      <div class="campus-card">
+        <div class="campus-icon">🦌</div>
+        <h4>Forest Campus</h4>
+        <p>617-acre campus is a protected forest with deer, monkeys, peacocks and blackbucks roaming freely — a unique urban jungle in Chennai.</p>
+      </div>
+      <div class="campus-card">
+        <div class="campus-icon">🎭</div>
+        <h4>Saarang</h4>
+        <p>South India's largest cultural festival with 80,000+ footfall, celebrity performances, and competitions across arts, dance, music, and drama.</p>
+      </div>
+      <div class="campus-card">
+        <div class="campus-icon">⚙️</div>
+        <h4>Shaastra</h4>
+        <p>One of India's premier science &amp; tech fests. Robotics leagues, AI challenges, talks by Nobel laureates and global tech leaders.</p>
+      </div>
+      <div class="campus-card">
+        <div class="campus-icon">🏊</div>
+        <h4>Sports Facilities</h4>
+        <p>Olympic-size swimming pool, cricket grounds, football fields, squash courts, badminton halls, tennis courts, and a well-equipped gym.</p>
+      </div>
+      <div class="campus-card">
+        <div class="campus-icon">🏠</div>
+        <h4>Hostels</h4>
+        <p>16 hostels with guaranteed accommodation for all UG students. Each hostel has its own mess, common rooms, and cultural identity.</p>
+      </div>
+      <div class="campus-card">
+        <div class="campus-icon">🍽️</div>
+        <h4>Dining</h4>
+        <p>Multiple mess halls, Himalaya Food Court, and canteens with South Indian, North Indian, and fast food options. Midnight canteens are a student favourite.</p>
+      </div>
+      <div class="campus-card">
+        <div class="campus-icon">📚</div>
+        <h4>Central Library</h4>
+        <p>4 lakh+ books, e-journals, and digital resources. Air-conditioned reading halls open extended hours during exams.</p>
+      </div>
+      <div class="campus-card">
+        <div class="campus-icon">🚀</div>
+        <h4>Student Clubs</h4>
+        <p>100+ clubs — Team Agnirath (solar car), Team Anveshak (AUV), astronomy, quizzing, robotics, music, dance, literature, and more.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- NOTABLE ALUMNI -->
+  <div class="section-wrap">
+    <div class="section-title">Notable Alumni</div>
+    <div class="cards-grid">
+      <div class="info-card">
+        <h3>Tech &amp; Business Leaders</h3>
+        <ul>
+          <li><span class="dot dot-blue"></span>Sundar Pichai — CEO, Google/Alphabet</li>
+          <li><span class="dot dot-blue"></span>Tarun Khanna — Professor, Harvard</li>
+          <li><span class="dot dot-blue"></span>Kris Gopalakrishnan — Co-founder, Infosys</li>
+          <li><span class="dot dot-blue"></span>Ravindra Dhariwal — CEO, Bennett Coleman</li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <h3>Science &amp; Research</h3>
+        <ul>
+          <li><span class="dot dot-green"></span>C.N.R. Rao — Bharat Ratna Scientist</li>
+          <li><span class="dot dot-green"></span>Ashok Jhunjhunwala — Padma Bhushan</li>
+          <li><span class="dot dot-green"></span>T.V. Ramabhadran — DRDO Chief</li>
+          <li><span class="dot dot-green"></span>Prabhu Deva — (IITM Arts connection)</li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <h3>Entrepreneurship</h3>
+        <ul>
+          <li><span class="dot dot-amber"></span>Tarun Mehta — Co-founder, Ather Energy</li>
+          <li><span class="dot dot-amber"></span>Anand Mahindra — (family legacy)</li>
+          <li><span class="dot dot-amber"></span>Radha Basu — CEO, SupportSoft</li>
+          <li><span class="dot dot-amber"></span>300+ startup alumni network</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <footer style="max-width: 960px; width: 100%; margin: 4rem auto 2rem; position: relative; overflow: hidden; border-radius: 24px; box-shadow: 0 15px 40px rgba(0,0,0,0.3); color: #f8fafc; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; border-top: 5px solid #3b82f6;">
+  
+  <div style="position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(15, 23, 42, 0.6), rgba(15, 23, 42, 0.95)), url('https://images.shiksha.com/mediadata/images/articles/1749033534phpd0BoP4.jpeg') center/cover no-repeat; z-index: -1;"></div>
+  
+  <div style="padding: 3rem 2rem 1.5rem; text-shadow: 0 2px 4px rgba(0,0,0,0.5);">
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2.5rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 2rem;">
+      
+      <div>
+        <h4 style="color: #60a5fa; margin-bottom: 1rem; font-size: 1.2rem;">The NIRF Leader</h4>
+        <p style="font-size: 0.9rem; line-height: 1.6; color: #cbd5e1;">
+          With <span style="color: #60a5fa; font-weight: 700;">55,000+ graduates</span>, IIT Madras has consistently held the Rank #1 position, leading in deep-tech and research.
+        </p>
+      </div>
+
+      <div style="text-align: right;">
+        <h4 style="color: #60a5fa; margin-bottom: 1rem; font-size: 1.1rem;">Insights</h4>
+        <ul style="list-style: none; font-size: 0.85rem; color: #cbd5e1; line-height: 2; padding: 0;">
+          <li>🌊 Chennai Shoreline</li>
+          <li>🧬 IITM Research Park</li>
+          <li>🦌 Bio-Diversity</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <p style="text-align: center; padding-top: 1.5rem; font-size: 0.85rem; color: #94a3b8;">
+      © 2026 College Knowledge | By <b style="color: #60a5fa;">Aman Kumar</b>
+    </p>
+  </div>
+</footer>
+</main>
+</body>
+</html>
