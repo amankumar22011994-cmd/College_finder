@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>JEE Rank & College Predictor</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --bg:#06091a;--bg2:#0d1230;
+  --blue:#2563eb;--blue2:#3b82f6;
+  --green:#10b981;--green2:#34d399;
+  --amber:#f59e0b;--amber2:#fbbf24;
+  --purple:#8b5cf6;--red:#ef4444;
+  --text:#f0f4ff;--muted:#8899bb;
+  --card:rgba(255,255,255,0.04);
+  --bord:rgba(255,255,255,0.09);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden;}
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:
+    radial-gradient(ellipse 70% 50% at 15% 5%,rgba(37,99,235,0.16) 0,transparent 55%),
+    radial-gradient(ellipse 50% 60% at 85% 90%,rgba(139,92,246,0.12) 0,transparent 55%),
+    radial-gradient(ellipse 40% 40% at 55% 45%,rgba(16,185,129,0.06) 0,transparent 50%);
+}
+.wrap{position:relative;z-index:1;max-width:1050px;margin:0 auto;padding:2.5rem 1.5rem 5rem;}
+
+/* HEADER */
+.hdr{text-align:center;margin-bottom:2.5rem;}
+.badge{display:inline-block;background:rgba(37,99,235,0.18);border:1px solid rgba(59,130,246,0.4);border-radius:20px;padding:.3rem 1rem;font-size:.72rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#93c5fd;margin-bottom:.9rem;}
+.hdr h1{font-family:'Syne',sans-serif;font-size:clamp(1.8rem,4.5vw,2.8rem);font-weight:800;letter-spacing:-.02em;margin-bottom:.6rem;background:linear-gradient(135deg,#fff 35%,#93c5fd 70%,#c4b5fd);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.hdr p{color:var(--muted);font-size:.9rem;}
+
+/* STEPS */
+.steps{display:flex;justify-content:center;align-items:center;gap:.4rem;margin-bottom:2.5rem;flex-wrap:wrap;}
+.st{display:flex;align-items:center;gap:.5rem;}
+.snum{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.78rem;font-weight:700;border:2px solid var(--bord);color:var(--muted);transition:.3s;flex-shrink:0;}
+.stxt{font-size:.78rem;color:var(--muted);font-weight:500;}
+.st.active .snum{border-color:#3b82f6;color:#3b82f6;background:rgba(59,130,246,0.12);}
+.st.done .snum{border-color:#34d399;color:#34d399;background:rgba(52,211,153,0.12);}
+.st.active .stxt,.st.done .stxt{color:var(--text);}
+.sline{width:35px;height:2px;background:var(--bord);}
+@media(max-width:500px){.stxt{display:none;}.sline{width:18px;}}
+
+/* CARD */
+.card{background:var(--card);border:1px solid var(--bord);border-radius:20px;padding:2rem;margin-bottom:1.5rem;backdrop-filter:blur(10px);}
+.card-title{font-family:'Syne',sans-serif;font-size:.82rem;font-weight:700;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-bottom:1.5rem;}
+
+/* FIELDS */
+.fgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:1.2rem;margin-bottom:1.5rem;}
+.field{display:flex;flex-direction:column;gap:.4rem;}
+.field label{font-size:.72rem;font-weight:600;color:var(--muted);letter-spacing:.05em;text-transform:uppercase;}
+.field input,.field select{
+  background:rgba(255,255,255,0.06);border:1.5px solid var(--bord);border-radius:12px;
+  color:var(--text);font-size:.92rem;font-family:'DM Sans',sans-serif;
+  padding:.7rem 1rem;outline:none;transition:.2s;width:100%;
+}
+.field input:focus,.field select:focus{border-color:#3b82f6;background:rgba(37,99,235,0.1);}
+.field select option{background:#1a2050;color:#fff;}
+.field input[type=range]{padding:.5rem 0;accent-color:#3b82f6;cursor:pointer;}
+.pct-big{font-size:2.2rem;font-weight:800;font-family:'Syne',sans-serif;color:#93c5fd;text-align:center;margin:.2rem 0 .1rem;}
+.pct-sub{font-size:.72rem;color:var(--muted);text-align:center;}
+
+/* PREDICT BUTTON */
+.pred-btn{
+  width:100%;padding:1rem;
+  background:linear-gradient(135deg,#2563eb,#3b82f6);
+  border:none;border-radius:14px;color:#fff;
+  font-size:1rem;font-weight:700;font-family:'Syne',sans-serif;
+  cursor:pointer;transition:.25s;letter-spacing:.02em;
+}
+.pred-btn:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(37,99,235,.35);}
+
+/* RANK RESULT BOX */
+.rank-box-wrap{
+  background:linear-gradient(135deg,rgba(37,99,235,.18),rgba(139,92,246,.12));
+  border:1px solid rgba(59,130,246,.3);border-radius:18px;padding:1.8rem;
+  margin-bottom:1.5rem;display:none;
+}
+.rank-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1rem;margin-bottom:1.2rem;}
+.rbox{background:rgba(0,0,0,.3);border-radius:14px;padding:1.2rem;text-align:center;}
+.rval{font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:800;line-height:1.1;}
+.rlbl{font-size:.68rem;color:var(--muted);margin-top:.3rem;}
+.rbox.pct .rval{color:#93c5fd;}
+.rbox.rank .rval{color:#fbbf24;}
+.rbox.adv .rval{color:#34d399;}
+.adv-note{display:flex;align-items:flex-start;gap:.7rem;border-radius:10px;padding:.9rem 1rem;font-size:.8rem;line-height:1.5;}
+.adv-note.yes{background:rgba(16,185,129,.1);border:1px solid rgba(52,211,153,.25);color:#6ee7b7;}
+.adv-note.no{background:rgba(59,130,246,.1);border:1px solid rgba(147,197,253,.25);color:#93c5fd;}
+
+/* COLLEGES SECTION */
+.col-section{display:none;}
+.col-section h2{font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:800;margin-bottom:.3rem;}
+.col-sub{font-size:.8rem;color:var(--muted);margin-bottom:1.5rem;line-height:1.5;}
+
+/* FILTERS */
+.frow{display:flex;gap:.6rem;flex-wrap:wrap;align-items:center;margin-bottom:1.5rem;}
+.fbtn{
+  padding:.4rem .9rem;border-radius:20px;font-size:.78rem;font-weight:500;
+  cursor:pointer;border:1.5px solid var(--bord);background:var(--card);
+  color:var(--muted);transition:.2s;font-family:'DM Sans',sans-serif;
+}
+.fbtn.on{border-color:#3b82f6;background:rgba(59,130,246,.15);color:#93c5fd;}
+.fbtn:hover:not(.on){border-color:rgba(255,255,255,.2);color:var(--text);}
+
+/* LEGEND */
+.legend{display:flex;flex-wrap:wrap;gap:.9rem;margin-bottom:1.3rem;}
+.legitem{display:flex;align-items:center;gap:.35rem;font-size:.73rem;color:var(--muted);}
+.legdot{width:9px;height:9px;border-radius:2px;flex-shrink:0;}
+
+/* CAT HEADING */
+.cat-h{
+  font-family:'Syne',sans-serif;font-size:.78rem;font-weight:700;
+  color:var(--muted);letter-spacing:.07em;text-transform:uppercase;
+  padding:.7rem 0 .5rem;border-bottom:1px solid var(--bord);
+  margin-bottom:.8rem;margin-top:1.5rem;display:flex;align-items:center;gap:.6rem;
+}
+.cat-h:first-child{margin-top:0;}
+.cdot{width:8px;height:8px;border-radius:50%;}
+
+/* COLLEGE CARD */
+.cc{
+  background:var(--card);border:1px solid var(--bord);border-radius:14px;
+  padding:1.2rem;margin-bottom:.8rem;
+  display:grid;grid-template-columns:56px 1fr auto;gap:1rem;align-items:start;
+  transition:.22s;animation:si .3s ease both;
+}
+@keyframes si{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+.cc:hover{border-color:rgba(59,130,246,.35);transform:translateY(-2px);box-shadow:0 8px 28px rgba(37,99,235,.12);}
+
+.chance-box{
+  width:52px;height:52px;border-radius:12px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0;
+}
+.chance-box .cpct{font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:800;line-height:1;}
+.chance-box .clbl{font-size:.58rem;font-weight:600;opacity:.85;letter-spacing:.03em;margin-top:.1rem;}
+.chance-box.safe{background:rgba(16,185,129,.15);border:1px solid rgba(52,211,153,.3);color:#34d399;}
+.chance-box.mod{background:rgba(245,158,11,.15);border:1px solid rgba(251,191,36,.3);color:#fbbf24;}
+.chance-box.reach{background:rgba(239,68,68,.12);border:1px solid rgba(252,165,165,.25);color:#fca5a5;}
+.chance-box.dream{background:rgba(139,92,246,.15);border:1px solid rgba(196,181,253,.25);color:#c4b5fd;}
+
+.ci-name{font-family:'Syne',sans-serif;font-size:.92rem;font-weight:700;color:var(--text);margin-bottom:.2rem;}
+.ci-loc{font-size:.7rem;color:var(--muted);margin-bottom:.45rem;}
+.hs-badge{color:#fcd34d;font-size:.62rem;font-weight:700;background:rgba(252,211,77,.12);padding:.1rem .35rem;border-radius:4px;margin-left:.3rem;}
+.ci-tags{display:flex;flex-wrap:wrap;gap:.28rem;}
+.ctag{padding:.1rem .42rem;border-radius:5px;font-size:.62rem;font-weight:600;}
+.ctag.b{background:rgba(59,130,246,.15);color:#93c5fd;}
+.ctag.g{background:rgba(16,185,129,.15);color:#34d399;}
+.ctag.a{background:rgba(245,158,11,.15);color:#fbbf24;}
+.ctag.p{background:rgba(139,92,246,.15);color:#c4b5fd;}
+.ctag.r{background:rgba(239,68,68,.12);color:#fca5a5;}
+
+.cr{text-align:right;flex-shrink:0;min-width:105px;}
+.cr-label{font-size:.68rem;color:var(--muted);margin-bottom:.18rem;}
+.cr-bar-wrap{height:5px;border-radius:99px;background:rgba(255,255,255,.07);overflow:hidden;margin-bottom:.35rem;}
+.cr-bar{height:100%;border-radius:99px;}
+.cr-cut{font-size:.7rem;color:var(--muted);}
+.cr-cut span{font-weight:700;color:var(--text);}
+.cr-br{font-size:.68rem;color:var(--muted);margin-top:.18rem;}
+.cr-br span{color:#93c5fd;font-weight:600;}
+.cr-note{font-size:.62rem;color:var(--muted);margin-top:.25rem;font-style:italic;}
+
+.empty{text-align:center;padding:3rem;color:var(--muted);}
+.empty h3{font-size:.95rem;color:rgba(255,255,255,.3);margin-bottom:.4rem;}
+
+/* TIPS */
+.tips{background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.2);border-radius:14px;padding:1.2rem 1.5rem;margin-top:2rem;}
+.tips h4{font-family:'Syne',sans-serif;font-size:.82rem;font-weight:700;color:#fbbf24;margin-bottom:.7rem;}
+.tips ul{list-style:none;display:flex;flex-direction:column;gap:.38rem;}
+.tips li{font-size:.78rem;color:rgba(255,255,255,.55);display:flex;gap:.5rem;}
+.tips li::before{content:'→';color:#fbbf24;flex-shrink:0;}
+
+@media(max-width:580px){
+  .cc{grid-template-columns:50px 1fr;grid-template-rows:auto auto;}
+  .cr{grid-column:2;grid-row:2;}
+  .wrap{padding:1.2rem 1rem 4rem;}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="hdr">
+  <div class="badge">College Knowledge Portal</div>
+  <h1>JEE Rank &amp; College Predictor</h1>
+  <p>Enter percentile &rarr; see your estimated rank &rarr; get best college predictions</p>
+</div>
+
+<div class="steps">
+  <div class="st active" id="st1"><div class="snum">1</div><div class="stxt">Enter Percentile</div></div>
+  <div class="sline"></div>
+  <div class="st" id="st2"><div class="snum">2</div><div class="stxt">Your Rank</div></div>
+  <div class="sline"></div>
+  <div class="st" id="st3"><div class="snum">3</div><div class="stxt">College Predictions</div></div>
+</div>
+
+<!-- INPUT FORM -->
+<div class="card">
+  <div class="card-title">Step 1 — Your Details</div>
+  <div class="fgrid">
+
+    <div class="field">
+      <label>JEE Main Percentile</label>
+      <input type="range" min="50" max="100" step="0.01" value="97" id="sldr" oninput="syncSlider()"/>
+      <div class="pct-big" id="pctBig">97.00</div>
+      <div class="pct-sub">Or type below ↓</div>
+      <input type="number" min="0.01" max="100" step="0.01" placeholder="e.g. 97.50" id="pctNum" oninput="syncNum()" style="margin-top:.4rem;"/>
+    </div>
+
+    <div class="field">
+      <label>Category</label>
+      <select id="catSel">
+        <option value="GEN">General (GEN)</option>
+        <option value="EWS">EWS</option>
+        <option value="OBC">OBC-NCL</option>
+        <option value="SC">SC</option>
+        <option value="ST">ST</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label>Home State</label>
+      <select id="stSel">
+        <option value="">-- Select State --</option>
+        <option>Andhra Pradesh</option><option>Assam</option><option>Bihar</option>
+        <option>Chhattisgarh</option><option>Delhi</option><option>Goa</option>
+        <option>Gujarat</option><option>Haryana</option><option>Himachal Pradesh</option>
+        <option>Jharkhand</option><option>Karnataka</option><option>Kerala</option>
+        <option>Madhya Pradesh</option><option>Maharashtra</option><option>Odisha</option>
+        <option>Punjab</option><option>Rajasthan</option><option>Tamil Nadu</option>
+        <option>Telangana</option><option>Uttar Pradesh</option><option>Uttarakhand</option>
+        <option>West Bengal</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label>Preferred Branch</label>
+      <select id="brSel">
+        <option value="CSE">Computer Science (CSE)</option>
+        <option value="ECE">Electronics &amp; Comm (ECE)</option>
+        <option value="EEE">Electrical Engineering</option>
+        <option value="MECH">Mechanical Engineering</option>
+        <option value="CIVIL">Civil Engineering</option>
+        <option value="CHEM">Chemical Engineering</option>
+        <option value="MNC">Maths &amp; Computing</option>
+        <option value="AI">AI / Data Science</option>
+        <option value="ANY">Any / Best Available</option>
+      </select>
+    </div>
+
+  </div>
+  <button class="pred-btn" id="predBtn">&#127302; Predict My Rank &amp; Colleges &rarr;</button>
+</div>
+
+<!-- RANK RESULT -->
+<div class="rank-box-wrap" id="rankBox">
+  <div class="card-title">Step 2 — Your Estimated Rank</div>
+  <div class="rank-grid">
+    <div class="rbox pct"><div class="rval" id="rPct">—</div><div class="rlbl">Your Percentile</div></div>
+    <div class="rbox rank"><div class="rval" id="rRank">—</div><div class="rlbl">Estimated JEE Main AIR</div></div>
+    <div class="rbox rank" style="background:rgba(0,0,0,.3)"><div class="rval" id="rEff" style="color:#c4b5fd">—</div><div class="rlbl">Effective Rank (w/ category)</div></div>
+    <div class="rbox adv"><div class="rval" id="rAdv">—</div><div class="rlbl">JEE Advanced?</div></div>
+  </div>
+  <div class="adv-note" id="advNote"></div>
+</div>
+
+<!-- COLLEGES -->
+<div class="col-section" id="colSection">
+  <h2>&#127891; College Predictions</h2>
+  <div class="col-sub" id="colSub">Loading...</div>
+
+  <div class="legend">
+    <div class="legitem"><div class="legdot" style="background:#34d399"></div>Safe Bet (rank well below cutoff)</div>
+    <div class="legitem"><div class="legdot" style="background:#fbbf24"></div>Moderate Chance</div>
+    <div class="legitem"><div class="legdot" style="background:#fca5a5"></div>Reach (borderline)</div>
+    <div class="legitem"><div class="legdot" style="background:#c4b5fd"></div>Dream (tough)</div>
+  </div>
+
+  <div class="frow">
+    <span style="font-size:.76rem;color:var(--muted);font-weight:500;">Filter:</span>
+    <button class="fbtn on" onclick="setFilter('ALL',this)">All</button>
+    <button class="fbtn" onclick="setFilter('IIT',this)">IITs</button>
+    <button class="fbtn" onclick="setFilter('NIT',this)">NITs</button>
+    <button class="fbtn" onclick="setFilter('IIIT',this)">IIITs</button>
+    <button class="fbtn" onclick="setFilter('STATE',this)">State Govt</button>
+    <button class="fbtn" onclick="setFilter('GFTI',this)">GFTIs</button>
+  </div>
+
+  <div id="colList"></div>
+
+  <div class="tips">
+    <h4>&#128161; Smart Strategy Tips</h4>
+    <ul>
+      <li>Fill 15–20+ choices in JoSAA — more choices = better seat allocation</li>
+      <li>Home State (HS) quota relaxes cutoffs by 2,000–8,000 ranks — always use it</li>
+      <li>Reserved categories get significant rank relaxation — check JoSAA category data</li>
+      <li>CSE at mid-tier NIT often beats core branch at top NIT for software jobs</li>
+      <li>After JoSAA, try CSAB Special Rounds for additional NIT/IIIT chances</li>
+      <li>IIT cutoffs shown require JEE Advanced — JEE Main rank alone won't work</li>
+    </ul>
+  </div>
+</div>
+
+</div>
+
+<script>
+// ─── percentile ↔ rank table (NTA 2024, 13 lakh candidates) ─────────────────
+var PCT_TABLE = [
+  [100,1],[99.9999,2],[99.9998,3],[99.9995,5],[99.999,10],[99.998,26],[99.995,65],
+  [99.99,130],[99.98,260],[99.97,390],[99.95,650],[99.9,1300],[99.85,1950],[99.8,2600],
+  [99.75,3250],[99.7,3900],[99.65,4550],[99.6,5200],[99.55,5850],[99.5,6500],
+  [99.4,7800],[99.3,9100],[99.2,10400],[99.1,11700],[99.0,13000],
+  [98.8,15600],[98.5,19500],[98.2,23400],[98.0,26000],
+  [97.8,28600],[97.5,32500],[97.0,39000],[96.5,45500],[96.0,52000],
+  [95.5,58500],[95.0,65000],[94.5,71500],[94.0,78000],[93.5,84500],[93.0,91000],
+  [92.0,104000],[91.0,117000],[90.0,130000],[88.0,156000],[85.0,195000],
+  [80.0,260000],[75.0,325000],[70.0,390000],[60.0,520000],[50.0,650000]
+];
+
+function pctToRank(p) {
+  if (p >= 100) return 1;
+  if (p <= 50) return 650000;
+  for (var i = 0; i < PCT_TABLE.length - 1; i++) {
+    var p1 = PCT_TABLE[i][0], r1 = PCT_TABLE[i][1];
+    var p2 = PCT_TABLE[i+1][0], r2 = PCT_TABLE[i+1][1];
+    if (p <= p1 && p >= p2) {
+      var t = (p1 - p) / (p1 - p2);
+      return Math.round(r1 + t * (r2 - r1));
+    }
+  }
+  return Math.round((100 - p) / 100 * 1300000);
+}
+
+// JEE Advanced qualifier cutoff per category (approx 2024)
+var ADV_CUT = {GEN:93.5, EWS:80.0, OBC:80.0, SC:65.0, ST:55.0};
+
+// Category rank multiplier (effective rank = AIR / multiplier)
+var CAT_MUL = {GEN:1.0, EWS:1.2, OBC:1.4, SC:1.8, ST:2.2};
+
+// ─── COLLEGE DATABASE ────────────────────────────────────────────────────────
+// co = OS General closing rank per branch
+// hs = Home State closing rank per branch (if available)
+var COLLEGES = [
+  // IITs
+  {n:"IIT Bombay",l:"Mumbai, MH",t:"IIT",nirf:3,st:"Maharashtra",
+   co:{CSE:80,ECE:280,EEE:500,MECH:850,CIVIL:3200,CHEM:3500,MNC:200,AI:120},
+   tags:["NIRF #3","QS #118","FAANG","Finance Hub"],note:"Needs JEE Advanced"},
+  {n:"IIT Delhi",l:"New Delhi",t:"IIT",nirf:4,st:"Delhi",
+   co:{CSE:65,ECE:225,EEE:400,MECH:700,CIVIL:2600,CHEM:3200,MNC:180,AI:100},
+   tags:["NIRF #4","Capital City","Consulting","QS #150"],note:"Needs JEE Advanced"},
+  {n:"IIT Madras",l:"Chennai, TN",t:"IIT",nirf:1,st:"Tamil Nadu",
+   co:{CSE:80,ECE:340,EEE:540,MECH:950,CIVIL:3500,CHEM:3800,MNC:220,AI:150},
+   tags:["NIRF #1","Deep Tech","Research #1"],note:"Needs JEE Advanced"},
+  {n:"IIT Kanpur",l:"Kanpur, UP",t:"IIT",nirf:5,st:"Uttar Pradesh",
+   co:{CSE:110,ECE:375,EEE:560,MECH:900,CIVIL:3000,CHEM:3400,MNC:230,AI:180},
+   tags:["NIRF #5","AI Pioneer","1055 Acre Campus"],note:"Needs JEE Advanced"},
+  {n:"IIT Kharagpur",l:"Kharagpur, WB",t:"IIT",nirf:6,st:"West Bengal",
+   co:{CSE:165,ECE:425,EEE:650,MECH:950,CIVIL:4000,CHEM:4200,MNC:280,AI:200},
+   tags:["NIRF #6","India's 1st IIT","2100 Acres"],note:"Needs JEE Advanced"},
+  {n:"IIT Roorkee",l:"Roorkee, UK",t:"IIT",nirf:7,st:"Uttarakhand",
+   co:{CSE:700,ECE:1300,EEE:1700,MECH:2400,CIVIL:4200,CHEM:3800,MNC:900,AI:800},
+   tags:["NIRF #7","Heritage 1847","Civil Leader"],note:"Needs JEE Advanced"},
+  {n:"IIT Guwahati",l:"Guwahati, AS",t:"IIT",nirf:7,st:"Assam",
+   co:{CSE:600,ECE:2000,EEE:2000,MECH:4500,CIVIL:7500,CHEM:8000,MNC:1100,AI:950},
+   tags:["NIRF #7","Beautiful Campus","Brahmaputra"],note:"Needs JEE Advanced"},
+  {n:"IIT Hyderabad",l:"Sangareddy, TS",t:"IIT",nirf:8,st:"Telangana",
+   co:{CSE:600,ECE:1800,EEE:2100,MECH:5000,CIVIL:9200,CHEM:7600,MNC:1250,AI:950},
+   tags:["NIRF #8","India 1st AI Dept","Japan JICA"],note:"Needs JEE Advanced"},
+  {n:"IIT BHU Varanasi",l:"Varanasi, UP",t:"IIT",nirf:10,st:"Uttar Pradesh",
+   co:{CSE:900,ECE:2600,EEE:3800,MECH:6200,CIVIL:12000,CHEM:8500,MNC:1800,AI:1400},
+   tags:["NIRF #10","Est 1919","UPSC Culture"],note:"Needs JEE Advanced"},
+  {n:"IIT Indore",l:"Simrol, MP",t:"IIT",nirf:14,st:"Madhya Pradesh",
+   co:{CSE:1200,ECE:3500,EEE:4000,MECH:7000,CIVIL:9500,CHEM:8500,MNC:2200,AI:1800},
+   tags:["NIRF #14","Space Science","Fast Growing"],note:"Needs JEE Advanced"},
+  {n:"IIT ISM Dhanbad",l:"Dhanbad, JH",t:"IIT",nirf:17,st:"Jharkhand",
+   co:{CSE:3000,ECE:5100,EEE:7800,MECH:9800,CIVIL:14000,CHEM:12000,MNC:4200,AI:3800},
+   tags:["NIRF #17","World Mining #25","1926"],note:"Needs JEE Advanced"},
+  {n:"IIT Jodhpur",l:"Karwar, RJ",t:"IIT",nirf:30,st:"Rajasthan",
+   co:{CSE:2500,ECE:5500,EEE:6200,MECH:10000,CIVIL:14500,CHEM:12500,MNC:3800,AI:3300},
+   tags:["NIRF #30","AI School","Desert Campus"],note:"Needs JEE Advanced"},
+  {n:"IIT Ropar",l:"Rupnagar, PB",t:"IIT",nirf:22,st:"Punjab",
+   co:{CSE:2000,ECE:5000,EEE:5800,MECH:8500,CIVIL:13200,CHEM:11500,MNC:3500,AI:2500},
+   tags:["NIRF #22","QS Citations #1","Supercomputer"],note:"Needs JEE Advanced"},
+  {n:"IIT Mandi",l:"Kamand, HP",t:"IIT",nirf:33,st:"Himachal Pradesh",
+   co:{CSE:3100,ECE:6000,EEE:7000,MECH:10500,CIVIL:11500,CHEM:12000,MNC:3900,AI:3500},
+   tags:["NIRF #33","Himalayan IIT","TU9 Germany"],note:"Needs JEE Advanced"},
+  {n:"IIT Patna",l:"Bihta, BR",t:"IIT",nirf:41,st:"Bihar",
+   co:{CSE:2700,ECE:6000,EEE:7000,MECH:10500,CIVIL:15100,CHEM:13200,MNC:4800,AI:3400},
+   tags:["NIRF #41","100% CSE Placed","ESDM Hub"],note:"Needs JEE Advanced"},
+  {n:"IIT Goa",l:"Ponda, GA",t:"IIT",nirf:65,st:"Goa",
+   co:{CSE:4100,ECE:8000,EEE:8600,MECH:10500,CIVIL:15200,CHEM:13500,MNC:5050,AI:4700},
+   tags:["NIRF #65","Coastal Campus","Coding Culture"],note:"Needs JEE Advanced"},
+  {n:"IIT Gandhinagar",l:"Palaj, GJ",t:"IIT",nirf:18,st:"Gujarat",
+   co:{CSE:1800,ECE:4000,EEE:4200,MECH:7000,CIVIL:11000,CHEM:9500,MNC:2800,AI:2200},
+   tags:["NIRF #18","5-Star GRIHA","40% Global Intern"],note:"Needs JEE Advanced"},
+
+  // NITs
+  {n:"NIT Trichy",l:"Tiruchirappalli, TN",t:"NIT",nirf:9,st:"Tamil Nadu",
+   co:{CSE:1423,ECE:3800,EEE:5800,MECH:9000,CIVIL:27257,CHEM:32000,MNC:2500,AI:1800},
+   hs:{CSE:2200,ECE:5500,EEE:7500,MECH:12000,CIVIL:35000,CHEM:40000,MNC:3500,AI:2800},
+   tags:["NIRF #9","Sundar Pichai Alum","Top NIT","800 Acres"],note:""},
+  {n:"NIT Surathkal",l:"Surathkal, KA",t:"NIT",nirf:12,st:"Karnataka",
+   co:{CSE:1423,ECE:2726,EEE:4200,MECH:7200,CIVIL:22534,CHEM:28000,MNC:2200,AI:1700},
+   hs:{CSE:2000,ECE:4000,EEE:6000,MECH:10000,CIVIL:28000,CHEM:34000,MNC:3000,AI:2400},
+   tags:["NIRF #12","Sea View Campus","Top NIT South","Competitive ECE"],note:""},
+  {n:"NIT Warangal",l:"Warangal, TS",t:"NIT",nirf:16,st:"Telangana",
+   co:{CSE:2186,ECE:6500,EEE:9500,MECH:14000,CIVIL:30000,CHEM:35000,MNC:3500,AI:2800},
+   hs:{CSE:3200,ECE:9000,EEE:13000,MECH:18000,CIVIL:38000,CHEM:44000,MNC:5000,AI:4000},
+   tags:["NIRF #16","Telangana Premier","Old NIT","Strong Alumni"],note:""},
+  {n:"NIT Rourkela",l:"Rourkela, OD",t:"NIT",nirf:19,st:"Odisha",
+   co:{CSE:3983,ECE:7500,EEE:12000,MECH:18000,CIVIL:26250,CHEM:32000,MNC:6000,AI:4800},
+   hs:{CSE:5500,ECE:11000,EEE:16000,MECH:24000,CIVIL:34000,CHEM:40000,MNC:8000,AI:6500},
+   tags:["NIRF #19","Top NIT East","AI Branch","Large Campus"],note:""},
+  {n:"NIT Calicut",l:"Calicut, KL",t:"NIT",nirf:21,st:"Kerala",
+   co:{CSE:4088,ECE:8000,EEE:11000,MECH:18000,CIVIL:33735,CHEM:38000,MNC:6500,AI:5200},
+   hs:{CSE:5500,ECE:11000,EEE:15000,MECH:24000,CIVIL:42000,CHEM:48000,MNC:9000,AI:7000},
+   tags:["NIRF #21","Kerala Premier","500 Acres","Industry Connect"],note:""},
+  {n:"NIT Allahabad (MNNIT)",l:"Prayagraj, UP",t:"NIT",nirf:24,st:"Uttar Pradesh",
+   co:{CSE:4500,ECE:9000,EEE:13000,MECH:20000,CIVIL:35000,CHEM:40000,MNC:7000,AI:5800},
+   hs:{CSE:6500,ECE:12500,EEE:18000,MECH:28000,CIVIL:46000,CHEM:52000,MNC:10000,AI:8500},
+   tags:["NIRF #24","UP Premier NIT","Sangam City","Strong Core"],note:""},
+  {n:"NIT Durgapur",l:"Durgapur, WB",t:"NIT",nirf:28,st:"West Bengal",
+   co:{CSE:5200,ECE:11000,EEE:15000,MECH:24000,CIVIL:42000,CHEM:48000,MNC:8000,AI:6500},
+   hs:{CSE:7500,ECE:16000,EEE:22000,MECH:33000,CIVIL:55000,CHEM:62000,MNC:11000,AI:9000},
+   tags:["NIRF #28","WB Premier","Steel City","Good Placements"],note:""},
+  {n:"MNIT Jaipur",l:"Jaipur, RJ",t:"NIT",nirf:34,st:"Rajasthan",
+   co:{CSE:5800,ECE:11500,EEE:16000,MECH:25000,CIVIL:43000,CHEM:50000,MNC:9000,AI:7500},
+   hs:{CSE:8000,ECE:16000,EEE:22000,MECH:34000,CIVIL:56000,CHEM:65000,MNC:12500,AI:10500},
+   tags:["NIRF #34","Pink City","Rajasthan Premier","Good Campus"],note:""},
+  {n:"VNIT Nagpur",l:"Nagpur, MH",t:"NIT",nirf:38,st:"Maharashtra",
+   co:{CSE:5500,ECE:12000,EEE:17000,MECH:26000,CIVIL:45000,CHEM:52000,MNC:8500,AI:7000},
+   hs:{CSE:8000,ECE:17000,EEE:24000,MECH:36000,CIVIL:60000,CHEM:68000,MNC:12000,AI:10000},
+   tags:["NIRF #38","Orange City","MH Premier","Strong Alumni"],note:""},
+  {n:"MANIT Bhopal",l:"Bhopal, MP",t:"NIT",nirf:42,st:"Madhya Pradesh",
+   co:{CSE:6500,ECE:13500,EEE:19000,MECH:29000,CIVIL:50000,CHEM:58000,MNC:10000,AI:8500},
+   hs:{CSE:9500,ECE:19000,EEE:27000,MECH:40000,CIVIL:65000,CHEM:75000,MNC:14000,AI:12000},
+   tags:["NIRF #42","MP Premier","Capital City","Large Campus"],note:""},
+  {n:"NIT Kurukshetra",l:"Kurukshetra, HR",t:"NIT",nirf:45,st:"Haryana",
+   co:{CSE:6800,ECE:14000,EEE:20000,MECH:30000,CIVIL:52000,CHEM:60000,MNC:10500,AI:9000},
+   hs:{CSE:10000,ECE:20000,EEE:28000,MECH:42000,CIVIL:68000,CHEM:78000,MNC:15000,AI:13000},
+   tags:["NIRF #45","Haryana Premier","Holy City","Good Placements"],note:""},
+  {n:"SVNIT Surat",l:"Surat, GJ",t:"NIT",nirf:46,st:"Gujarat",
+   co:{CSE:7500,ECE:15000,EEE:22000,MECH:33000,CIVIL:57000,CHEM:65000,MNC:12000,AI:10000},
+   hs:{CSE:11000,ECE:22000,EEE:31000,MECH:46000,CIVIL:74000,CHEM:85000,MNC:17000,AI:14500},
+   tags:["NIRF #46","Gujarat Premier","Diamond City","Industry Hub"],note:""},
+  {n:"NIT Silchar",l:"Silchar, AS",t:"NIT",nirf:50,st:"Assam",
+   co:{CSE:9000,ECE:18000,EEE:25000,MECH:40000,CIVIL:65000,CHEM:75000,MNC:14000,AI:12000},
+   hs:{CSE:13000,ECE:26000,EEE:35000,MECH:55000,CIVIL:85000,CHEM:95000,MNC:20000,AI:17000},
+   tags:["NIRF #50","NE India","Assam Premier","Affordable"],note:""},
+  {n:"NIT Patna",l:"Patna, BR",t:"NIT",nirf:55,st:"Bihar",
+   co:{CSE:10000,ECE:20000,EEE:28000,MECH:45000,CIVIL:75000,CHEM:85000,MNC:16000,AI:13500},
+   hs:{CSE:15000,ECE:29000,EEE:40000,MECH:62000,CIVIL:98000,CHEM:110000,MNC:23000,AI:19500},
+   tags:["NIRF #55","Bihar Premier","Growing NIT"],note:""},
+  {n:"NIT Hamirpur",l:"Hamirpur, HP",t:"NIT",nirf:59,st:"Himachal Pradesh",
+   co:{CSE:11000,ECE:22000,EEE:31000,MECH:48000,CIVIL:80000,CHEM:92000,MNC:17500,AI:15000},
+   hs:{CSE:16000,ECE:32000,EEE:44000,MECH:66000,CIVIL:104000,CHEM:120000,MNC:25000,AI:21500},
+   tags:["NIRF #59","HP Premier","Mountain Campus","Accessible"],note:""},
+  {n:"NIT Goa",l:"Farmagudi, GA",t:"NIT",nirf:null,st:"Goa",
+   co:{CSE:13000,ECE:26000,EEE:36000,MECH:55000,CIVIL:90000,CHEM:105000,MNC:20000,AI:17000},
+   hs:{CSE:6000,ECE:12000,EEE:17000,MECH:27000,CIVIL:44000,CHEM:52000,MNC:9500,AI:8000},
+   tags:["Goa Premier","Coastal Campus","New NIT","Accessible"],note:""},
+
+  // IIITs
+  {n:"IIIT Hyderabad",l:"Hyderabad, TS",t:"IIIT",nirf:20,st:"Telangana",
+   co:{CSE:1800,ECE:3500,EEE:null,MECH:null,CIVIL:null,CHEM:null,MNC:2500,AI:2000},
+   tags:["NIRF #20","Top IIIT India","Research Focus","Strong Placements"],note:"Also via UGEE exam"},
+  {n:"IIIT Allahabad",l:"Prayagraj, UP",t:"IIIT",nirf:56,st:"Uttar Pradesh",
+   co:{CSE:3200,ECE:6500,EEE:null,MECH:null,CIVIL:null,CHEM:null,MNC:5000,AI:4000},
+   tags:["NIRF #56","2nd Best IIIT","IT Focus","Prayagraj"],note:""},
+  {n:"IIIT Delhi",l:"New Delhi",t:"IIIT",nirf:36,st:"Delhi",
+   co:{CSE:4000,ECE:7500,EEE:null,MECH:null,CIVIL:null,CHEM:null,MNC:6000,AI:4800},
+   tags:["NIRF #36","Delhi IIIT","AI & CB","Research Active"],note:""},
+  {n:"IIIT Bangalore",l:"Bangalore, KA",t:"IIIT",nirf:25,st:"Karnataka",
+   co:{CSE:5000,ECE:9000,EEE:null,MECH:null,CIVIL:null,CHEM:null,MNC:7000,AI:5500},
+   tags:["NIRF #25","Silicon Valley India","Industry Partner","PG + UG"],note:""},
+  {n:"IIIT Pune",l:"Pune, MH",t:"IIIT",nirf:null,st:"Maharashtra",
+   co:{CSE:8000,ECE:15000,EEE:null,MECH:null,CIVIL:null,CHEM:null,MNC:12000,AI:10000},
+   tags:["Pune Tech Hub","Good Placements","CSE + ECE","Industry Connect"],note:""},
+  {n:"IIIT Lucknow",l:"Lucknow, UP",t:"IIIT",nirf:null,st:"Uttar Pradesh",
+   co:{CSE:9000,ECE:17000,EEE:null,MECH:null,CIVIL:null,CHEM:null,MNC:13000,AI:11000},
+   tags:["UP IIIT","Capital City","CSE Focus","Affordable"],note:""},
+  {n:"IIIT Kottayam",l:"Kottayam, KL",t:"IIIT",nirf:null,st:"Kerala",
+   co:{CSE:10000,ECE:18000,EEE:null,MECH:null,CIVIL:null,CHEM:null,MNC:15000,AI:12000},
+   tags:["Kerala IIIT","Green Campus","CSE Focus","Growing"],note:""},
+  {n:"IIIT Vadodara",l:"Vadodara, GJ",t:"IIIT",nirf:null,st:"Gujarat",
+   co:{CSE:9500,ECE:18000,EEE:null,MECH:null,CIVIL:null,CHEM:null,MNC:14000,AI:12000},
+   tags:["GJ IIIT","Cultural Capital","CSE Focus","Accessible"],note:""},
+  {n:"IIIT Guwahati",l:"Guwahati, AS",t:"IIIT",nirf:null,st:"Assam",
+   co:{CSE:12000,ECE:22000,EEE:null,MECH:null,CIVIL:null,CHEM:null,MNC:18000,AI:15000},
+   tags:["NE India IIIT","Growing Fast","CSE Focus","Affordable"],note:""},
+  {n:"IIIT Una",l:"Una, HP",t:"IIIT",nirf:null,st:"Himachal Pradesh",
+   co:{CSE:14000,ECE:25000,EEE:null,MECH:null,CIVIL:null,CHEM:null,MNC:20000,AI:17000},
+   tags:["HP IIIT","Mountain Region","Accessible","CSE Focus"],note:""},
+
+  // GFTIs
+  {n:"IIEST Shibpur",l:"Howrah, WB",t:"GFTI",nirf:26,st:"West Bengal",
+   co:{CSE:6000,ECE:12000,EEE:17000,MECH:26000,CIVIL:44000,CHEM:null,MNC:null,AI:null},
+   tags:["NIRF #26","Heritage 1856","WB GFTI","Old Institute"],note:""},
+  {n:"BIT Mesra",l:"Ranchi, JH",t:"GFTI",nirf:29,st:"Jharkhand",
+   co:{CSE:8000,ECE:15000,EEE:22000,MECH:34000,CIVIL:55000,CHEM:62000,MNC:12000,AI:10000},
+   tags:["NIRF #29","JH Premier","Good Placements","Residential"],note:""},
+  {n:"Tezpur University",l:"Tezpur, AS",t:"GFTI",nirf:null,st:"Assam",
+   co:{CSE:15000,ECE:28000,EEE:38000,MECH:60000,CIVIL:90000,CHEM:110000,MNC:22000,AI:18000},
+   tags:["NE India","Central University","Affordable","Green Campus"],note:""},
+  {n:"SLIET Longowal",l:"Sangrur, PB",t:"GFTI",nirf:null,st:"Punjab",
+   co:{CSE:18000,ECE:34000,EEE:46000,MECH:72000,CIVIL:108000,CHEM:125000,MNC:27000,AI:22000},
+   tags:["Punjab GFTI","Affordable","Central Institute","Lateral Entry"],note:""},
+
+  // State Govt
+  {n:"DTU Delhi",l:"New Delhi",t:"STATE",nirf:30,st:"Delhi",
+   co:{CSE:2500,ECE:6000,EEE:8500,MECH:14000,CIVIL:25000,CHEM:28000,MNC:4000,AI:3200},
+   hs:{CSE:500,ECE:1200,EEE:1800,MECH:3000,CIVIL:5500,CHEM:6000,MNC:800,AI:650},
+   tags:["NIRF #30","Delhi Govt","Strong Placement","Top State Univ"],note:"Delhi domicile massive advantage"},
+  {n:"NSUT Delhi",l:"New Delhi",t:"STATE",nirf:null,st:"Delhi",
+   co:{CSE:3000,ECE:7000,EEE:10000,MECH:17000,CIVIL:30000,CHEM:34000,MNC:5000,AI:4000},
+   hs:{CSE:600,ECE:1500,EEE:2200,MECH:3800,CIVIL:7000,CHEM:8000,MNC:1000,AI:800},
+   tags:["Delhi Govt","Good Placement","CSE Strong","Dwarka Campus"],note:"Delhi domicile huge advantage"},
+  {n:"Jadavpur University",l:"Kolkata, WB",t:"STATE",nirf:8,st:"West Bengal",
+   co:{CSE:1500,ECE:4000,EEE:6000,MECH:9000,CIVIL:15000,CHEM:18000,MNC:2500,AI:2000},
+   hs:{CSE:800,ECE:2000,EEE:3000,MECH:4500,CIVIL:8000,CHEM:9500,MNC:1200,AI:1000},
+   tags:["NIRF #8","Heritage 1906","WB Premier","Strong Research"],note:"WB students get big HS benefit"},
+  {n:"Anna University",l:"Chennai, TN",t:"STATE",nirf:10,st:"Tamil Nadu",
+   co:{CSE:2500,ECE:5500,EEE:8000,MECH:13000,CIVIL:22000,CHEM:26000,MNC:4000,AI:3200},
+   hs:{CSE:1000,ECE:2200,EEE:3200,MECH:5300,CIVIL:9000,CHEM:11000,MNC:1600,AI:1300},
+   tags:["NIRF #10 Univ","TN Premier","Anna Univ System","Chennai"],note:"TN TNEA counselling also available"},
+  {n:"COEP Pune",l:"Pune, MH",t:"STATE",nirf:null,st:"Maharashtra",
+   co:{CSE:5000,ECE:10000,EEE:14000,MECH:22000,CIVIL:38000,CHEM:44000,MNC:8000,AI:6500},
+   hs:{CSE:1800,ECE:3800,EEE:5200,MECH:8500,CIVIL:15000,CHEM:17000,MNC:3000,AI:2500},
+   tags:["MH State Premier","Heritage 1854","Pune Tech Hub","Strong Alumni"],note:"MH domicile advantage"},
+  {n:"VJTI Mumbai",l:"Mumbai, MH",t:"STATE",nirf:null,st:"Maharashtra",
+   co:{CSE:4500,ECE:9000,EEE:12500,MECH:20000,CIVIL:34000,CHEM:39000,MNC:7000,AI:5800},
+   hs:{CSE:1500,ECE:3200,EEE:4500,MECH:7500,CIVIL:12500,CHEM:14500,MNC:2500,AI:2000},
+   tags:["Mumbai State","Heritage 1887","Industry Connect","Mumbai Location"],note:"MH domicile advantage"},
+  {n:"PEC Chandigarh",l:"Chandigarh",t:"STATE",nirf:null,st:"Punjab",
+   co:{CSE:4500,ECE:9000,EEE:13000,MECH:21000,CIVIL:36000,CHEM:null,MNC:7000,AI:5800},
+   hs:{CSE:2000,ECE:4200,EEE:6000,MECH:9800,CIVIL:17000,CHEM:null,MNC:3200,AI:2600},
+   tags:["Chandigarh Premier","UT Advantage","Good Placement","IT Focus"],note:"Chandigarh UT advantage"},
+  {n:"HBTU Kanpur",l:"Kanpur, UP",t:"STATE",nirf:null,st:"Uttar Pradesh",
+   co:{CSE:8000,ECE:16000,EEE:22000,MECH:35000,CIVIL:58000,CHEM:68000,MNC:12500,AI:10500},
+   hs:{CSE:3500,ECE:7500,EEE:10500,MECH:17000,CIVIL:28500,CHEM:33500,MNC:6000,AI:5000},
+   tags:["UP State Govt","Kanpur City","Affordable","Core Engg Strong"],note:"UP domicile big advantage"},
+  {n:"BMS College Bangalore",l:"Bangalore, KA",t:"STATE",nirf:null,st:"Karnataka",
+   co:{CSE:4000,ECE:8000,EEE:11000,MECH:18000,CIVIL:32000,CHEM:null,MNC:6500,AI:5200},
+   hs:{CSE:2000,ECE:4000,EEE:5800,MECH:9500,CIVIL:17000,CHEM:null,MNC:3200,AI:2600},
+   tags:["Bangalore IT Hub","KA State","Silicon Valley India","1946"],note:"KA domicile advantage"},
+  {n:"PSG Tech Coimbatore",l:"Coimbatore, TN",t:"STATE",nirf:null,st:"Tamil Nadu",
+   co:{CSE:6000,ECE:12000,EEE:17000,MECH:27000,CIVIL:46000,CHEM:null,MNC:9500,AI:8000},
+   hs:{CSE:2500,ECE:5200,EEE:7500,MECH:12500,CIVIL:21500,CHEM:null,MNC:4300,AI:3600},
+   tags:["TN State Premier","Coimbatore Tech","PSG Group","Autonomous"],note:"TN domicile advantage"}
+];
+
+// ─── GLOBALS ─────────────────────────────────────────────────────────────────
+var curPct = 97.0;
+var curFilter = "ALL";
+var builtColleges = [];
+
+// ─── SLIDER / INPUT SYNC ─────────────────────────────────────────────────────
+function syncSlider() {
+  curPct = parseFloat(document.getElementById("sldr").value);
+  document.getElementById("pctBig").textContent = curPct.toFixed(2);
+  document.getElementById("pctNum").value = curPct.toFixed(2);
+}
+function syncNum() {
+  var v = parseFloat(document.getElementById("pctNum").value);
+  if (isNaN(v)) return;
+  v = Math.min(100, Math.max(0.01, v));
+  curPct = v;
+  document.getElementById("pctBig").textContent = v.toFixed(2);
+  document.getElementById("sldr").value = v;
+}
+
+// ─── CUTOFF FOR BRANCH ───────────────────────────────────────────────────────
+function getCutoff(col, branch, userState) {
+  var table = col.co;
+  var hsTable = col.hs;
+  var isHS = (userState && col.st === userState && hsTable);
+
+  var cutoff = null;
+  if (branch === "ANY") {
+    var arr = [];
+    var keys = ["CSE","MNC","AI","ECE","EEE","MECH","CIVIL","CHEM"];
+    for (var i = 0; i < keys.length; i++) {
+      var t = isHS ? (hsTable[keys[i]] || table[keys[i]]) : table[keys[i]];
+      if (t) arr.push(t);
+    }
+    cutoff = arr.length > 0 ? Math.min.apply(null, arr) : null;
+  } else {
+    cutoff = isHS ? (hsTable && hsTable[branch] ? hsTable[branch] : table[branch]) : table[branch];
+  }
+  return {cutoff: cutoff, isHS: isHS};
+}
+
+function getChance(rank, closing) {
+  if (!closing) return null;
+  var r = rank / closing;
+  if (r <= 0.50) return {cls:"safe", lbl:"Safe Bet",   pct:92, col:"#34d399"};
+  if (r <= 0.75) return {cls:"safe", lbl:"Good Chance", pct:75, col:"#34d399"};
+  if (r <= 0.88) return {cls:"mod",  lbl:"Moderate",   pct:55, col:"#fbbf24"};
+  if (r <= 1.00) return {cls:"mod",  lbl:"Borderline", pct:30, col:"#fbbf24"};
+  if (r <= 1.12) return {cls:"reach",lbl:"Reach",      pct:15, col:"#fca5a5"};
+  if (r <= 1.28) return {cls:"dream",lbl:"Dream",      pct:6,  col:"#c4b5fd"};
+  return null;
+}
+
+// ─── MAIN PREDICT ─────────────────────────────────────────────────────────────
+function predict() {
+  var pct = parseFloat(document.getElementById("pctNum").value);
+  if (isNaN(pct) || pct <= 0) pct = curPct;
+  pct = Math.min(100, Math.max(0.01, pct));
+
+  var cat = document.getElementById("catSel").value;
+  var userState = document.getElementById("stSel").value;
+  var branch = document.getElementById("brSel").value;
+
+  var rank = pctToRank(pct);
+  var mul = {GEN:1.0, EWS:1.2, OBC:1.4, SC:1.8, ST:2.2}[cat] || 1.0;
+  var effRank = Math.round(rank / mul);
+
+  // Update steps
+  document.getElementById("st1").className = "st done";
+  document.getElementById("st2").className = "st done";
+  document.getElementById("st3").className = "st active";
+
+  // Show rank box
+  var rb = document.getElementById("rankBox");
+  rb.style.display = "block";
+  document.getElementById("rPct").textContent = pct.toFixed(2) + "%";
+  document.getElementById("rRank").textContent = "#" + rank.toLocaleString("en-IN");
+  document.getElementById("rEff").textContent = "#" + effRank.toLocaleString("en-IN");
+
+  var advCut = ADV_CUT[cat] || 93.5;
+  var qualifies = pct >= advCut;
+  var advEl = document.getElementById("rAdv");
+  var noteEl = document.getElementById("advNote");
+
+  if (qualifies) {
+    advEl.textContent = "YES ✓";
+    advEl.style.color = "#34d399";
+    noteEl.className = "adv-note yes";
+    noteEl.innerHTML = "&#9989; <span><b>You qualify for JEE Advanced!</b> (" + cat + " cutoff: " + advCut + " percentile). You can target IITs via JEE Advanced. Your JEE Main rank is also valid for NITs, IIITs &amp; GFTIs via JoSAA counselling.</span>";
+  } else {
+    advEl.textContent = "NO ✗";
+    advEl.style.color = "#fca5a5";
+    noteEl.className = "adv-note no";
+    noteEl.innerHTML = "&#8505;&#65039; <span>JEE Advanced requires <b>" + advCut + "+ percentile</b> for " + cat + " category. You can apply to NITs, IIITs, State Govt &amp; Private colleges via <b>JoSAA / CSAB</b> counselling with your JEE Main rank.</span>";
+  }
+
+  // Build college list
+  builtColleges = [];
+  for (var i = 0; i < COLLEGES.length; i++) {
+    var col = COLLEGES[i];
+    var res = getCutoff(col, branch, userState);
+    if (!res.cutoff) continue;
+    var chance = getChance(effRank, res.cutoff);
+    if (!chance) continue;
+    builtColleges.push({
+      col: col,
+      chance: chance,
+      cutoff: res.cutoff,
+      isHS: res.isHS,
+      branch: branch
+    });
+  }
+
+  // Sort: best colleges (lowest cutoff) first within safe, then mod, then reach, then dream
+  var order = {safe:0, mod:1, reach:2, dream:3};
+  builtColleges.sort(function(a, b) {
+    if (order[a.chance.cls] !== order[b.chance.cls])
+      return order[a.chance.cls] - order[b.chance.cls];
+    return a.cutoff - b.cutoff;
+  });
+
+  document.getElementById("colSub").textContent =
+    "Your AIR: #" + rank.toLocaleString("en-IN") +
+    " | Effective (" + cat + "): #" + effRank.toLocaleString("en-IN") +
+    " | Branch: " + branch +
+    " | " + builtColleges.length + " colleges found | Based on JoSAA 2024 closing ranks";
+
+  renderColleges();
+
+  // Show section
+  document.getElementById("colSection").style.display = "block";
+
+  // Smooth scroll to rank box
+  setTimeout(function() {
+    document.getElementById("rankBox").scrollIntoView({behavior:"smooth", block:"start"});
+  }, 150);
+}
+
+// ─── RENDER ───────────────────────────────────────────────────────────────────
+function renderColleges() {
+  var list = document.getElementById("colList");
+  var f = curFilter;
+
+  var filtered = [];
+  for (var i = 0; i < builtColleges.length; i++) {
+    if (f === "ALL" || builtColleges[i].col.t === f) {
+      filtered.push(builtColleges[i]);
+    }
+  }
+
+  if (filtered.length === 0) {
+    list.innerHTML = '<div class="empty"><h3>No colleges found for this filter</h3><p>Try All or change branch / category</p></div>';
+    return;
+  }
+
+  // Group by type
+  var groups = {IIT:[], NIT:[], IIIT:[], STATE:[], GFTI:[]};
+  for (var i = 0; i < filtered.length; i++) {
+    var g = filtered[i];
+    if (groups[g.col.t]) groups[g.col.t].push(g);
+  }
+
+  var typeInfo = {
+    IIT:  {label:"IITs (need JEE Advanced)", dotColor:"#c4b5fd"},
+    NIT:  {label:"NITs (JoSAA)", dotColor:"#34d399"},
+    IIIT: {label:"IIITs (JoSAA)", dotColor:"#93c5fd"},
+    STATE:{label:"State Govt Colleges", dotColor:"#fcd34d"},
+    GFTI: {label:"GFTIs (JoSAA)", dotColor:"#fdba74"}
+  };
+
+  var html = "";
+  var typeOrder = ["IIT","NIT","IIIT","STATE","GFTI"];
+  for (var ti = 0; ti < typeOrder.length; ti++) {
+    var type = typeOrder[ti];
+    var items = groups[type];
+    if (!items || items.length === 0) continue;
+    if (f !== "ALL" && f !== type) continue;
+
+    var ti_info = typeInfo[type];
+    html += '<div class="cat-h">';
+    html += '<span class="cdot" style="background:' + ti_info.dotColor + '"></span>';
+    html += ti_info.label + " (" + items.length + ")";
+    html += "</div>";
+
+    for (var j = 0; j < items.length; j++) {
+      var item = items[j];
+      var c = item.col;
+      var ch = item.chance;
+      var brLabel = item.branch === "ANY" ? "Best Available" : item.branch;
+
+      var tagTypeClass = type === "IIT" ? "p" : type === "NIT" ? "g" : type === "IIIT" ? "b" : type === "STATE" ? "a" : "r";
+      var nirfTag = c.nirf ? '<span class="ctag b">NIRF #' + c.nirf + "</span>" : "";
+      var firstTags = c.tags.slice(0, 3).map(function(t) { return '<span class="ctag b">' + t + "</span>"; }).join("");
+      var hsLabel = item.isHS ? '<span class="hs-badge">HS QUOTA</span>' : "";
+      var noteHtml = c.note ? '<div class="cr-note">' + c.note + "</div>" : "";
+
+      html += '<div class="cc" style="animation-delay:' + (j * 0.03) + 's">';
+      html += '<div class="chance-box ' + ch.cls + '"><div class="cpct">' + ch.pct + '%</div><div class="clbl">' + ch.lbl + "</div></div>";
+      html += "<div>";
+      html += '<div class="ci-name">' + c.n + "</div>";
+      html += '<div class="ci-loc">&#128205; ' + c.l + hsLabel + "</div>";
+      html += '<div class="ci-tags"><span class="ctag ' + tagTypeClass + '">' + c.t + "</span>" + nirfTag + firstTags + "</div>";
+      html += "</div>";
+      html += '<div class="cr">';
+      html += '<div class="cr-label">' + ch.lbl + "</div>";
+      html += '<div class="cr-bar-wrap"><div class="cr-bar" style="width:' + ch.pct + '%;background:' + ch.col + '"></div></div>';
+      html += '<div class="cr-cut">Cutoff: <span>~' + item.cutoff.toLocaleString("en-IN") + "</span></div>";
+      html += '<div class="cr-br">Branch: <span>' + brLabel + "</span></div>";
+      html += noteHtml;
+      html += "</div>";
+      html += "</div>";
+    }
+  }
+
+  list.innerHTML = html;
+}
+
+function setFilter(f, btn) {
+  curFilter = f;
+  var btns = document.querySelectorAll(".fbtn");
+  for (var i = 0; i < btns.length; i++) btns[i].classList.remove("on");
+  btn.classList.add("on");
+  if (builtColleges.length > 0) renderColleges();
+}
+
+// ─── ATTACH BUTTON ────────────────────────────────────────────────────────────
+window.addEventListener("load", function() {
+  document.getElementById("predBtn").addEventListener("click", predict);
+  // init display
+  document.getElementById("pctNum").value = "97.00";
+});
+</script>
+</body>
+</html>
