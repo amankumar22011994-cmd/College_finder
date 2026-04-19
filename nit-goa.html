@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NIT Goa - College Detail</title>
+  <style>
+
+    /* ===== BASE ===== */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
+      color: #111827;
+      font-family: sans-serif;
+      min-height: 100vh;
+    }
+
+    /* ===== PAGE LAYOUT ===== */
+    .page {
+      padding: 2rem 6vw;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* ===== BACK BUTTON ===== */
+    .back-btn {
+      align-self: flex-start;
+      margin-bottom: 1.5rem;
+      padding: .5rem 1rem;
+      background: #dbeafe;
+      border: none;
+      border-radius: 8px;
+      font-size: .9rem;
+      font-weight: 500;
+      cursor: pointer;
+      color: #1e40af;
+      text-decoration: none;
+      display: inline-block;
+      transition: 0.2s;
+    }
+    .back-btn:hover { background: #bfdbfe; }
+
+    /* ===== HERO CARD ===== */
+    .hero-card {
+      width: 100%;
+      max-width: 960px;
+      border-radius: 16px;
+      overflow: hidden;
+      position: relative;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.18);
+      margin-bottom: 2rem;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0nLlN3zPbzDUNeicj_DZnJDHmvg_u2vhsDA&s");
+      background-size: cover;
+      background-position: center;
+      filter: brightness(0.4);
+      z-index: 0;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      padding: 2rem;
+    }
+
+    .hero-logo {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      flex-shrink: 0;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+
+    .hero-logo img {
+      width: 85%;
+      height: 85%;
+      object-fit: contain;
+    }
+
+    .hero-info h1 { color: whitesmoke; font-size: 1.6rem; font-weight: 700; margin-bottom: .3rem; }
+    .hero-info p  { color: #919aab; font-size: .9rem; margin-bottom: .5rem; }
+    .hero-tags    { display: flex; flex-wrap: wrap; gap: .5rem; }
+
+    /* ===== TAGS / BADGES ===== */
+    .tag {
+      padding: .25rem .75rem;
+      border-radius: 20px;
+      font-size: .78rem;
+      font-weight: 500;
+    }
+    .tag-blue   { background: #dbeafe; color: #1e40af; }
+    .tag-green  { background: #dcfce7; color: #166534; }
+    .tag-amber  { background: #fef3c7; color: #92400e; }
+    .tag-purple { background: #ede9fe; color: #5b21b6; }
+
+    /* ===== SECTION WRAPPER ===== */
+    .section-wrap  { width: 100%; max-width: 960px; margin-bottom: 2rem; }
+    .section-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 1rem; padding-left: .25rem; color: #111827; }
+
+    /* ===== STATS GRID ===== */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 1rem;
+    }
+    .stat-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 1.1rem 1rem;
+      text-align: center;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+    }
+    .stat-num   { font-size: 1.4rem; font-weight: 700; margin-bottom: .2rem; }
+    .stat-label { font-size: .78rem; color: #6b7280; }
+
+    .blue   { color: #2563eb; }
+    .green  { color: #16a34a; }
+    .amber  { color: #d97706; }
+    .purple { color: #7c3aed; }
+    .red    { color: #dc2626; }
+    .orange { color: #f97316; }
+
+    /* ===== HIGHLIGHT ROW ===== */
+    .highlight-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 1rem;
+    }
+    .highlight-box {
+      background: #fff;
+      border-radius: 12px;
+      padding: 1.2rem;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+      border-left: 4px solid;
+    }
+    .hl-blue   { border-color: #3b82f6; }
+    .hl-green  { border-color: #22c55e; }
+    .hl-amber  { border-color: #f59e0b; }
+    .hl-purple { border-color: #8b5cf6; }
+    .highlight-box h4 { font-size: .88rem; font-weight: 600; margin-bottom: .5rem; }
+    .highlight-box p  { font-size: .8rem; color: #6b7280; line-height: 1.5; }
+
+    /* ===== BRANCHES GRID ===== */
+    .branches-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+    }
+    .branch-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 1.2rem;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+    }
+    .branch-name { font-size: .92rem; font-weight: 600; margin-bottom: .6rem; color: #111827; }
+    .branch-row  { display: flex; justify-content: space-between; font-size: .8rem; margin-bottom: .3rem; }
+    .branch-row span:first-child { color: #6b7280; }
+    .branch-row span:last-child  { font-weight: 600; color: #1d4ed8; }
+    .branch-badge {
+      display: inline-block;
+      margin-top: .5rem;
+      padding: .2rem .6rem;
+      border-radius: 20px;
+      font-size: .72rem;
+      font-weight: 500;
+    }
+
+    /* ===== PLACEMENT BAR ===== */
+    .placement-bar {
+      background: #fff;
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+      margin-bottom: 1rem;
+    }
+    .bar-row { display: flex; align-items: center; gap: 1rem; margin-bottom: .9rem; }
+    .bar-row:last-child { margin-bottom: 0; }
+    .bar-label { font-size: .82rem; color: #4b5563; width: 120px; flex-shrink: 0; }
+    .bar-track { flex: 1; background: #f3f4f6; border-radius: 99px; height: 10px; overflow: hidden; }
+    .bar-fill  { height: 100%; border-radius: 99px; }
+    .bar-val   { font-size: .82rem; font-weight: 600; width: 80px; text-align: right; flex-shrink: 0; }
+
+    /* ===== INFO CARDS ===== */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+    .info-card { background: #fff; border-radius: 12px; padding: 1.2rem; box-shadow: 0 4px 14px rgba(0,0,0,0.08); }
+    .info-card h3 { font-size: .85rem; font-weight: 600; margin-bottom: .8rem; color: #374151; }
+    .info-card ul { list-style: none; }
+    .info-card ul li {
+      font-size: .82rem;
+      color: #4b5563;
+      padding: .3rem 0;
+      border-bottom: .5px solid #f3f4f6;
+      display: flex;
+      align-items: center;
+      gap: .4rem;
+    }
+    .info-card ul li:last-child { border-bottom: none; }
+
+    .dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+    .dot-blue   { background: #3b82f6; }
+    .dot-green  { background: #22c55e; }
+    .dot-amber  { background: #f59e0b; }
+    .dot-purple { background: #8b5cf6; }
+    .dot-red    { background: #ef4444; }
+
+    /* ===== COMPANIES ===== */
+    .companies-flex { display: flex; flex-wrap: wrap; gap: .75rem; }
+    .company-pill {
+      padding: .5rem 1rem;
+      border-radius: 20px;
+      font-size: .82rem;
+      font-weight: 500;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    /* ===== CAMPUS GRID ===== */
+    .campus-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+    .campus-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 1.2rem;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+      text-align: center;
+    }
+    .campus-icon { font-size: 1.6rem; margin-bottom: .6rem; }
+    .campus-card h4 { font-size: .88rem; font-weight: 600; margin-bottom: .4rem; }
+    .campus-card p  { font-size: .78rem; color: #6b7280; line-height: 1.5; }
+
+    @media (max-width: 600px) {
+      .hero-card { flex-direction: column; align-items: flex-start; }
+      .page { padding: 1.2rem 4vw; }
+    }
+
+  </style>
+</head>
+<body>
+
+<main class="page">
+
+  <a href="../Main_colleges/nit.html" class="back-btn">← Back to All NITs</a>
+
+  <div class="hero-card">
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <div class="hero-logo">
+        <img src="https://upload.wikimedia.org/wikipedia/en/e/e6/NIT_Goa_logo.png" alt="NIT Goa Logo">
+      </div>
+      <div class="hero-info">
+        <h1>NIT Goa</h1>
+        <p>National Institute of Technology Goa &nbsp;|&nbsp; Cuncolim, South Goa</p>
+        <div class="hero-tags">
+          <span class="tag tag-blue">Established 2010</span>
+          <span class="tag tag-green">NIRF #101-150 Band</span>
+          <span class="tag tag-amber">Permanent Campus Opened 2024</span>
+          <span class="tag tag-purple">Institute of National Importance</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-wrap">
+    <div class="section-title">Quick Overview</div>
+    <div class="stats-grid">
+      <div class="stat-card"><div class="stat-num blue">~1,500</div><div class="stat-label">Total Students</div></div>
+      <div class="stat-card"><div class="stat-num green">80+</div><div class="stat-label">Faculty Members</div></div>
+      <div class="stat-card"><div class="stat-num amber">114 acres</div><div class="stat-label">Campus Area</div></div>
+      <div class="stat-card"><div class="stat-num purple">5</div><div class="stat-label">B.Tech Programs</div></div>
+      <div class="stat-card"><div class="stat-num red">₹35.0 LPA</div><div class="stat-label">Highest Package</div></div>
+      <div class="stat-card"><div class="stat-num blue">87%</div><div class="stat-label">Placement Rate</div></div>
+    </div>
+  </div>
+
+  <div class="section-wrap">
+    <div class="section-title">About NIT Goa</div>
+    <div class="highlight-row">
+      <div class="highlight-box hl-blue">
+        <h4>New Permanent Campus</h4>
+        <p>Originally operating from Farmagudi, NIT Goa moved to its permanent 114-acre campus at Cuncolim, South Goa, inaugurated in early 2024.</p>
+      </div>
+      <div class="highlight-box hl-green">
+        <h4>Focused Academic Environment</h4>
+        <p>With a smaller student-to-faculty ratio than older NITs, it offers personalized mentorship and a tight-knit community feel.</p>
+      </div>
+      <div class="highlight-box hl-amber">
+        <h4>Strategic Tech Growth</h4>
+        <p>Fast emerging as a research hub in the Konkan region, with state-of-the-art labs for VLSI, Power Systems, and Data Science.</p>
+      </div>
+      <div class="highlight-box hl-purple">
+        <h4>Goan Lifestyle</h4>
+        <p>Located near the scenic coast, students enjoy a unique blend of high-level academics and a culturally rich, vibrant environment.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-wrap">
+    <div class="section-title">Branches & Programs (2025-26)</div>
+    <div class="branches-grid">
+
+      <div class="branch-card">
+        <div class="branch-name">Computer Science & Engineering</div>
+        <div class="branch-row"><span>JEE Cutoff (OS-GEN)</span><span>Rank 11k - 13k</span></div>
+        <div class="branch-row"><span>Avg Package</span><span>₹9.95 LPA</span></div>
+        <div class="branch-row"><span>Seats</span><span>45</span></div>
+        <span class="branch-badge tag-blue">Premier Branch</span>
+      </div>
+
+      <div class="branch-card">
+        <div class="branch-name">Electronics & Communication Engg</div>
+        <div class="branch-row"><span>JEE Cutoff (OS-GEN)</span><span>Rank 15k - 18k</span></div>
+        <div class="branch-row"><span>Avg Package</span><span>₹8.50 LPA</span></div>
+        <div class="branch-row"><span>Seats</span><span>45</span></div>
+        <span class="branch-badge tag-green">Highly Ranked</span>
+      </div>
+
+      <div class="branch-card">
+        <div class="branch-name">Electrical & Electronics Engg</div>
+        <div class="branch-row"><span>JEE Cutoff (OS-GEN)</span><span>Rank 21k - 24k</span></div>
+        <div class="branch-row"><span>Avg Package</span><span>₹7.56 LPA</span></div>
+        <div class="branch-row"><span>Seats</span><span>45</span></div>
+        <span class="branch-badge tag-amber">Core Strength</span>
+      </div>
+
+      <div class="branch-card">
+        <div class="branch-name">Mechanical Engineering</div>
+        <div class="branch-row"><span>JEE Cutoff (OS-GEN)</span><span>Rank 28k - 33k</span></div>
+        <div class="branch-row"><span>Avg Package</span><span>₹6.63 LPA</span></div>
+        <div class="branch-row"><span>Seats</span><span>45</span></div>
+        <span class="branch-badge tag-amber">Versatile</span>
+      </div>
+
+      <div class="branch-card">
+        <div class="branch-name">Civil Engineering</div>
+        <div class="branch-row"><span>JEE Cutoff (OS-GEN)</span><span>Rank 35k - 46k</span></div>
+        <div class="branch-row"><span>Avg Package</span><span>₹5.83 LPA</span></div>
+        <div class="branch-row"><span>Seats</span><span>45</span></div>
+        <span class="branch-badge tag-green">Fundamental</span>
+      </div>
+
+    </div>
+  </div>
+
+  <
+  <div class="section-wrap">
+    <div class="section-title">JEE Mains Cutoffs (2025, General Category — Percentile)</div>
+    <div class="placement-bar">
+      <div class="bar-row">
+        <span class="bar-label">CSE</span>
+        <div class="bar-track"><div class="bar-fill" style="width:99.5%;background:#3b82f6"></div></div>
+        <span class="bar-val blue">99.5 %ile</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-label">IT</span>
+        <div class="bar-track"><div class="bar-fill" style="width:96%;background:#22c55e"></div></div>
+        <span class="bar-val green">99.0 %ile</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-label">ECE</span>
+        <div class="bar-track"><div class="bar-fill" style="width:91%;background:#f59e0b"></div></div>
+        <span class="bar-val amber">98.2 %ile</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-label">Electrical</span>
+        <div class="bar-track"><div class="bar-fill" style="width:84%;background:#8b5cf6"></div></div>
+        <span class="bar-val purple">97.5 %ile</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-label">Mechanical</span>
+        <div class="bar-track"><div class="bar-fill" style="width:78%;background:#f97316"></div></div>
+        <span class="bar-val orange">96.5 %ile</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-label">Chemical</span>
+        <div class="bar-track"><div class="bar-fill" style="width:68%;background:#7c3aed"></div></div>
+        <span class="bar-val purple">95.0%ile</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-label">Civil</span>
+        <div class="bar-track"><div class="bar-fill" style="width:60%;background:#16a34a"></div></div>
+        <span class="bar-val green">94.0 %ile</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-label">Mining</span>
+        <div class="bar-track"><div class="bar-fill" style="width:48%;background:#dc2626"></div></div>
+        <span class="bar-val red">91.5 %ile</span>
+      </div>
+    </div>
+    <p style="font-size:.75rem;color:#9ca3af;padding-left:.25rem;margin-top:.5rem">
+      * Closing ranks for Other State quota. Percentiles are indicative based on historical trends.
+    </p>
+  </div>
+
+
+  <div class="section-wrap">
+    <div class="section-title">Placements 2025 Overview</div>
+    <div class="cards-grid">
+      <div class="info-card">
+        <h3>Key Metrics</h3>
+        <ul>
+          <li><span class="dot dot-blue"></span>Highest Package: ₹35 LPA</li>
+          <li><span class="dot dot-green"></span>Average Package: ₹9.0 LPA</li>
+          <li><span class="dot dot-amber"></span>Lowest Package: ₹3 LPA</li>
+          <li><span class="dot dot-purple"></span>Total Recruiters: 100+</li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <h3>M.Tech Stats</h3>
+        <ul>
+          <li><span class="dot dot-blue"></span>Highest (M.Tech): ₹22.8 LPA</li>
+          <li><span class="dot dot-green"></span>Avg (M.Tech ECE): ₹20.3 LPA</li>
+          <li><span class="dot dot-amber"></span>Avg (M.Tech CSE): ₹16.3 LPA</li>
+          <li><span class="dot dot-purple"></span>Placement rate: 91%</li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <h3>Recruiter Highlights</h3>
+        <ul>
+          <li><span class="dot dot-green"></span>Amazon & Microsoft</li>
+          <li><span class="dot dot-blue"></span>Samsung & Oracle</li>
+          <li><span class="dot dot-amber"></span>Qualcomm & Intel</li>
+          <li><span class="dot dot-red"></span>Goldman Sachs</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-wrap">
+    <div class="section-title">Top Recruiting Companies</div>
+    <div class="companies-flex">
+      <span class="company-pill" style="background:#dbeafe;color:#1e40af">Amazon</span>
+      <span class="company-pill" style="background:#dcfce7;color:#166534">Microsoft</span>
+      <span class="company-pill" style="background:#fef3c7;color:#92400e">Samsung</span>
+      <span class="company-pill" style="background:#ede9fe;color:#5b21b6">Oracle</span>
+      <span class="company-pill" style="background:#cffafe;color:#155e75">Goldman Sachs</span>
+      <span class="company-pill" style="background:#fbcfe8;color:#9d174d">L&T</span>
+      <span class="company-pill" style="background:#fde68a;color:#78350f">TCS</span>
+      <span class="company-pill" style="background:#bfdbfe;color:#1e3a8a">Infosys</span>
+      <span class="company-pill" style="background:#bbf7d0;color:#14532d">Qualcomm</span>
+      <span class="company-pill" style="background:#ddd6fe;color:#4c1d95">CGI</span>
+    </div>
+  </div>
+
+  <div class="section-wrap">
+    <div class="section-title">Campus Life & Facilities</div>
+    <div class="campus-grid">
+      <div class="campus-card">
+        <div class="campus-icon">🏠</div>
+        <h4>New Residences</h4>
+        <p>Modern, individual room hostels for over 1,100 students near the library and academic blocks.</p>
+      </div>
+      <div class="campus-card">
+        <div class="campus-icon">🎭</div>
+        <h4>Saavyas</h4>
+        <p>The flagship techno-cultural fest of NIT Goa, known for bringing diverse talent to the Konkan coast.</p>
+      </div>
+      <div class="campus-card">
+        <div class="campus-icon">⚙️</div>
+        <h4>Technival</h4>
+        <p>The annual technical festival featuring robotics, coding hackathons, and innovative satellite workshops.</p>
+      </div>
+      <div class="campus-card">
+        <div class="campus-icon">🏟️</div>
+        <h4>Sports Arena</h4>
+        <p>Extensive grounds for cricket, football, and indoor facilities for badminton and table tennis.</p>
+      </div>
+      <div class="campus-card">
+        <div class="campus-icon">👨‍💻</div>
+        <h4>Club Culture</h4>
+        <p>Vibrant clubs like SPECTRA (Technical), TESLA (EEE), and the Drama Society drive student engagement.</p>
+      </div>
+      <div class="campus-card">
+        <div class="campus-icon">✈️</div>
+        <h4>Connectivity</h4>
+        <p>Just 38 km from Goa International Airport and 24 km from Madgaon Junction railway station.</p>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="section-wrap">
+    <div class="section-title">Notable Alumni & Achievers</div>
+    <div class="cards-grid">
+      
+      <div class="info-card" style="border-top: 4px solid #f97316;">
+        <h3 style="color:#c2410c;">Global Tech Engineers</h3>
+        <p style="font-size: 0.82rem; color: #6b7280; margin-bottom: 0.5rem;">Microsoft, Amazon, Google</p>
+        <p style="font-size: 0.78rem; line-height: 1.4;">Despite being a newer NIT, alumni from early batches are now working as Senior SDEs and Product Managers in top-tier FAANG companies globally.</p>
+      </div>
+
+      <div class="info-card" style="border-top: 4px solid #f97316;">
+        <h3 style="color:#c2410c;">Research Scholars</h3>
+        <p style="font-size: 0.82rem; color: #6b7280; margin-bottom: 0.5rem;">International Universities</p>
+        <p style="font-size: 0.78rem; line-height: 1.4;">Many graduates have secured fully-funded PhD positions in prestigious institutions like NTU Singapore, Texas A&M, and various IITs.</p>
+      </div>
+
+      <div class="info-card" style="border-top: 4px solid #f97316;">
+        <h3 style="color:#c2410c;">Public Sector Leaders</h3>
+        <p style="font-size: 0.82rem; color: #6b7280; margin-bottom: 0.5rem;">PSU & Government Services</p>
+        <p style="font-size: 0.78rem; line-height: 1.4;">Alumni have successfully cleared UPSC ESE and are serving in prominent positions at IOCL, BPCL, and Power Grid Corporation.</p>
+      </div>
+
+      <div class="info-card" style="border-top: 4px solid #f97316;">
+        <h3 style="color:#c2410c;">Entrepreneurial Talent</h3>
+        <p style="font-size: 0.82rem; color: #6b7280; margin-bottom: 0.5rem;">Startup Founders</p>
+        <p style="font-size: 0.78rem; line-height: 1.4;">A rising number of NITGians are venturing into the startup ecosystem, particularly in the fields of AI, FinTech, and sustainable energy.</p>
+      </div>
+
+      <div class="info-card" style="border-top: 4px solid #f97316;">
+        <h3 style="color:#c2410c;">Data Science Experts</h3>
+        <p style="font-size: 0.82rem; color: #6b7280; margin-bottom: 0.5rem;">Analytics & ML</p>
+        <p style="font-size: 0.78rem; line-height: 1.4;">Alumni are leading data-driven decision-making roles in firms like J.P. Morgan, Goldman Sachs, and ZS Associates.</p>
+      </div>
+
+      <div class="info-card" style="border-top: 4px solid #f97316;">
+        <h3 style="color:#c2410c;">Core Engineering Stars</h3>
+        <p style="font-size: 0.82rem; color: #6b7280; margin-bottom: 0.5rem;">L&T, Tata Motors, Siemens</p>
+        <p style="font-size: 0.78rem; line-height: 1.4;">Graduates from EEE and ECE branches are making significant contributions to India's core infrastructure and semiconductor industries.</p>
+      </div>
+
+    </div>
+  </div>
+
+  <footer style="max-width: 960px; width: 100%; margin: 4rem auto 2rem; position: relative; overflow: hidden; border-radius: 30px; box-shadow: 0 15px 40px rgba(0,0,0,0.3); color: #fff;">
+    <div style="position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(15, 23, 42, 0.45), rgba(15, 23, 42, 0.75)), url('https://www.nitgoa.ac.in/static/img1.jpeg') center/cover no-repeat; filter: saturate(1.2); z-index: -1;"></div>
+    <div style="padding: 4rem 2.5rem 1.5rem; text-shadow: 0 2px 8px rgba(0,0,0,0.9);">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 3rem; border-bottom: 1px solid rgba(255,255,255,0.4); padding-bottom: 2.5rem;">
+        <div>
+          <h4 style="color: #fbbf24; margin-bottom: 1rem; font-size: 1.5rem;">Innovation in Paradise</h4>
+          <p style="font-size: 1rem; line-height: 1.7;">NIT Goa is building a legacy of <span style="color: #fbbf24; font-weight: 800;">technical excellence</span> in one of India's most iconic landscapes.</p>
+        </div>
+        <div>
+          <h4 style="color: #fbbf24; margin-bottom: 1.2rem; font-size: 1.1rem;">Quick Links</h4>
+          <ul style="list-style: none; font-size: 0.95rem; line-height: 2.2;">
+            <li>🏠 Home - College Knowledge</li>
+            <li>📚 Faculty Directory</li>
+          </ul>
+        </div>
+      </div>
+      <p style="text-align: center; padding-top: 1.8rem; font-size: 0.9rem;">© 2026 College Knowledge | Developed by <b style="color: #fbbf24;">Aman Kumar</b></p>
+    </div>
+  </footer>
+
+</main>
+</body>
+</html>
