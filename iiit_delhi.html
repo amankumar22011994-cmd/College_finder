@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>IIIT Delhi - College Detail</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: linear-gradient(135deg, #f1f5f9, #e2e8f0); color: #111827; font-family: sans-serif; min-height: 100vh; }
+    .page { padding: 2rem 6vw; display: flex; flex-direction: column; align-items: center; }
+    .back-btn { align-self: flex-start; margin-bottom: 1.5rem; padding: .5rem 1rem; background: #dbeafe; border: none; border-radius: 8px; font-size: .9rem; font-weight: 500; cursor: pointer; color: #1e40af; text-decoration: none; display: inline-block; transition: 0.2s; }
+    .back-btn:hover { background: #bfdbfe; }
+    .hero-card { width: 100%; max-width: 960px; border-radius: 16px; overflow: hidden; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.18); margin-bottom: 2rem; }
+    .hero-bg { position: absolute; inset: 0; background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDOPpI5Jmzp6FzTugpRnWngHswOB-dnXF2Lw&s"); background-size: cover; background-position: center; filter: brightness(0.4); z-index: 0; }
+    .hero-content { position: relative; z-index: 1; display: flex; align-items: center; gap: 20px; padding: 2rem; }
+    .hero-logo { width: 72px; height: 72px; border-radius: 50%; background: white; display: flex; align-items: center; justify-content: center; overflow: hidden; flex-shrink: 0; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+    .hero-logo img { width: 80%; height: 80%; object-fit: contain; }
+    .hero-info h1 { color: whitesmoke; font-size: 1.6rem; font-weight: 700; margin-bottom: .3rem; }
+    .hero-info p { color: #919aab; font-size: .9rem; margin-bottom: .5rem; }
+    .hero-tags { display: flex; flex-wrap: wrap; gap: .5rem; }
+    .tag { padding: .25rem .75rem; border-radius: 20px; font-size: .78rem; font-weight: 500; }
+    .tag-blue { background: #dbeafe; color: #1e40af; } .tag-green { background: #dcfce7; color: #166534; } .tag-amber { background: #fef3c7; color: #92400e; } .tag-purple { background: #ede9fe; color: #5b21b6; }
+    .section-wrap { width: 100%; max-width: 960px; margin-bottom: 2rem; }
+    .section-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 1rem; padding-left: .25rem; color: #111827; }
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1rem; }
+    .stat-card { background: #fff; border-radius: 12px; padding: 1.1rem 1rem; text-align: center; box-shadow: 0 4px 14px rgba(0,0,0,0.08); }
+    .stat-num { font-size: 1.4rem; font-weight: 700; margin-bottom: .2rem; }
+    .stat-label { font-size: .78rem; color: #6b7280; }
+    .blue { color: #2563eb; } .green { color: #16a34a; } .amber { color: #d97706; } .purple { color: #7c3aed; } .red { color: #dc2626; } .orange { color: #f97316; }
+    .highlight-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 1rem; }
+    .highlight-box { background: #fff; border-radius: 12px; padding: 1.2rem; box-shadow: 0 4px 14px rgba(0,0,0,0.08); border-left: 4px solid; }
+    .hl-blue { border-color: #3b82f6; } .hl-green { border-color: #22c55e; } .hl-amber { border-color: #f59e0b; } .hl-purple { border-color: #8b5cf6; }
+    .highlight-box h4 { font-size: .88rem; font-weight: 600; margin-bottom: .5rem; }
+    .highlight-box p { font-size: .8rem; color: #6b7280; line-height: 1.5; }
+    .branches-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; }
+    .branch-card { background: #fff; border-radius: 12px; padding: 1.2rem; box-shadow: 0 4px 14px rgba(0,0,0,0.08); }
+    .branch-name { font-size: .92rem; font-weight: 600; margin-bottom: .6rem; color: #111827; }
+    .branch-row { display: flex; justify-content: space-between; font-size: .8rem; margin-bottom: .3rem; }
+    .branch-row span:first-child { color: #6b7280; } .branch-row span:last-child { font-weight: 600; color: #1d4ed8; }
+    .branch-badge { display: inline-block; margin-top: .5rem; padding: .2rem .6rem; border-radius: 20px; font-size: .72rem; font-weight: 500; }
+    .placement-bar { background: #fff; border-radius: 12px; padding: 1.5rem; box-shadow: 0 4px 14px rgba(0,0,0,0.08); margin-bottom: 1rem; }
+    .bar-row { display: flex; align-items: center; gap: 1rem; margin-bottom: .9rem; }
+    .bar-row:last-child { margin-bottom: 0; }
+    .bar-label { font-size: .82rem; color: #4b5563; width: 120px; flex-shrink: 0; }
+    .bar-track { flex: 1; background: #f3f4f6; border-radius: 99px; height: 10px; overflow: hidden; }
+    .bar-fill { height: 100%; border-radius: 99px; }
+    .bar-val { font-size: .82rem; font-weight: 600; width: 80px; text-align: right; flex-shrink: 0; }
+    .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }
+    .info-card { background: #fff; border-radius: 12px; padding: 1.2rem; box-shadow: 0 4px 14px rgba(0,0,0,0.08); }
+    .info-card h3 { font-size: .85rem; font-weight: 600; margin-bottom: .8rem; color: #374151; }
+    .info-card ul { list-style: none; }
+    .info-card ul li { font-size: .82rem; color: #4b5563; padding: .3rem 0; border-bottom: .5px solid #f3f4f6; display: flex; align-items: center; gap: .4rem; }
+    .info-card ul li:last-child { border-bottom: none; }
+    .dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+    .dot-blue { background: #3b82f6; } .dot-green { background: #22c55e; } .dot-amber { background: #f59e0b; } .dot-purple { background: #8b5cf6; } .dot-red { background: #ef4444; } .dot-pink { background: #ec4899; }
+    .companies-flex { display: flex; flex-wrap: wrap; gap: .75rem; }
+    .company-pill { padding: .5rem 1rem; border-radius: 20px; font-size: .82rem; font-weight: 500; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+    .campus-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }
+    .campus-card { background: #fff; border-radius: 12px; padding: 1.2rem; box-shadow: 0 4px 14px rgba(0,0,0,0.08); text-align: center; }
+    .campus-icon { font-size: 1.6rem; margin-bottom: .6rem; }
+    .campus-card h4 { font-size: .88rem; font-weight: 600; margin-bottom: .4rem; }
+    .campus-card p { font-size: .78rem; color: #6b7280; line-height: 1.5; }
+    @media (max-width: 600px) { .hero-card { flex-direction: column; } .page { padding: 1.2rem 4vw; } }
+  </style>
+</head>
+<body>
+<main class="page">
+
+  <a href="../Main_colleges/iiit.html" class="back-btn">← Back to All IIITs</a>
+
+  <div class="hero-card">
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <div class="hero-logo">
+        <img src="https://www.iiitd.ac.in/sites/default/files/images/graphicidentity/logo.jpg" alt="IIIT Delhi">
+      </div>
+      <div class="hero-info">
+        <h1>IIIT Delhi</h1>
+        <p>Indraprastha Institute of Information Technology Delhi &nbsp;|&nbsp; Okhla Phase III, New Delhi</p>
+        <div class="hero-tags">
+          <span class="tag tag-blue">Established 2008</span>
+          <span class="tag tag-green">NIRF Rank ~60</span>
+          <span class="tag tag-amber">State Govt. Institute</span>
+          <span class="tag tag-purple">Research University</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-wrap">
+    <div class="section-title">Quick Overview</div>
+    <div class="stats-grid">
+      <div class="stat-card"><div class="stat-num blue">~3,000</div><div class="stat-label">Total Students</div></div>
+      <div class="stat-card"><div class="stat-num green">130+</div><div class="stat-label">Faculty Members</div></div>
+      <div class="stat-card"><div class="stat-num amber">25 acres</div><div class="stat-label">Campus Area</div></div>
+      <div class="stat-card"><div class="stat-num purple">7</div><div class="stat-label">Departments</div></div>
+      <div class="stat-card"><div class="stat-num red">₹1.05 Cr</div><div class="stat-label">Highest Package</div></div>
+      <div class="stat-card"><div class="stat-num blue">88%</div><div class="stat-label">Placement Rate</div></div>
+    </div>
+  </div>
+
+  <div class="section-wrap">
+    <div class="section-title">About IIIT Delhi</div>
+    <div class="highlight-row">
+      <div class="highlight-box hl-blue">
+        <h4>Legacy & Prestige</h4>
+        <p>Established in 2008 by the Delhi Government. One of the fastest-growing IIITs in India — recognized as a State University. Rapidly climbing NIRF rankings with a strong research mandate.</p>
+      </div>
+      <div class="highlight-box hl-green">
+        <h4>Research & Innovation</h4>
+        <p>Strong research labs in AI, cybersecurity, bioinformatics, and HCI. 400+ research publications and multiple industry-funded projects. Faculty with top global university PhDs (MIT, CMU, Stanford).</p>
+      </div>
+      <div class="highlight-box hl-amber">
+        <h4>Delhi Advantage</h4>
+        <p>Located in Okhla, Delhi — easy access to the entire Delhi-NCR tech corridor including Noida and Gurugram. Best location advantage for internships, networking, and career growth.</p>
+      </div>
+      <div class="highlight-box hl-purple">
+        <h4>Global Collaborations</h4>
+        <p>Active exchanges and research partnerships with UMass Amherst, KTH Sweden, Nanyang Tech, and IIT Delhi. Students receive strong support for MS/PhD applications abroad.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-wrap">
+    <div class="section-title">Branches & Programs</div>
+    <div class="branches-grid">
+      <div class="branch-card">
+        <div class="branch-name">Computer Science & Engineering</div>
+        <div class="branch-row"><span>JEE Mains Cutoff (GEN)</span><span>98.5–99.2 %ile</span></div>
+        <div class="branch-row"><span>Avg Package</span><span>₹20–28 LPA</span></div>
+        <div class="branch-row"><span>Seats (B.Tech)</span><span>150</span></div>
+        <span class="branch-badge tag-blue">Top Branch</span>
+      </div>
+      <div class="branch-card">
+        <div class="branch-name">Electronics & Communication Engg</div>
+        <div class="branch-row"><span>JEE Mains Cutoff (GEN)</span><span>97.0–98.5 %ile</span></div>
+        <div class="branch-row"><span>Avg Package</span><span>₹14–20 LPA</span></div>
+        <div class="branch-row"><span>Seats (B.Tech)</span><span>60</span></div>
+        <span class="branch-badge tag-green">High Demand</span>
+      </div>
+      <div class="branch-card">
+        <div class="branch-name">CSE with specialisation in AI</div>
+        <div class="branch-row"><span>JEE Mains Cutoff (GEN)</span><span>98.8–99.3 %ile</span></div>
+        <div class="branch-row"><span>Avg Package</span><span>₹22–30 LPA</span></div>
+        <div class="branch-row"><span>Seats</span><span>60</span></div>
+        <span class="branch-badge tag-purple">Emerging Spec.</span>
+      </div>
+      <div class="branch-card">
+        <div class="branch-name">CSE in Bioinformatics</div>
+        <div class="branch-row"><span>JEE Mains Cutoff (GEN)</span><span>95.0–97.0 %ile</span></div>
+        <div class="branch-row"><span>Avg Package</span><span>₹14–18 LPA</span></div>
+        <div class="branch-row"><span>Seats</span><span>30</span></div>
+        <span class="branch-badge tag-amber">Unique Offering</span>
+      </div>
+      <div class="branch-card">
+        <div class="branch-name">CSE in Social Sciences</div>
+        <div class="branch-row"><span>JEE Mains Cutoff (GEN)</span><span>94.0–96.0 %ile</span></div>
+        <div class="branch-row"><span>Avg Package</span><span>₹12–16 LPA</span></div>
+        <div class="branch-row"><span>Seats</span><span>30</span></div>
+        <span class="branch-badge tag-amber">Interdisciplinary</span>
+      </div>
+      <div class="branch-card">
+        <div class="branch-name">Mathematics & Computing</div>
+        <div class="branch-row"><span>JEE Mains Cutoff (GEN)</span><span>96.5–98.0 %ile</span></div>
+        <div class="branch-row"><span>Avg Package</span><span>₹18–24 LPA</span></div>
+        <div class="branch-row"><span>Seats</span><span>40</span></div>
+        <span class="branch-badge tag-purple">Analytical Track</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-wrap">
+    <div class="section-title">JEE Mains Cutoffs (2025, General Category — Percentile)</div>
+    <div class="placement-bar">
+      <div class="bar-row"><span class="bar-label">CSE (AI)</span><div class="bar-track"><div class="bar-fill" style="width:99%;background:#3b82f6"></div></div><span class="bar-val blue">99.3 %ile</span></div>
+      <div class="bar-row"><span class="bar-label">CSE</span><div class="bar-track"><div class="bar-fill" style="width:96%;background:#8b5cf6"></div></div><span class="bar-val purple">99.2 %ile</span></div>
+      <div class="bar-row"><span class="bar-label">Math & Computing</span><div class="bar-track"><div class="bar-fill" style="width:88%;background:#22c55e"></div></div><span class="bar-val green">98.0 %ile</span></div>
+      <div class="bar-row"><span class="bar-label">ECE</span><div class="bar-track"><div class="bar-fill" style="width:80%;background:#f59e0b"></div></div><span class="bar-val amber">98.5 %ile</span></div>
+      <div class="bar-row"><span class="bar-label">CSE Bioinformatics</span><div class="bar-track"><div class="bar-fill" style="width:62%;background:#7c3aed"></div></div><span class="bar-val purple">97.0 %ile</span></div>
+      <div class="bar-row"><span class="bar-label">CSE Soc Sciences</span><div class="bar-track"><div class="bar-fill" style="width:50%;background:#f97316"></div></div><span class="bar-val orange">96.0 %ile</span></div>
+    </div>
+    <p style="font-size:.75rem;color:#9ca3af;padding-left:.25rem;margin-top:.5rem">* Higher percentile = more competitive. Based on JoSAA 2025 data.</p>
+  </div>
+
+  <div class="section-wrap">
+    <div class="section-title">Placements 2025</div>
+    <div class="cards-grid">
+      <div class="info-card">
+        <h3>Package Summary</h3>
+        <ul>
+          <li><span class="dot dot-blue"></span>Highest CTC: ₹1.05 Cr (International)</li>
+          <li><span class="dot dot-green"></span>Highest Domestic: ₹72 LPA</li>
+          <li><span class="dot dot-amber"></span>Average Package: ₹20 LPA</li>
+          <li><span class="dot dot-purple"></span>Median Package: ₹16 LPA</li>
+          <li><span class="dot dot-blue"></span>CSE Average: ₹25 LPA</li>
+          <li><span class="dot dot-red"></span>Total Offers: 600+</li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <h3>Sector-wise Hiring</h3>
+        <ul>
+          <li><span class="dot dot-blue"></span>Tech & Software: 62%</li>
+          <li><span class="dot dot-green"></span>Research & AI: 15%</li>
+          <li><span class="dot dot-amber"></span>Finance & Consulting: 15%</li>
+          <li><span class="dot dot-purple"></span>Higher Studies: 8%</li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <h3>Key Stats</h3>
+        <ul>
+          <li><span class="dot dot-green"></span>Placement Rate: 88%+</li>
+          <li><span class="dot dot-blue"></span>Companies Visited: 180+</li>
+          <li><span class="dot dot-amber"></span>PPOs: 28%</li>
+          <li><span class="dot dot-red"></span>International Offers: 30+</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-wrap">
+    <div class="section-title">Top Recruiting Companies</div>
+    <div class="companies-flex">
+      <span class="company-pill" style="background:#dbeafe;color:#1e40af">Google</span>
+      <span class="company-pill" style="background:#dcfce7;color:#166534">Microsoft</span>
+      <span class="company-pill" style="background:#fef3c7;color:#92400e">Amazon</span>
+      <span class="company-pill" style="background:#ede9fe;color:#5b21b6">Adobe</span>
+      <span class="company-pill" style="background:#cffafe;color:#155e75">Samsung R&D</span>
+      <span class="company-pill" style="background:#fbcfe8;color:#9d174d">Zomato</span>
+      <span class="company-pill" style="background:#fde68a;color:#78350f">Paytm</span>
+      <span class="company-pill" style="background:#bfdbfe;color:#1e3a8a">Goldman Sachs</span>
+      <span class="company-pill" style="background:#bbf7d0;color:#14532d">Uber</span>
+      <span class="company-pill" style="background:#ddd6fe;color:#4c1d95">Nvidia</span>
+      <span class="company-pill" style="background:#fca5a5;color:#7f1d1d">Qualcomm</span>
+      <span class="company-pill" style="background:#a5f3fc;color:#164e63">Atlassian</span>
+      <span class="company-pill" style="background:#c4b5fd;color:#3b0764">Flipkart</span>
+      <span class="company-pill" style="background:#6ee7b7;color:#065f46">D.E. Shaw</span>
+      <span class="company-pill" style="background:#93c5fd;color:#1e3a8a">Tower Research</span>
+    </div>
+  </div>
+
+  <div class="section-wrap">
+    <div class="section-title">Campus Life</div>
+    <div class="campus-grid">
+      <div class="campus-card"><div class="campus-icon">🏠</div><h4>Hostels</h4><p>On-campus hostels for boys and girls. Well-maintained facilities with Wi-Fi, mess, gym access and 24/7 security.</p></div>
+      <div class="campus-card"><div class="campus-icon">🎭</div><h4>Odyssey</h4><p>IIIT Delhi's annual cultural fest featuring live music, dance, drama, debates and celebrity performances.</p></div>
+      <div class="campus-card"><div class="campus-icon">⚙️</div><h4>Esya</h4><p>Annual technical fest with hackathons, competitive programming, robotics and talks by industry leaders from Delhi-NCR.</p></div>
+      <div class="campus-card"><div class="campus-icon">🏙️</div><h4>Delhi-NCR Location</h4><p>Okhla, New Delhi location — access to entire NCR tech corridor. Noida & Gurugram MNCs within 30 mins. Metro-connected campus.</p></div>
+      <div class="campus-card"><div class="campus-icon">🍽️</div><h4>Dining</h4><p>Two mess facilities with rotating menus. Multiple canteens and a food court. Easy access to Okhla's diverse restaurant scene.</p></div>
+      <div class="campus-card"><div class="campus-icon">📚</div><h4>Central Library</h4><p>Modern library with digital access to IEEE, ACM, Elsevier. Dedicated research reading rooms and group study spaces.</p></div>
+      <div class="campus-card"><div class="campus-icon">🏸</div><h4>Sports Facilities</h4><p>Basketball, badminton, volleyball courts, cricket nets, table tennis, and a fully equipped gymnasium on campus.</p></div>
+      <div class="campus-card"><div class="campus-icon">🚀</div><h4>Student Clubs</h4><p>40+ clubs — Byld (coding), Nexus (robotics), Pixels (photography), Vaad (debate), NSS, and an active Student Government.</p></div>
+    </div>
+  </div>
+
+  <div class="section-wrap">
+    <div class="section-title">Notable Alumni</div>
+    <div class="cards-grid">
+      <div class="info-card">
+        <h3>Tech & Business Leaders</h3>
+        <ul>
+          <li><span class="dot dot-blue"></span>Multiple SDE-III+ engineers at Google & Meta</li>
+          <li><span class="dot dot-blue"></span>Startup founders in Delhi-NCR ecosystem</li>
+          <li><span class="dot dot-blue"></span>Product managers at Amazon & Microsoft</li>
+          <li><span class="dot dot-blue"></span>Quant researchers at D.E. Shaw & Tower Research</li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <h3>Research & Academia</h3>
+        <ul>
+          <li><span class="dot dot-green"></span>PhD admits at UMass Amherst, KTH, NUS</li>
+          <li><span class="dot dot-green"></span>Published AI/ML researchers in top venues</li>
+          <li><span class="dot dot-green"></span>Cybersecurity researchers at global firms</li>
+          <li><span class="dot dot-green"></span>Faculty at IITs, NITs, and foreign universities</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <footer style="max-width: 960px; width: 100%; margin: 4rem auto 2rem; position: relative; overflow: hidden; border-radius: 30px; box-shadow: 0 15px 40px rgba(0,0,0,0.3); color: #fff;">
+    <div style="position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(15,23,42,0.45), rgba(15,23,42,0.75)), url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSlxiOkgUFumVWvnfMdGqzWMp51y9HpCgIijQ&s') center/cover no-repeat; filter: saturate(1.2); z-index: -1;"></div>
+    <div style="padding: 4rem 2.5rem 1.5rem; text-shadow: 0 2px 8px rgba(0,0,0,0.9);">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 3rem; border-bottom: 1px solid rgba(255,255,255,0.4); padding-bottom: 2.5rem;">
+        <div>
+          <h4 style="color: #fbbf24; margin-bottom: 1rem; font-size: 1.5rem;">Delhi's Tech Research Hub</h4>
+          <p style="font-size: 1rem; line-height: 1.7;">IIIT Delhi — shaping <span style="color: #fbbf24; font-weight: 800;">next-gen innovators</span> in the heart of India's capital.</p>
+        </div>
+        <div>
+          <h4 style="color: #fbbf24; margin-bottom: 1.2rem; font-size: 1.1rem;">Quick Links</h4>
+          <ul style="list-style: none; font-size: 0.95rem; line-height: 2.2;">
+            <li>🏠 Home - All IIITs</li>
+            <li>🔬 Research Labs</li>
+          </ul>
+        </div>
+      </div>
+      <p style="text-align: center; padding-top: 1.8rem; font-size: 0.9rem;">© 2026 College Knowledge | Developed by <b style="color: #fbbf24;">Aman Kumar</b></p>
+    </div>
+  </footer>
+
+</main>
+</body>
+</html>
