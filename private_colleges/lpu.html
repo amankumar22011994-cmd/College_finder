@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>LPU Phagwara - College Detail</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: linear-gradient(135deg, #f1f5f9, #e2e8f0); color: #111827; font-family: sans-serif; min-height: 100vh; }
+    .page { padding: 2rem 6vw; display: flex; flex-direction: column; align-items: center; }
+    .back-btn { align-self: flex-start; margin-bottom: 1.5rem; padding: .5rem 1rem; background: #ffedd5; border: none; border-radius: 8px; font-size: .9rem; font-weight: 500; cursor: pointer; color: #9a3412; text-decoration: none; display: inline-block; transition: 0.2s; }
+    .back-btn:hover { background: #fed7aa; }
+    .hero-card { width: 100%; max-width: 960px; border-radius: 16px; overflow: hidden; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.18); margin-bottom: 2rem; }
+    .hero-bg { position: absolute; inset: 0; background-image: url("https://res.cloudinary.com/purnesh/image/upload/f_auto,q_auto/v1660114008/lpu-campus.jpg"); background-size: cover; background-position: center; filter: brightness(0.4); z-index: 0; }
+    .hero-content { position: relative; z-index: 1; display: flex; align-items: center; gap: 20px; padding: 2rem; }
+    .hero-logo { width: 72px; height: 72px; border-radius: 50%; background: white; display: flex; align-items: center; justify-content: center; overflow: hidden; flex-shrink: 0; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+    .hero-logo img { width: 85%; height: 85%; object-fit: contain; }
+    .hero-info h1 { color: whitesmoke; font-size: 1.6rem; font-weight: 700; margin-bottom: .3rem; }
+    .hero-info p { color: #cbd5e1; font-size: .9rem; margin-bottom: .5rem; }
+    .hero-tags { display: flex; flex-wrap: wrap; gap: .5rem; }
+    .tag { padding: .25rem .75rem; border-radius: 20px; font-size: .78rem; font-weight: 500; }
+    .tag-blue { background: #dbeafe; color: #1e40af; } .tag-green { background: #dcfce7; color: #166534; } .tag-amber { background: #fef3c7; color: #92400e; } .tag-purple { background: #ede9fe; color: #5b21b6; }
+    .section-wrap { width: 100%; max-width: 960px; margin-bottom: 2rem; }
+    .section-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 1rem; padding-left: .25rem; color: #111827; }
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1rem; }
+    .stat-card { background: #fff; border-radius: 12px; padding: 1.1rem 1rem; text-align: center; box-shadow: 0 4px 14px rgba(0,0,0,0.08); }
+    .stat-num { font-size: 1.4rem; font-weight: 700; margin-bottom: .2rem; }
+    .stat-label { font-size: .78rem; color: #6b7280; }
+    .blue { color: #2563eb; } .green { color: #16a34a; } .amber { color: #d97706; } .purple { color: #7c3aed; } .red { color: #dc2626; } .orange { color: #f97316; }
+    .highlight-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 1rem; }
+    .highlight-box { background: #fff; border-radius: 12px; padding: 1.2rem; box-shadow: 0 4px 14px rgba(0,0,0,0.08); border-left: 4px solid; }
+    .hl-blue { border-color: #3b82f6; } .hl-green { border-color: #22c55e; } .hl-amber { border-color: #f59e0b; } .hl-purple { border-color: #8b5cf6; }
+    .highlight-box h4 { font-size: .88rem; font-weight: 600; margin-bottom: .5rem; }
+    .highlight-box p { font-size: .8rem; color: #6b7280; line-height: 1.5; }
+    .branches-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; }
+    .branch-card { background: #fff; border-radius: 12px; padding: 1.2rem; box-shadow: 0 4px 14px rgba(0,0,0,0.08); }
+    .branch-name { font-size: .92rem; font-weight: 600; margin-bottom: .6rem; color: #111827; }
+    .branch-row { display: flex; justify-content: space-between; font-size: .8rem; margin-bottom: .3rem; }
+    .branch-row span:first-child { color: #6b7280; } .branch-row span:last-child { font-weight: 600; color: #1d4ed8; }
+    .branch-badge { display: inline-block; margin-top: .5rem; padding: .2rem .6rem; border-radius: 20px; font-size: .72rem; font-weight: 500; }
+    .placement-bar { background: #fff; border-radius: 12px; padding: 1.5rem; box-shadow: 0 4px 14px rgba(0,0,0,0.08); margin-bottom: 1rem; }
+    .bar-row { display: flex; align-items: center; gap: 1rem; margin-bottom: .9rem; }
+    .bar-row:last-child { margin-bottom: 0; }
+    .bar-label { font-size: .82rem; color: #4b5563; width: 120px; flex-shrink: 0; }
+    .bar-track { flex: 1; background: #f3f4f6; border-radius: 99px; height: 10px; overflow: hidden; }
+    .bar-fill { height: 100%; border-radius: 99px; }
+    .bar-val { font-size: .82rem; font-weight: 600; width: 80px; text-align: right; flex-shrink: 0; }
+    .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }
+    .info-card { background: #fff; border-radius: 12px; padding: 1.2rem; box-shadow: 0 4px 14px rgba(0,0,0,0.08); }
+    .info-card h3 { font-size: .85rem; font-weight: 600; margin-bottom: .8rem; color: #374151; }
+    .info-card ul { list-style: none; }
+    .info-card ul li { font-size: .82rem; color: #4b5563; padding: .3rem 0; border-bottom: .5px solid #f3f4f6; display: flex; align-items: center; gap: .4rem; }
+    .info-card ul li:last-child { border-bottom: none; }
+    .dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+    .dot-blue { background: #3b82f6; } .dot-green { background: #22c55e; } .dot-amber { background: #f59e0b; } .dot-purple { background: #8b5cf6; } .dot-red { background: #ef4444; } .dot-pink { background: #ec4899; }
+    .companies-flex { display: flex; flex-wrap: wrap; gap: .75rem; }
+    .company-pill { padding: .5rem 1rem; border-radius: 20px; font-size: .82rem; font-weight: 500; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+    .campus-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }
+    .campus-card { background: #fff; border-radius: 12px; padding: 1.2rem; box-shadow: 0 4px 14px rgba(0,0,0,0.08); text-align: center; }
+    .campus-icon { font-size: 1.6rem; margin-bottom: .6rem; }
+    .campus-card h4 { font-size: .88rem; font-weight: 600; margin-bottom: .4rem; }
+    .campus-card p { font-size: .78rem; color: #6b7280; line-height: 1.5; }
+    @media (max-width: 600px) { .page { padding: 1.2rem 4vw; } }
+  </style>
+</head>
+<body>
+<main class="page">
+  <a href="../Main_colleges/private.html" class="back-btn">← Back to All Private Colleges</a>
+  <div class="hero-card">
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <div class="hero-logo"><img src="https://upload.wikimedia.org/wikipedia/en/thumb/3/3a/Lovely_Professional_University_logo.png/220px-Lovely_Professional_University_logo.png" alt="LPU Logo"></div>
+      <div class="hero-info">
+        <h1>Lovely Professional University (LPU)</h1>
+        <p>LPU Phagwara &nbsp;|&nbsp; Jalandhar-Delhi G.T. Road, Phagwara, Punjab</p>
+        <div class="hero-tags">
+          <span class="tag tag-blue">Established 2005</span>
+          <span class="tag tag-green">NIRF Rank #27 (Univ)</span>
+          <span class="tag tag-amber">WES Recognized</span>
+          <span class="tag tag-purple">600+ Acre Campus</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-wrap">
+    <div class="section-title">Quick Overview</div>
+    <div class="stats-grid">
+      <div class="stat-card"><div class="stat-num blue">35,000+</div><div class="stat-label">Students (Live)</div></div>
+      <div class="stat-card"><div class="stat-num green">2,000+</div><div class="stat-label">Faculty Members</div></div>
+      <div class="stat-card"><div class="stat-num amber">600 acres</div><div class="stat-label">Campus Area</div></div>
+      <div class="stat-card"><div class="stat-num purple">50+</div><div class="stat-label">Global Tie-ups</div></div>
+      <div class="stat-card"><div class="stat-num red">₹3.00 Cr</div><div class="stat-label">Highest Package</div></div>
+      <div class="stat-card"><div class="stat-num blue">90%</div><div class="stat-label">Placement Rate</div></div>
+    </div>
+  </div>
+
+  <div class="section-wrap">
+    <div class="section-title">About LPU Punjab</div>
+    <div class="highlight-row">
+      <div class="highlight-box hl-blue"><h4>Massive Scale</h4><p>One of the largest single-campus universities in India. Hosts students from 50+ countries and all 28 Indian states, creating a global cultural melting pot.</p></div>
+      <div class="highlight-box hl-green"><h4>Innovation Hub</h4><p>Home to one of the biggest incubation centers in North India. Students have built solar-powered cars, buses, and numerous IoT-based agricultural tools.</p></div>
+      <div class="highlight-box hl-amber"><h4>Industry Immersion</h4><p>Curriculum co-designed with companies like Google, SAP, and Microsoft. Over 100+ "Centres of Excellence" established by industry giants on campus.</p></div>
+      <div class="highlight-box hl-purple"><h4>Sports Excellence</h4><p>LPU students won 13 medals at the Tokyo Olympics. The university provides world-class stadiums and indoor sports arenas for professional training.</p></div>
+    </div>
+  </div>
+
+  <div class="section-wrap">
+    <div class="section-title">Top Engineering &amp; Tech Programs</div>
+    <div class="branches-grid">
+      <div class="branch-card"><div class="branch-name">B.Tech CSE (Cloud/AI)</div><div class="branch-row"><span>Entrance</span><span>LPUNEST</span></div><div class="branch-row"><span>Avg Package</span><span>₹8.5–11 LPA</span></div><div class="branch-row"><span>Seats</span><span>1000+</span></div><span class="branch-badge tag-blue">High Placement</span></div>
+      <div class="branch-card"><div class="branch-name">MBA (Business Analytics)</div><div class="branch-row"><span>Entrance</span><span>CAT/MAT/LPUNEST</span></div><div class="branch-row"><span>Avg Package</span><span>₹7–9 LPA</span></div><div class="branch-row"><span>Seats</span><span>500+</span></div><span class="branch-badge tag-green">Corporate Fav</span></div>
+      <div class="branch-card"><div class="branch-name">Mechanical Engg</div><div class="branch-row"><span>Eligibility</span><span>10+2 Merit</span></div><div class="branch-row"><span>Avg Package</span><span>₹5–7 LPA</span></div><div class="branch-row"><span>Focus</span><span>Robotics/Auto</span></div><span class="branch-badge tag-amber">Core Strength</span></div>
+      <div class="branch-card"><div class="branch-name">Agriculture (B.Sc Hons)</div><div class="branch-row"><span>Accreditation</span><span>ICAR Ranked</span></div><div class="branch-row"><span>Avg Package</span><span>₹4.5–6 LPA</span></div><div class="branch-row"><span>Rank</span><span>Top Private</span></div><span class="branch-badge tag-purple">Research Focus</span></div>
+    </div>
+  </div>
+
+  <div class="section-wrap">
+    <div class="section-title">WUR &amp; NIRF 2025 Stats</div>
+    <div class="placement-bar">
+      <div class="bar-row"><span class="bar-label">THE World Rank</span><div class="bar-track"><div class="bar-fill" style="width:90%;background:#3b82f6"></div></div><span class="bar-val blue">801-1000</span></div>
+      <div class="bar-row"><span class="bar-label">NIRF University</span><div class="bar-track"><div class="bar-fill" style="width:85%;background:#8b5cf6"></div></div><span class="bar-val purple">#27</span></div>
+      <div class="bar-row"><span class="bar-label">NIRF Pharmacy</span><div class="bar-track"><div class="bar-fill" style="width:82%;background:#22c55e"></div></div><span class="bar-val green">#16</span></div>
+      <div class="bar-row"><span class="bar-label">NIRF Management</span><div class="bar-track"><div class="bar-fill" style="width:78%;background:#f59e0b"></div></div><span class="bar-val amber">#32</span></div>
+      <div class="bar-row"><span class="bar-label">NIRF Engineering</span><div class="bar-track"><div class="bar-fill" style="width:75%;background:#f97316"></div></div><span class="bar-val orange">#50</span></div>
+    </div>
+    <p style="font-size:.75rem;color:#9ca3af;padding-left:.25rem;margin-top:.5rem">* Based on latest Times Higher Education & NIRF data.</p>
+  </div>
+
+  <div class="section-wrap">
+    <div class="section-title">Placements 2025 Highlights</div>
+    <div class="cards-grid">
+      <div class="info-card"><h3>Package Summary</h3><ul><li><span class="dot dot-blue"></span>Highest Intl: ₹3.00 Cr</li>
+<li><span class="dot dot-green"></span>Highest Domestic: ₹64 LPA</li>
+<li><span class="dot dot-amber"></span>Average (CSE): ₹8.4 LPA</li>
+<li><span class="dot dot-purple"></span>Median Package: ₹5.5 LPA</li>
+<li><span class="dot dot-red"></span>Total Recruiters: 1050+</li></ul></div>
+      <div class="info-card"><h3>Hiring Highlights</h3><ul><li><span class="dot dot-blue"></span>Fortune 500 Cos: 110+</li>
+<li><span class="dot dot-green"></span>Dream Offers: 1200+</li>
+<li><span class="dot dot-amber"></span>New Marquee Cos: 35+</li>
+<li><span class="dot dot-purple"></span>Internships: 4500+</li></ul></div>
+      <div class="info-card"><h3>Student Stats</h3><ul><li><span class="dot dot-green"></span>Students Placed: 8000+</li>
+<li><span class="dot dot-blue"></span>Core Placements: 18%</li>
+<li><span class="dot dot-amber"></span>IT &amp; Fintech: 55%</li>
+<li><span class="dot dot-purple"></span>Highest Stiped: ₹1.6 Lpm</li></ul></div>
+    </div>
+  </div>
+
+  <div class="section-wrap">
+    <div class="section-title">Top Recruiting Giants</div>
+    <div class="companies-flex">
+      <span class="company-pill" style="background:#dbeafe;color:#1e40af">Google</span>
+      <span class="company-pill" style="background:#dcfce7;color:#166534">Microsoft</span>
+      <span class="company-pill" style="background:#fef3c7;color:#92400e">Amazon</span>
+      <span class="company-pill" style="background:#ede9fe;color:#5b21b6">Mercedes-Benz</span>
+      <span class="company-pill" style="background:#cffafe;color:#155e75">Intel</span>
+      <span class="company-pill" style="background:#fbcfe8;color:#9d174d">Cognizant</span>
+      <span class="company-pill" style="background:#fde68a;color:#78350f">Wipro</span>
+      <span class="company-pill" style="background:#bfdbfe;color:#1e3a8a">Capgemini</span>
+      <span class="company-pill" style="background:#bbf7d0;color:#14532d">Bosch</span>
+      <span class="company-pill" style="background:#ddd6fe;color:#4c1d95">L&T</span>
+      <span class="company-pill" style="background:#fca5a5;color:#7f1d1d">Adobe</span>
+      <span class="company-pill" style="background:#a5f3fc;color:#164e63">Samsung</span>
+    </div>
+  </div>
+
+  <div class="section-wrap">
+    <div class="section-title">Campus Life @ LPU</div>
+    <div class="campus-grid">
+      <div class="campus-icon">🎭</div><h4>Youth Vibe</h4><p>Asia's largest open-air theater host to star-studded concerts and international cultural fests.</p></div>
+      <div class="campus-card"><div class="campus-icon">🏟️</div><h4>Sports Complex</h4><p>Olympic-size swimming pool, multiple shooting ranges, and specialized academies for pro-athletes.</p></div>
+      <div class="campus-card"><div class="campus-icon">🍔</div><h4>Uni-Mall</h4><p>An entire multi-story shopping mall inside the campus with banks, food chains, and stores.</p></div>
+      <div class="campus-card"><div class="campus-icon">🚇</div><h4>Smart Security</h4><p>Facial recognition entries, 5000+ CCTV cameras, and a fully Wi-Fi enabled 600-acre smart campus.</p></div>
+    </div>
+  </div>
+
+  <div class="section-wrap">
+    <div class="section-title">Notable Alumni</div>
+    <div class="cards-grid">
+      <div class="info-card"><h3>Sports &amp; Media</h3><ul><li><span class="dot dot-pink"></span>Neeraj Chopra (Olympic Gold)</li>
+<li><span class="dot dot-pink"></span>Manpreet Singh (Hockey Legend)</li>
+<li><span class="dot dot-pink"></span>Yasir Singh (IAS/Bureaucrat)</li></ul></div>
+      <div class="info-card"><h3>Global Corporate</h3><ul><li><span class="dot dot-blue"></span>Sneh Lata (Product Lead, Google)</li>
+<li><span class="dot dot-blue"></span>Harshit Giri (Architect, Apple)</li>
+<li><span class="dot dot-blue"></span>Parwinder Singh (CEO, Tech Startup)</li></ul></div>
+    </div>
+  </div>
+
+  <footer style="max-width:960px;width:100%;margin:4rem auto 2rem;position:relative;overflow:hidden;border-radius:30px;box-shadow:0 15px 40px rgba(0,0,0,0.3);color:#fff;">
+    <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(15,23,42,0.45),rgba(15,23,42,0.75)),url('https://res.cloudinary.com/purnesh/image/upload/f_auto,q_auto/v1660114008/lpu-campus.jpg') center/cover no-repeat;z-index:-1;"></div>
+    <div style="padding:4rem 2.5rem 1.5rem;text-shadow:0 2px 8px rgba(0,0,0,0.9);">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:3rem;border-bottom:1px solid rgba(255,255,255,0.4);padding-bottom:2.5rem;">
+        <div>
+          <h4 style="color:#fbbf24;margin-bottom:1rem;font-size:1.5rem;">Lovely Professional University — Since 2005</h4>
+          <p style="font-size:1rem;line-height:1.7;">Transforming Education through Scale, Innovation, and Global Placements.</p>
+        </div>
+        <div>
+          <h4 style="color:#fbbf24;margin-bottom:1.2rem;font-size:1.1rem;">Quick Links</h4>
+          <ul style="list-style:none;font-size:0.95rem;line-height:2.2;">
+            <li>🏠 Home - All Private Colleges</li>
+            <li>🚀 LPUNEST &amp; Admissions</li>
+          </ul>
+        </div>
+      </div>
+      <p style="text-align:center;padding-top:1.8rem;font-size:0.9rem;">© 2026 College Knowledge | Developed by <b style="color:#fbbf24;">Aman Kumar</b></p>
+    </div>
+  </footer>
+</main>
+</body>
+</html>

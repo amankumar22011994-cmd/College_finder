@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NIT Bhopal - College Detail</title>
+  <style>
+
+    /* ===== BASE ===== */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
+      color: #111827;
+      font-family: sans-serif;
+      min-height: 100vh;
+    }
+
+    /* ===== PAGE LAYOUT ===== */
+    .page {
+      padding: 2rem 6vw;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* ===== BACK BUTTON ===== */
+    .back-btn {
+      align-self: flex-start;
+      margin-bottom: 1.5rem;
+      padding: .5rem 1rem;
+      background: #dbeafe;
+      border: none;
+      border-radius: 8px;
+      font-size: .9rem;
+      font-weight: 500;
+      cursor: pointer;
+      color: #1e40af;
+      text-decoration: none;
+      display: inline-block;
+      transition: 0.2s;
+    }
+    .back-btn:hover { background: #bfdbfe; }
+
+    /* ===== HERO CARD ===== */
+    .hero-card {
+      width: 100%;
+      max-width: 960px;
+      border-radius: 16px;
+      overflow: hidden;
+      position: relative;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.18);
+      margin-bottom: 2rem;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background-image: url("https://images.shiksha.com/mediadata/images/1515656534phpJ8rYfE.jpeg");
+      background-size: cover;
+      background-position: center;
+      filter: brightness(0.28);
+      z-index: 0;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      padding: 2rem;
+    }
+
+    .hero-logo {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      flex-shrink: 0;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+
+    .hero-logo img {
+      width: 85%;
+      height: 85%;
+      object-fit: contain;
+    }
+
+    .hero-info h1 { color: whitesmoke; font-size: 1.6rem; font-weight: 700; margin-bottom: .3rem; }
+    .hero-info p  { color: #cbd5e1; font-size: .9rem; margin-bottom: .5rem; }
+    .hero-tags    { display: flex; flex-wrap: wrap; gap: .5rem; }
+
+    /* ===== TAGS / BADGES ===== */
+    .tag {
+      padding: .25rem .75rem;
+      border-radius: 20px;
+      font-size: .78rem;
+      font-weight: 500;
+    }
+    .tag-blue   { background: #dbeafe; color: #1e40af; }
+    .tag-green  { background: #dcfce7; color: #166534; }
+    .tag-amber  { background: #fef3c7; color: #92400e; }
+    .tag-purple { background: #ede9fe; color: #5b21b6; }
+
+    /* ===== SECTION WRAPPER ===== */
+    .section-wrap  { width: 100%; max-width: 960px; margin-bottom: 2rem; }
+    .section-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 1rem; padding-left: .25rem; color: #111827; }
+
+    /* ===== STATS GRID ===== */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 1rem;
+    }
+    .stat-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 1.1rem 1rem;
+      text-align: center;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+    }
+    .stat-num   { font-size: 1.4rem; font-weight: 700; margin-bottom: .2rem; }
+    .stat-label { font-size: .78rem; color: #6b7280; }
+
+    .blue   { color: #2563eb; }
+    .green  { color: #16a34a; }
+    .amber  { color: #d97706; }
+    .purple { color: #7c3aed; }
+    .red    { color: #dc2626; }
+    .orange { color: #f97316; }
+
+    /* ===== HIGHLIGHT ROW ===== */
+    .highlight-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 1rem;
+    }
+    .highlight-box {
+      background: #fff;
+      border-radius: 12px;
+      padding: 1.2rem;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+      border-left: 4px solid;
+    }
+    .hl-blue   { border-color: #3b82f6; }
+    .hl-green  { border-color: #22c55e; }
+    .hl-amber  { border-color: #f59e0b; }
+    .hl-purple { border-color: #8b5cf6; }
+    .highlight-box h4 { font-size: .88rem; font-weight: 600; margin-bottom: .5rem; }
+    .highlight-box p  { font-size: .8rem; color: #6b7280; line-height: 1.5; }
+
+    /* ===== BRANCHES GRID ===== */
+    .branches-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+    }
+    .branch-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 1.2rem;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+    }
+    .branch-name { font-size: .92rem; font-weight: 600; margin-bottom: .6rem; color: #111827; }
+    .branch-row  { display: flex; justify-content: space-between; font-size: .8rem; margin-bottom: .3rem; }
+    .branch-row span:first-child { color: #6b7280; }
+    .branch-row span:last-child  { font-weight: 600; color: #1d4ed8; }
+    .branch-badge {
+      display: inline-block;
+      margin-top: .5rem;
+      padding: .2rem .6rem;
+      border-radius: 20px;
+      font-size: .72rem;
+      font-weight: 500;
+    }
+
+    /* ===== PLACEMENT BAR ===== */
+    .placement-bar {
+      background: #fff;
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+      margin-bottom: 1rem;
+    }
+    .bar-row { display: flex; align-items: center; gap: 1rem; margin-bottom: .9rem; }
+    .bar-row:last-child { margin-bottom: 0; }
+    .bar-label { font-size: .82rem; color: #4b5563; width: 120px; flex-shrink: 0; }
+    .bar-track { flex: 1; background: #f3f4f6; border-radius: 99px; height: 10px; overflow: hidden; }
+    .bar-fill  { height: 100%; border-radius: 99px; }
+    .bar-val   { font-size: .82rem; font-weight: 600; width: 80px; text-align: right; flex-shrink: 0; }
+
+    /* ===== INFO CARDS ===== */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+    .info-card { background: #fff; border-radius: 12px; padding: 1.2rem; box-shadow: 0 4px 14px rgba(0,0,0,0.08); }
+    .info-card h3 { font-size: .85rem; font-weight: 600; margin-bottom: .8rem; color: #374151; }
+    .info-card ul { list-style: none; }
+    .info-card ul li {
+      font-size: .82rem;
+      color: #4b5563;
+      padding: .3rem 0;
+      border-bottom: .5px solid #f3f4f6;
+      display: flex;
+      align-items: center;
+      gap: .4rem;
+    }
+    .info-card ul li:last-child { border-bottom: none; }
+
+    .dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+    .dot-blue   { background: #3b82f6; }
+    .dot-green  { background: #22c55e; }
+    .dot-amber  { background: #f59e0b; }
+    .dot-purple { background: #8b5cf6; }
+    .dot-red    { background: #ef4444; }
+
+    /* ===== CAMPUS GRID ===== */
+    .campus-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+    .campus-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 1.2rem;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+      text-align: center;
+    }
+    .campus-icon { font-size: 1.6rem; margin-bottom: .6rem; }
+    .campus-card h4 { font-size: .88rem; font-weight: 600; margin-bottom: .4rem; }
+    .campus-card p  { font-size: .78rem; color: #6b7280; line-height: 1.5; }
+
+    @media (max-width: 600px) {
+      .hero-card { flex-direction: column; align-items: flex-start; }
+      .page { padding: 1.2rem 4vw; }
+    }
+
+  </style>
+</head>
+<body>
+
+<main class="page">
+
+  <a href="../Main_colleges/nit.html" class="back-btn">← Back to All NITs</a>
+
+  <div class="hero-card">
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <div class="hero-logo">
+        <img src="https://upload.wikimedia.org/wikipedia/en/4/4f/Maulana_Azad_National_Institute_of_Technology_Logo.png" alt="MANIT Bhopal Logo">
+      </div>
+      <div class="hero-info">
+        <h1>MANIT Bhopal</h1>
+        <p>Maulana Azad National Institute of Technology &nbsp;|&nbsp; Bhopal, Madhya Pradesh</p>
+        <div class="hero-tags">
+          <span class="tag tag-blue">Established 1960</span>
+          <span class="tag tag-green">NIRF Rank #81 (2025)</span>
+          <span class="tag tag-amber">650 Acre Lush Campus</span>
+          <span class="tag tag-purple">Institute of National Importance</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-wrap">
+    <div class="section-title">Quick Overview</div>
+    <div class="stats-grid">
+      <div class="stat-card"><div class="stat-num blue">5,000+</div><div class="stat-label">Total Students</div></div>
+      <div class="stat-card"><div class="stat-num green">Autonomous</div><div class="stat-label">Institute Type</div></div>
+      <div class="stat-card"><div class="stat-num amber">650 acres</div><div class="stat-label">Campus Area</div></div>
+      <div class="stat-card"><div class="stat-num purple">200+</div><div class="stat-label">Companies in 2025</div></div>
+      <div class="stat-card"><div class="stat-num red">₹56.00 LPA</div><div class="stat-label">Highest Package 2025</div></div>
+      <div class="stat-card"><div class="stat-num blue">₹13.00 LPA</div><div class="stat-label">B.Tech Avg 2025</div></div>
+    </div>
+  </div>
+
+  <div class="section-wrap">
+    <div class="section-title">Why MANIT Bhopal?</div>
+    <div class="highlight-row">
+      <div class="highlight-box hl-blue">
+        <h4>Central Location</h4>
+        <p>Located in the 'City of Lakes', Bhopal, providing excellent connectivity and a pleasant climate for student life.</p>
+      </div>
+      <div class="highlight-box hl-green">
+        <h4>Legacy of REC</h4>
+        <p>Originally established as one of the first Regional Engineering Colleges, it holds a deep-rooted academic legacy in India.</p>
+      </div>
+      <div class="highlight-box hl-amber">
+        <h4>Green Infrastructure</h4>
+        <p>A sprawling 650-acre verdant plateau campus, offering dedicated zones for sports, innovation, and research labs.</p>
+      </div>
+      <div class="highlight-box hl-purple">
+        <h4>Modern Curriculum</h4>
+        <p>Home to cutting-edge dual degree programs like Mathematics & Data Science and EV Engineering to match industry 4.0 needs.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-wrap">
+    <div class="section-title">Branches & Programs (2025-26)</div>
+    <div class="branches-grid">
+
+      <div class="branch-card">
+        <div class="branch-name">Computer Science & Engineering</div>
+        <div class="branch-row"><span>JEE Cutoff (OS-GEN)</span><span>Rank 9k - 11k</span></div>
+        <div class="branch-row"><span>Avg Package</span><span>₹25.51 LPA</span></div>
+        <div class="branch-row"><span>Median Package</span><span>₹19.00 LPA</span></div>
+        <span class="branch-badge tag-blue">Core Tech</span>
+      </div>
+
+      <div class="branch-card">
+        <div class="branch-name">Electronics & Communication</div>
+        <div class="branch-row"><span>JEE Cutoff (OS-GEN)</span><span>Rank 14k - 18k</span></div>
+        <div class="branch-row"><span>Avg Package</span><span>₹18.92 LPA</span></div>
+        <div class="branch-row"><span>Highest Package</span><span>₹56.00 LPA</span></div>
+        <span class="branch-badge tag-green">Highly Ranked</span>
+      </div>
+
+      <div class="branch-card">
+        <div class="branch-name">Mathematics & Data Science (Dual)</div>
+        <div class="branch-row"><span>JEE Cutoff (OS-GEN)</span><span>Rank 13k - 16k</span></div>
+        <div class="branch-row"><span>Avg Package</span><span>₹17.00 LPA</span></div>
+        <div class="branch-row"><span>Recruiters</span><span>Amazon, Uber</span></div>
+        <span class="branch-badge tag-amber">Innovation Lead</span>
+      </div>
+
+      <div class="branch-card">
+        <div class="branch-name">Electrical Engineering</div>
+        <div class="branch-row"><span>JEE Cutoff (OS-GEN)</span><span>Rank 19k - 24k</span></div>
+        <div class="branch-row"><span>Avg Package</span><span>₹11.13 LPA</span></div>
+        <div class="branch-row"><span>Highest Package</span><span>₹55.00 LPA</span></div>
+        <span class="branch-badge tag-purple">Core Leader</span>
+      </div>
+
+      <div class="branch-card">
+        <div class="branch-name">Mechanical Engineering</div>
+        <div class="branch-row"><span>JEE Cutoff (OS-GEN)</span><span>Rank 29k - 34k</span></div>
+        <div class="branch-row"><span>Avg Package</span><span>₹10.89 LPA</span></div>
+        <div class="branch-row"><span>Placement Rate</span><span>86%</span></div>
+        <span class="branch-badge tag-blue">Legacy Branch</span>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="section-wrap">
+    <div class="section-title">JEE Mains Cutoffs (2025, General Category — Percentile)</div>
+    <div class="placement-bar">
+      <div class="bar-row">
+        <span class="bar-label">CSE</span>
+        <div class="bar-track"><div class="bar-fill" style="width:99.5%;background:#3b82f6"></div></div>
+        <span class="bar-val blue">99.5 %ile</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-label">IT</span>
+        <div class="bar-track"><div class="bar-fill" style="width:96%;background:#22c55e"></div></div>
+        <span class="bar-val green">99.0 %ile</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-label">ECE</span>
+        <div class="bar-track"><div class="bar-fill" style="width:91%;background:#f59e0b"></div></div>
+        <span class="bar-val amber">98.2 %ile</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-label">Electrical</span>
+        <div class="bar-track"><div class="bar-fill" style="width:84%;background:#8b5cf6"></div></div>
+        <span class="bar-val purple">97.5 %ile</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-label">Mechanical</span>
+        <div class="bar-track"><div class="bar-fill" style="width:78%;background:#f97316"></div></div>
+        <span class="bar-val orange">96.5 %ile</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-label">Chemical</span>
+        <div class="bar-track"><div class="bar-fill" style="width:68%;background:#7c3aed"></div></div>
+        <span class="bar-val purple">95.0%ile</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-label">Civil</span>
+        <div class="bar-track"><div class="bar-fill" style="width:60%;background:#16a34a"></div></div>
+        <span class="bar-val green">94.0 %ile</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-label">Mining</span>
+        <div class="bar-track"><div class="bar-fill" style="width:48%;background:#dc2626"></div></div>
+        <span class="bar-val red">91.5 %ile</span>
+      </div>
+    </div>
+    <p style="font-size:.75rem;color:#9ca3af;padding-left:.25rem;margin-top:.5rem">
+      * Closing ranks for Other State quota. Percentiles are indicative based on historical trends.
+    </p>
+  </div>
+
+
+  <div class="section-wrap">
+    <div class="section-title">Placement Highlights 2025</div>
+    <div class="cards-grid">
+      <div class="info-card">
+        <h3>UG Key Stats</h3>
+        <ul>
+          <li><span class="dot dot-red"></span>Highest Package: ₹56 LPA</li>
+          <li><span class="dot dot-blue"></span>Average CTC: ₹13 LPA</li>
+          <li><span class="dot dot-green"></span>Median CTC: ₹11 LPA</li>
+          <li><span class="dot dot-purple"></span>Placement Rate: ~87%</li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <h3>Top Recruiters</h3>
+        <ul>
+          <li><span class="dot dot-blue"></span>Google, Microsoft, Amazon</li>
+          <li><span class="dot dot-green"></span>Juspay, PayPal, Oracle</li>
+          <li><span class="dot dot-amber"></span>Tata, Maruti, Bajaj</li>
+          <li><span class="dot dot-purple"></span>JP Morgan Chase & Co.</li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <h3>Branch Highlights</h3>
+        <ul>
+          <li><span class="dot dot-green"></span>CSE Placement: 95%</li>
+          <li><span class="dot dot-blue"></span>Math & Data Highest: ₹64 LPA</li>
+          <li><span class="dot dot-amber"></span>Core Roles: Siemens, Hero</li>
+          <li><span class="dot dot-red"></span>EV & Energy: New Specialization</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-wrap">
+    <div class="section-title">Campus Facilities & Life</div>
+    <div class="campus-grid">
+      <div class="campus-card">
+        <div class="campus-icon">🏰</div>
+        <h4>Heritage Campus</h4>
+        <p>A giant 650-acre plateau campus with historic buildings and state-of-the-art research centers.</p>
+      </div>
+      <div class="campus-card">
+        <div class="campus-icon">🎉</div>
+        <h4>Maffick</h4>
+        <p>The annual cultural fest of MANIT, known for bringing diverse student talents together from across India.</p>
+      </div>
+      <div class="campus-card">
+        <div class="campus-icon">🔬</div>
+        <h4>Rolta Incubation</h4>
+        <p>A dedicated facility to foster startup culture and provide financial/mentorship support to students.</p>
+      </div>
+      <div class="campus-card">
+        <div class="campus-icon">⚽</div>
+        <h4>Sports Complex</h4>
+        <p>Includes a massive gymnasium, athletic grounds, and multiple courts for indoor/outdoor games.</p>
+      </div>
+      <div class="campus-card">
+        <div class="campus-icon">🏥</div>
+        <h4>Central Medical</h4>
+        <p>In-campus hospital facility providing 24/7 medical assistance to students and faculty staff.</p>
+      </div>
+      <div class="campus-card">
+        <div class="campus-icon">📖</div>
+        <h4>Digital Library</h4>
+        <p>Access to thousands of journals, e-books, and research papers via high-speed campus Wi-Fi.</p>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="section-wrap">
+    <div class="section-title">Distinguished Alumni Network (Wall of Fame)</div>
+    <div class="cards-grid">
+      
+      <div class="info-card" style="border-top: 4px solid #10b981;">
+        <h3 style="color:#065f46;">Ajit Jogi</h3>
+        <p style="font-size: 0.82rem; color: #6b7280; margin-bottom: 0.5rem;">First Chief Minister of Chhattisgarh</p>
+        <p style="font-size: 0.78rem; line-height: 1.4;">A Mechanical Engineering gold medalist from the 1968 batch. He transitioned from a brilliant engineer to an IAS officer and eventually the first CM of Chhattisgarh.</p>
+      </div>
+
+      <div class="info-card" style="border-top: 4px solid #10b981;">
+        <h3 style="color:#065f46;">Suresh Pachauri</h3>
+        <p style="font-size: 0.82rem; color: #6b7280; margin-bottom: 0.5rem;">Former Union Minister of India</p>
+        <p style="font-size: 0.78rem; line-height: 1.4;">An alumnus who served as the Minister of State in the Ministry of Personnel, Public Grievances and Pensions and Parliamentary Affairs.</p>
+      </div>
+
+      <div class="info-card" style="border-top: 4px solid #10b981;">
+        <h3 style="color:#065f46;">Naveen Jha</h3>
+        <p style="font-size: 0.82rem; color: #6b7280; margin-bottom: 0.5rem;">CEO, Deshpande Foundation</p>
+        <p style="font-size: 0.78rem; line-height: 1.4;">A prominent social entrepreneur leading massive scaling of developmental programs and fostering startup ecosystems across rural India.</p>
+      </div>
+
+      <div class="info-card" style="border-top: 4px solid #10b981;">
+        <h3 style="color:#065f46;">Rambabu Gupta</h3>
+        <p style="font-size: 0.82rem; color: #6b7280; margin-bottom: 0.5rem;">Chairman, GMD Group</p>
+        <p style="font-size: 0.78rem; line-height: 1.4;">A leading industrialist who has made significant contributions to the manufacturing and infrastructure sectors in India and abroad.</p>
+      </div>
+
+      <div class="info-card" style="border-top: 4px solid #10b981;">
+        <h3 style="color:#065f46;">Global Tech Leaders</h3>
+        <p style="font-size: 0.82rem; color: #6b7280; margin-bottom: 0.5rem;">Google, Meta, Microsoft Leaders</p>
+        <p style="font-size: 0.78rem; line-height: 1.4;">Hundreds of MANITians are currently serving as VPs, Directors, and Senior Architects in Silicon Valley and major Indian IT hubs.</p>
+      </div>
+
+      <div class="info-card" style="border-top: 4px solid #10b981;">
+        <h3 style="color:#065f46;">Civil Services (IAS/IES)</h3>
+        <p style="font-size: 0.82rem; color: #6b7280; margin-bottom: 0.5rem;">Public Administration</p>
+        <p style="font-size: 0.78rem; line-height: 1.4;">Consistently producing top-rankers in UPSC Engineering Services (IES) and Civil Services (IAS) year after year.</p>
+      </div>
+
+    </div>
+  </div>
+
+  <footer style="max-width: 960px; width: 100%; margin: 4rem auto 2rem; position: relative; overflow: hidden; border-radius: 30px; box-shadow: 0 15px 40px rgba(0,0,0,0.3); color: #fff;">
+    <div style="position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(15, 23, 42, 0.5), rgba(15, 23, 42, 0.8)), url('https://images.shiksha.com/mediadata/images/1760090185phpWGRPcg.jpeg') center/cover no-repeat; filter: saturate(1.1); z-index: -1;"></div>
+    <div style="padding: 4rem 2.5rem 1.5rem; text-shadow: 0 2px 8px rgba(0,0,0,0.9);">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 3rem; border-bottom: 1px solid rgba(255,255,255,0.4); padding-bottom: 2.5rem;">
+        <div>
+          <h4 style="color: #fbbf24; margin-bottom: 1rem; font-size: 1.5rem;">The Heart of Tech</h4>
+          <p style="font-size: 1rem; line-height: 1.7;">MANIT Bhopal is <span style="color: #fbbf24; font-weight: 800;">the pioneer</span> of engineering excellence in central India.</p>
+        </div>
+        <div>
+          <h4 style="color: #fbbf24; margin-bottom: 1.2rem; font-size: 1.1rem;">Quick Navigation</h4>
+          <ul style="list-style: none; font-size: 0.95rem; line-height: 2.2;">
+            <li>🏠 Home - College Knowledge</li>
+            <li>📚 Official Site: manit.ac.in</li>
+          </ul>
+        </div>
+      </div>
+      <p style="text-align: center; padding-top: 1.8rem; font-size: 0.9rem;">© 2026 College Knowledge | Developed by <b style="color: #fbbf24;">Aman Kumar</b></p>
+    </div>
+  </footer>
+
+</main>
+</body>
+</html>

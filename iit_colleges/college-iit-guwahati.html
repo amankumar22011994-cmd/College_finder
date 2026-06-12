@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>IIT Guwahati - College Detail</title>
+  <style>
+    /* CSS same hai jaisa aapne IIT Madras ke liye diya tha */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: linear-gradient(135deg, #f1f5f9, #e2e8f0); color: #111827; font-family: sans-serif; min-height: 100vh; }
+    .page { padding: 2rem 6vw; display: flex; flex-direction: column; align-items: center; }
+    .back-btn { align-self: flex-start; margin-bottom: 1.5rem; padding: .5rem 1rem; background: #dbeafe; border: none; border-radius: 8px; font-size: .9rem; font-weight: 500; cursor: pointer; color: #1e40af; text-decoration: none; display: inline-block; transition: 0.2s; }
+    .back-btn:hover { background: #bfdbfe; }
+    .hero-card { width: 100%; max-width: 960px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.18); overflow: hidden; margin-bottom: 2rem; position: relative; min-height: 200px; }
+
+
+.hero-bg { 
+      position: absolute; 
+      inset: 0; 
+      /* Aapka Hyderabad wala image link niche hai */
+      background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTEOCSKVQfTxhL9SqEyZtIHx51VF-8LVYCPVw&s'); 
+      background-size: cover; 
+      background-position: center; 
+      filter: brightness(0.4) saturate(1.1); 
+      z-index: 0; 
+    }
+    
+    .hero-bg-fallback { position: absolute; inset: 0; background: linear-gradient(135deg, #1e3a5f 0%, #0f4c3a 100%); z-index: 0; }
+    .hero-content { position: relative; z-index: 1; padding: 2rem; display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; }
+    .hero-logo{ width:72px; height:72px; border-radius:50%; background:white; display:flex; align-items:center; justify-content:center; overflow:hidden; flex-shrink:0; box-shadow:0 4px 10px rgba(0,0,0,0.3); }
+    .hero-logo img{ width:80%; height:80%; object-fit:contain; }
+    .hero-info h1 { font-size: 1.6rem; font-weight: 700; margin-bottom: .3rem; color: #ffffff; text-shadow: 0 2px 8px rgba(0,0,0,0.5); }
+    .hero-info p { color: rgba(255,255,255,0.8); font-size: .9rem; margin-bottom: .5rem; text-shadow: 0 1px 4px rgba(0,0,0,0.5); }
+    .hero-tags { display: flex; flex-wrap: wrap; gap: .5rem; }
+    .tag { padding: .25rem .75rem; border-radius: 20px; font-size: .78rem; font-weight: 500; }
+    .tag-blue { background: rgba(219,234,254,0.9); color: #1e40af; }
+    .tag-green { background: rgba(220,252,231,0.9); color: #166534; }
+    .tag-amber { background: rgba(254,243,199,0.9); color: #92400e; }
+    .tag-purple { background: rgba(237,233,254,0.9); color: #5b21b6; }
+    .tag-red { background: rgba(254,226,226,0.9); color: #991b1b; }
+    .section-wrap { width: 100%; max-width: 960px; margin-bottom: 2rem; }
+    .section-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 1rem; padding-left: .25rem; color: #111827; }
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1rem; }
+    .stat-card { background: #fff; border-radius: 12px; padding: 1.1rem 1rem; text-align: center; box-shadow: 0 4px 14px rgba(0,0,0,0.08); }
+    .stat-num { font-size: 1.4rem; font-weight: 700; margin-bottom: .2rem; }
+    .stat-label { font-size: .78rem; color: #6b7280; }
+    .blue { color: #2563eb; } .green { color: #16a34a; } .amber { color: #d97706; } .purple { color: #7c3aed; } .red { color: #dc2626; } .orange { color: #f97316; }
+    .highlight-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 1rem; }
+    .highlight-box { background: #fff; border-radius: 12px; padding: 1.2rem; box-shadow: 0 4px 14px rgba(0,0,0,0.08); border-left: 4px solid; }
+    .hl-blue { border-color: #3b82f6; } .hl-green { border-color: #22c55e; } .hl-amber { border-color: #f59e0b; } .hl-purple { border-color: #8b5cf6; } .hl-red { border-color: #ef4444; }
+    .highlight-box h4 { font-size: .88rem; font-weight: 600; margin-bottom: .5rem; }
+    .highlight-box p { font-size: .8rem; color: #6b7280; line-height: 1.5; }
+    .branches-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; }
+    .branch-card { background: #fff; border-radius: 12px; padding: 1.2rem; box-shadow: 0 4px 14px rgba(0,0,0,0.08); }
+    .branch-name { font-size: .92rem; font-weight: 600; margin-bottom: .6rem; color: #111827; }
+    .branch-row { display: flex; justify-content: space-between; font-size: .8rem; margin-bottom: .3rem; }
+    .branch-row span:first-child { color: #6b7280; }
+    .branch-row span:last-child { font-weight: 600; color: #1d4ed8; }
+    .branch-badge { display: inline-block; margin-top: .5rem; padding: .2rem .6rem; border-radius: 20px; font-size: .72rem; font-weight: 500; }
+    .placement-bar { background: #fff; border-radius: 12px; padding: 1.5rem; box-shadow: 0 4px 14px rgba(0,0,0,0.08); margin-bottom: 1rem; }
+    .bar-row { display: flex; align-items: center; gap: 1rem; margin-bottom: .9rem; }
+    .bar-label { font-size: .82rem; color: #4b5563; width: 140px; flex-shrink: 0; }
+    .bar-track { flex: 1; background: #f3f4f6; border-radius: 99px; height: 10px; overflow: hidden; }
+    .bar-fill { height: 100%; border-radius: 99px; }
+    .bar-val { font-size: .82rem; font-weight: 600; width: 90px; text-align: right; flex-shrink: 0; }
+    .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }
+    .info-card { background: #fff; border-radius: 12px; padding: 1.2rem; box-shadow: 0 4px 14px rgba(0,0,0,0.08); }
+    .info-card h3 { font-size: .85rem; font-weight: 600; margin-bottom: .8rem; color: #374151; }
+    .info-card ul { list-style: none; }
+    .info-card ul li { font-size: .82rem; color: #4b5563; padding: .3rem 0; border-bottom: .5px solid #f3f4f6; display: flex; align-items: center; gap: .4rem; }
+    .dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+    .dot-blue { background: #3b82f6; } .dot-green { background: #22c55e; } .dot-amber { background: #f59e0b; } .dot-purple { background: #8b5cf6; } .dot-red { background: #ef4444; } .dot-pink { background: #ec4899; }
+    .companies-flex { display: flex; flex-wrap: wrap; gap: .75rem; }
+    .company-pill { padding: .5rem 1rem; border-radius: 20px; font-size: .82rem; font-weight: 500; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+    .campus-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }
+    .campus-card { background: #fff; border-radius: 12px; padding: 1.2rem; box-shadow: 0 4px 14px rgba(0,0,0,0.08); text-align: center; }
+    .campus-icon { font-size: 1.6rem; margin-bottom: .6rem; }
+    .campus-card h4 { font-size: .88rem; font-weight: 600; margin-bottom: .4rem; }
+    .campus-card p { font-size: .78rem; color: #6b7280; line-height: 1.5; }
+    @media (max-width: 600px) { .hero-content { flex-direction: column; align-items: flex-start; } .page { padding: 1.2rem 4vw; } }
+  </style>
+</head>
+<body>
+
+<main class="page">
+  <a href="../Main_colleges/iit.html" class="back-btn">← Back to All IITs</a>
+
+  <div class="hero-card">
+    <div class="hero-bg-fallback"></div>
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <div class="hero-logo">
+        <img src="https://upload.wikimedia.org/wikipedia/en/thumb/1/12/IIT_Guwahati_Logo.svg/1200px-IIT_Guwahati_Logo.svg.png" alt="IIT Guwahati">
+      </div>
+      <div class="hero-info">
+        <h1>IIT Guwahati</h1>
+        <p>Indian Institute of Technology Guwahati &nbsp;|&nbsp; North Guwahati, Assam</p>
+        <div class="hero-tags">
+          <span class="tag tag-blue">Established 1994</span>
+          <span class="tag tag-red">NIRF Rank #7</span>
+          <span class="tag tag-amber">QS World ~344</span>
+          <span class="tag tag-purple">Govt. Autonomous</span>
+          <span class="tag tag-green">6th IIT of India</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-wrap">
+    <div class="section-title">Quick Overview</div>
+    <div class="stats-grid">
+      <div class="stat-card"><div class="stat-num blue">~7,000</div><div class="stat-label">Total Students</div></div>
+      <div class="stat-card"><div class="stat-num green">450+</div><div class="stat-label">Faculty Members</div></div>
+      <div class="stat-card"><div class="stat-num amber">700 acres</div><div class="stat-label">Campus Area</div></div>
+      <div class="stat-card"><div class="stat-num purple">11</div><div class="stat-label">Departments</div></div>
+      <div class="stat-card"><div class="stat-num red">₹2.4 Cr</div><div class="stat-label">Highest Package</div></div>
+      <div class="stat-card"><div class="stat-num blue">85%</div><div class="stat-label">Placement Rate</div></div>
+    </div>
+  </div>
+
+  <div class="section-wrap">
+    <div class="section-title">About IIT Guwahati</div>
+    <div class="highlight-row">
+      <div class="highlight-box hl-red">
+        <h4>North East Pride</h4>
+        <p>Established in 1994 as the 6th IIT. It is located on the banks of the Brahmaputra river and is often called the 'most beautiful campus in India'.</p>
+      </div>
+      <div class="highlight-box hl-green">
+        <h4>High Impact Research</h4>
+        <p>Recognized globally for research in Bio-Sciences, Nano-Tech, and Energy. It consistently ranks in the Top 10 NIRF engineering category.</p>
+      </div>
+      <div class="highlight-box hl-amber">
+        <h4>Strategic Location</h4>
+        <p>The gateway to the North East, providing technical leadership in regional development, disaster management, and green energy solutions.</p>
+      </div>
+      <div class="highlight-box hl-purple">
+        <h4>Global Outreach</h4>
+        <p>Joint degree programs with Gifu University, Japan. Extensive collaborations with top universities in Europe, USA, and Australia.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-wrap">
+    <div class="section-title">Branches & Programs</div>
+    <div class="branches-grid">
+      <div class="branch-card">
+        <div class="branch-name">Computer Science & Engineering</div>
+        <div class="branch-row"><span>JEE Cutoff (GEN)</span><span>~600 rank</span></div>
+        <div class="branch-row"><span>Avg Package</span><span>₹28–35 LPA</span></div>
+        <div class="branch-row"><span>Seats (B.Tech)</span><span>105</span></div>
+        <span class="branch-badge tag-blue">Premium Branch</span>
+      </div>
+      <div class="branch-card">
+        <div class="branch-name">Data Science & AI</div>
+        <div class="branch-row"><span>JEE Cutoff (GEN)</span><span>~950 rank</span></div>
+        <div class="branch-row"><span>Avg Package</span><span>₹25–32 LPA</span></div>
+        <div class="branch-row"><span>Seats (B.Tech)</span><span>35</span></div>
+        <span class="branch-badge tag-purple">Emerging Field</span>
+      </div>
+      <div class="branch-card">
+        <div class="branch-name">Electronics & Electrical Engg.</div>
+        <div class="branch-row"><span>JEE Cutoff (GEN)</span><span>~2000 rank</span></div>
+        <div class="branch-row"><span>Avg Package</span><span>₹20–26 LPA</span></div>
+        <div class="branch-row"><span>Seats (B.Tech)</span><span>95</span></div>
+        <span class="branch-badge tag-green">Core Power</span>
+      </div>
+      <div class="branch-card">
+        <div class="branch-name">Mathematics & Computing</div>
+        <div class="branch-row"><span>JEE Cutoff (GEN)</span><span>~1100 rank</span></div>
+        <div class="branch-row"><span>Avg Package</span><span>₹24–30 LPA</span></div>
+        <div class="branch-row"><span>Seats (B.Tech)</span><span>50</span></div>
+        <span class="branch-badge tag-blue">Quant Focus</span>
+      </div>
+      <div class="branch-card">
+        <div class="branch-name">Mechanical Engineering</div>
+        <div class="branch-row"><span>JEE Cutoff (GEN)</span><span>~4500 rank</span></div>
+        <div class="branch-row"><span>Avg Package</span><span>₹14–20 LPA</span></div>
+        <div class="branch-row"><span>Seats (B.Tech)</span><span>100</span></div>
+        <span class="branch-badge tag-amber">Versatile</span>
+      </div>
+      <div class="branch-card">
+        <div class="branch-name">Design (B.Des)</div>
+        <div class="branch-row"><span>UCEED Cutoff</span><span>~Top 50 rank</span></div>
+        <div class="branch-row"><span>Avg Package</span><span>₹18–25 LPA</span></div>
+        <div class="branch-row"><span>Seats</span><span>55</span></div>
+        <span class="branch-badge tag-purple">Creative Arts</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-wrap">
+    <div class="section-title">JEE Advanced Cutoffs (2024, General Category)</div>
+    <div class="placement-bar">
+      <div class="bar-row">
+        <span class="bar-label">CSE</span>
+        <div class="bar-track"><div class="bar-fill" style="width:98%;background:#3b82f6"></div></div>
+        <span class="bar-val blue">~600</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-label">Math & Comp</span>
+        <div class="bar-track"><div class="bar-fill" style="width:88%;background:#22c55e"></div></div>
+        <span class="bar-val green">~1100</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-label">EEE</span>
+        <div class="bar-track"><div class="bar-fill" style="width:75%;background:#8b5cf6"></div></div>
+        <span class="bar-val purple">~2000</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-label">Mechanical</span>
+        <div class="bar-track"><div class="bar-fill" style="width:55%;background:#f59e0b"></div></div>
+        <span class="bar-val amber">~4500</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-label">Civil</span>
+        <div class="bar-track"><div class="bar-fill" style="width:35%;background:#dc2626"></div></div>
+        <span class="bar-val red">~7500</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-wrap">
+    <div class="section-title">Placements Summary</div>
+    <div class="cards-grid">
+      <div class="info-card">
+        <h3>Package Stats</h3>
+        <ul>
+          <li><span class="dot dot-blue"></span>Highest: ₹2.4 Cr (Intl.)</li>
+          <li><span class="dot dot-green"></span>Domestic: ₹1.1 Cr</li>
+          <li><span class="dot dot-amber"></span>Average: ₹22.5 LPA</li>
+          <li><span class="dot dot-purple"></span>B.Tech Avg: ₹26 LPA</li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <h3>Recruiters</h3>
+        <ul>
+          <li><span class="dot dot-blue"></span>Google, Microsoft</li>
+          <li><span class="dot dot-green"></span>Amazon, Uber</li>
+          <li><span class="dot dot-amber"></span>Oracle, Samsung</li>
+          <li><span class="dot dot-purple"></span>PWC, Deloitte</li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <h3>Highlights</h3>
+        <ul>
+          <li><span class="dot dot-blue"></span>250+ Companies</li>
+          <li><span class="dot dot-green"></span>1000+ Total Offers</li>
+          <li><span class="dot dot-amber"></span>200+ PPOs</li>
+          <li><span class="dot dot-purple"></span>Global Hiring: 20+</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-wrap">
+    <div class="section-title">Campus Life</div>
+    <div class="campus-grid">
+      <div class="campus-card">
+        <div class="campus-icon">🏞️</div>
+        <h4>Scenic Beauty</h4>
+        <p>Located on the banks of Brahmaputra with hills and lakes inside the campus. The view during sunset is world-class.</p>
+      </div>
+      <div class="campus-card">
+        <div class="campus-icon">🎸</div>
+        <h4>Alcheringa</h4>
+        <p>The annual cultural fest of IIT Guwahati, one of the biggest in North India with diverse themes and pro-shows.</p>
+      </div>
+      <div class="campus-card">
+        <div class="campus-icon">💻</div>
+        <h4>Techniche</h4>
+        <p>The annual techno-management fest hosting lectures, workshops, and the famous 'Guwahati Half Marathon'.</p>
+      </div>
+      <div class="campus-card">
+        <div class="campus-icon">🏠</div>
+        <h4>Hostels</h4>
+        <p>11 Hostels named after rivers and mountains like Manas, Kapili, and Dihing. All have top-notch mess facilities.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-wrap"><div class="section-wrap">
+    <div class="section-title">Notable Alumni</div>
+    <div class="cards-grid">
+      
+      <div class="info-card">
+        <h3>Tech & Corporate Leaders</h3>
+        <ul>
+          <li><span class="dot dot-blue"></span><b>Ankit Nagori</b> — Co-founder, Cure.fit & Eat.fit</li>
+          <li><span class="dot dot-blue"></span><b>Amritanshu Prasad</b> — Mathematician & Research Scientist</li>
+          <li><span class="dot dot-blue"></span><b>Gaurav Agarwal</b> — Co-founder, Tata 1mg</li>
+          <li><span class="dot dot-blue"></span><b>Murali Sankar</b> — Managing Director, Goldman Sachs</li>
+          <li><span class="dot dot-blue"></span><b>Prithwiraj Choudhury</b> — Professor, Harvard Business School</li>
+        </ul>
+      </div>
+
+      <div class="info-card">
+        <h3>Entrepreneurs & Founders</h3>
+        <ul>
+          <li><span class="dot dot-amber"></span><b>Harshil Mathur</b> — Co-founder & CEO, Razorpay</li>
+          <li><span class="dot dot-amber"></span><b>Shashank Kumar</b> — Co-founder, Razorpay</li>
+          <li><span class="dot dot-amber"></span><b>Farid Ahsan</b> — Co-founder, ShareChat & Moj</li>
+          <li><span class="dot dot-amber"></span><b>Vikas Malpani</b> — Co-founder, CommonFloor</li>
+          <li><span class="dot dot-amber"></span><b>Sumit Jain</b> — Co-founder, Opentalk</li>
+        </ul>
+      </div>
+
+      <div class="info-card">
+        <h3>Science, Arts & Public Life</h3>
+        <ul>
+          <li><span class="dot dot-green"></span><b>Achuta Kadambi</b> — Forbes 30 Under 30 (Science)</li>
+          <li><span class="dot dot-green"></span><b>Nitesh Kadyan</b> — Co-founder, Quidich Innovation Labs</li>
+          <li><span class="dot dot-green"></span><b>Sabyasachi Mukherjee</b> — Renowned Research Scientist</li>
+          <li><span class="dot dot-green"></span><b>B.Design Alumni</b> — Leading UI/UX designers in Apple & Google</li>
+          <li><span class="dot dot-green"></span><b>IAS/IPS Officers</b> — Many alumni serving in top bureaucracy</li>
+        </ul>
+      </div>
+
+    </div>
+    
+  </div>
+  </div>
+<footer style="max-width: 960px; width: 100%; margin: 4rem auto 2rem; position: relative; overflow: hidden; border-radius: 30px; box-shadow: 0 15px 40px rgba(0,0,0,0.3); color: #fff; font-family: 'Segoe UI', Tahoma, sans-serif;">
+  
+  <div style="position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(13, 148, 136, 0.45), rgba(0, 0, 0, 0.85)), url('https://www.iitg.ac.in/rnd/images/research2.jpg') center/cover no-repeat; z-index: -1;"></div>
+  
+  <div style="padding: 4rem 2.5rem 1.5rem; text-shadow: 0 2px 6px rgba(0,0,0,0.8);">
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 3rem; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 2.5rem;">
+      
+      <div>
+        <h4 style="color: #22d3ee; margin-bottom: 1rem; font-size: 1.5rem;">IIT Guwahati</h4>
+        <p style="font-size: 1rem; line-height: 1.7; color: #e2e8f0;">
+          The most <span style="font-weight: 800; color: #22d3ee;">Beautiful Campus</span> in India. High-impact research in the heart of North East India.
+        </p>
+      </div>
+
+      <div style="text-align: right;">
+        <h4 style="color: #22d3ee; margin-bottom: 1.2rem; font-size: 1.1rem;">Campus Details</h4>
+        <ul style="list-style: none; font-size: 0.95rem; line-height: 2.2; padding: 0;">
+          <li>📍 Amingaon, Guwahati, Assam, India</li>
+          <li>🌐 iitg.ac.in</li>
+          <li>🏞️ Brahmaputra Riverfront Campus</li>
+        </ul>
+      </div>
+    </div>
+
+    <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 1.8rem; font-size: 0.85rem; color: #cbd5e1;">
+      <p>© 2026 College Knowledge</p>
+      <p>Developed with ❤️ by <b style="color: #22d3ee;">Aman Kumar</b></p>
+    </div>
+  </div>
+</footer>
+
+
+</main>
+</body>
+</html>

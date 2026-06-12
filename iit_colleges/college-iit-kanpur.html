@@ -1,0 +1,631 @@
+ <style>
+
+    /* ===== BASE ===== */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
+      color: #111827;
+      font-family: sans-serif;
+      min-height: 100vh;
+    }
+
+    /* ===== PAGE LAYOUT ===== */
+    .page {
+      padding: 2rem 6vw;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* ===== BACK BUTTON ===== */
+    .back-btn {
+      align-self: flex-start;
+      margin-bottom: 1.5rem;
+      padding: .5rem 1rem;
+      background: #dbeafe;
+      border: none;
+      border-radius: 8px;
+      font-size: .9rem;
+      font-weight: 500;
+      cursor: pointer;
+      color: #1e40af;
+      text-decoration: none;
+      display: inline-block;
+      transition: 0.2s;
+    }
+    .back-btn:hover { background: #bfdbfe; }
+
+    /* ===== HERO CARD ===== */
+    /* .hero-card {
+      width: 100%;
+      max-width: 960px;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+      padding: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+      
+    } */
+    
+
+    /* .hero-logo {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: #dbeafe;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #1d4ed8;
+      flex-shrink: 0;
+      text-align: center;
+      line-height: 1.2;
+      
+    } */
+
+    .hero-card{
+  width:100%;
+  max-width:960px;
+  border-radius:16px;
+  overflow:hidden;
+  position:relative;
+  box-shadow:0 10px 30px rgba(0,0,0,0.18);
+  margin-bottom:2rem;
+}
+
+.hero-bg{
+  /* position:absolute;
+  inset:0;
+  background-image:url("https://static.boostmytalent.com/img/univ/iit-kanpur-campus-admission.webp");
+  background-size:cover;
+  background-position:center;
+  filter:brightness(0.4);
+  z-index:0; */
+
+  position: absolute;
+      inset: 0;
+      background-image: url('https://static.boostmytalent.com/img/univ/iit-kanpur-campus-admission.webp');
+      background-size: cover;
+      background-position: center;
+      filter: brightness(0.35) saturate(1.1);
+      z-index: 0;
+}
+
+.hero-content{
+  position:relative;
+  z-index:1;
+  display:flex;
+  align-items:center;
+  gap:20px;
+  padding:2rem;
+}
+
+/* .hero-logo{
+  width:72px;
+  height:72px;
+  border-radius:50%;
+  background:rgba(255,255,255,0.2);
+  border:2px solid rgba(255,255,255,0.5);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:white;
+  font-weight:bold;
+  flex-shrink:0;
+} */
+ .hero-logo{
+  width:72px;
+  height:72px;
+  border-radius:50%;
+  background:white;              /* ⭐ change */
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;               /* ⭐ important */
+  flex-shrink:0;
+  box-shadow:0 4px 10px rgba(0,0,0,0.3);
+}
+
+    .hero-logo img{
+    width:70%;
+    height:70%;
+    object-fit:contain;
+    }
+
+
+    .hero-info h1 { color: whitesmoke; font-size: 1.6rem; font-weight: 700; margin-bottom: .3rem; }
+    .hero-info p  { color: #919aab; font-size: .9rem; margin-bottom: .5rem; }
+    .hero-tags    { display: flex; flex-wrap: wrap; gap: .5rem; }
+
+    /* ===== TAGS / BADGES ===== */
+    .tag {
+      padding: .25rem .75rem;
+      border-radius: 20px;
+      font-size: .78rem;
+      font-weight: 500;
+    }
+    .tag-blue   { background: #dbeafe; color: #1e40af; }
+    .tag-green  { background: #dcfce7; color: #166534; }
+    .tag-amber  { background: #fef3c7; color: #92400e; }
+    .tag-purple { background: #ede9fe; color: #5b21b6; }
+
+    /* ===== SECTION WRAPPER ===== */
+    .section-wrap  { width: 100%; max-width: 960px; margin-bottom: 2rem; }
+    .section-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 1rem; padding-left: .25rem; color: #111827; }
+
+    /* ===== STATS GRID ===== */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 1rem;
+    }
+    .stat-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 1.1rem 1rem;
+      text-align: center;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+    }
+    .stat-num   { font-size: 1.4rem; font-weight: 700; margin-bottom: .2rem; }
+    .stat-label { font-size: .78rem; color: #6b7280; }
+
+    /* ===== COLORS ===== */
+    .blue   { color: #2563eb; }
+    .green  { color: #16a34a; }
+    .amber  { color: #d97706; }
+    .purple { color: #7c3aed; }
+    .red    { color: #dc2626; }
+    .orange { color: #f97316; }
+
+    /* ===== HIGHLIGHT ROW ===== */
+    .highlight-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 1rem;
+    }
+    .highlight-box {
+      background: #fff;
+      border-radius: 12px;
+      padding: 1.2rem;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+      border-left: 4px solid;
+    }
+    .hl-blue   { border-color: #3b82f6; }
+    .hl-green  { border-color: #22c55e; }
+    .hl-amber  { border-color: #f59e0b; }
+    .hl-purple { border-color: #8b5cf6; }
+    .highlight-box h4 { font-size: .88rem; font-weight: 600; margin-bottom: .5rem; }
+    .highlight-box p  { font-size: .8rem; color: #6b7280; line-height: 1.5; }
+
+    /* ===== BRANCHES GRID ===== */
+    .branches-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+    }
+    .branch-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 1.2rem;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+    }
+    .branch-name { font-size: .92rem; font-weight: 600; margin-bottom: .6rem; color: #111827; }
+    .branch-row  { display: flex; justify-content: space-between; font-size: .8rem; margin-bottom: .3rem; }
+    .branch-row span:first-child { color: #6b7280; }
+    .branch-row span:last-child  { font-weight: 600; color: #1d4ed8; }
+    .branch-badge {
+      display: inline-block;
+      margin-top: .5rem;
+      padding: .2rem .6rem;
+      border-radius: 20px;
+      font-size: .72rem;
+      font-weight: 500;
+    }
+
+    /* ===== PLACEMENT BAR ===== */
+    .placement-bar {
+      background: #fff;
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+      margin-bottom: 1rem;
+    }
+    .bar-row { display: flex; align-items: center; gap: 1rem; margin-bottom: .9rem; }
+    .bar-row:last-child { margin-bottom: 0; }
+    .bar-label { font-size: .82rem; color: #4b5563; width: 120px; flex-shrink: 0; }
+    .bar-track { flex: 1; background: #f3f4f6; border-radius: 99px; height: 10px; overflow: hidden; }
+    .bar-fill  { height: 100%; border-radius: 99px; }
+    .bar-val   { font-size: .82rem; font-weight: 600; width: 80px; text-align: right; flex-shrink: 0; }
+
+    /* ===== INFO CARDS ===== */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+    .info-card { background: #fff; border-radius: 12px; padding: 1.2rem; box-shadow: 0 4px 14px rgba(0,0,0,0.08); }
+    .info-card h3 { font-size: .85rem; font-weight: 600; margin-bottom: .8rem; color: #374151; }
+    .info-card ul { list-style: none; }
+    .info-card ul li {
+      font-size: .82rem;
+      color: #4b5563;
+      padding: .3rem 0;
+      border-bottom: .5px solid #f3f4f6;
+      display: flex;
+      align-items: center;
+      gap: .4rem;
+    }
+    .info-card ul li:last-child { border-bottom: none; }
+
+    /* ===== DOTS ===== */
+    .dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+    .dot-blue   { background: #3b82f6; }
+    .dot-green  { background: #22c55e; }
+    .dot-amber  { background: #f59e0b; }
+    .dot-purple { background: #8b5cf6; }
+    .dot-red    { background: #ef4444; }
+    .dot-pink   { background: #ec4899; }
+
+    /* ===== COMPANIES ===== */
+    .companies-flex { display: flex; flex-wrap: wrap; gap: .75rem; }
+    .company-pill {
+      padding: .5rem 1rem;
+      border-radius: 20px;
+      font-size: .82rem;
+      font-weight: 500;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    /* ===== CAMPUS GRID ===== */
+    .campus-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+    .campus-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 1.2rem;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+      text-align: center;
+    }
+    .campus-icon { font-size: 1.6rem; margin-bottom: .6rem; }
+    .campus-card h4 { font-size: .88rem; font-weight: 600; margin-bottom: .4rem; }
+    .campus-card p  { font-size: .78rem; color: #6b7280; line-height: 1.5; }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 600px) {
+      .hero-card { flex-direction: column; align-items: flex-start; }
+      .page { padding: 1.2rem 4vw; }
+    }
+
+  </style>
+
+
+<main class="page">
+
+  <a href="../Main_colleges/iit.html" class="back-btn">← Back to All IITs</a>
+
+  <div class="hero-card">
+    <div class="hero-bg"></div>
+
+    <div class="hero-content">
+      <div class="hero-logo">
+        <img src="https://images.seeklogo.com/logo-png/49/1/indian-institute-of-technology-kanpur-logo-png_seeklogo-491778.png" alt="IIT Kanpur">
+      </div>
+
+      <div class="hero-info">
+        <h1>IIT Kanpur</h1>
+        <p>Indian Institute of Technology Kanpur &nbsp;|&nbsp; Kalyanpur, Kanpur, Uttar Pradesh</p>
+
+        <div class="hero-tags">
+          <span class="tag tag-blue">Established 1959</span>
+          <span class="tag tag-green">NIRF Rank #4</span>
+          <span class="tag tag-amber">QS World ~200</span>
+          <span class="tag tag-purple">Govt. Autonomous</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-wrap">
+    <div class="section-title">Quick Overview</div>
+    <div class="stats-grid">
+      <div class="stat-card"><div class="stat-num blue">~9,000</div><div class="stat-label">Total Students</div></div>
+      <div class="stat-card"><div class="stat-num green">500+</div><div class="stat-label">Faculty Members</div></div>
+      <div class="stat-card"><div class="stat-num amber">1055 acres</div><div class="stat-label">Campus Area</div></div>
+      <div class="stat-card"><div class="stat-num purple">20</div><div class="stat-label">Depts & Schools</div></div>
+      <div class="stat-card"><div class="stat-num red">₹1.9 Cr</div><div class="stat-label">Highest Package</div></div>
+      <div class="stat-card"><div class="stat-num blue">91%</div><div class="stat-label">Placement Rate</div></div>
+    </div>
+  </div>
+
+  <div class="section-wrap">
+    <div class="section-title">About IIT Kanpur</div>
+    <div class="highlight-row">
+      <div class="highlight-box hl-blue">
+        <h4>The KIAP Legacy</h4>
+        <p>Established in 1959 with assistance from a consortium of 9 US universities (MIT, Stanford, Caltech etc.) under the Kanpur Indo-American Programme.</p>
+      </div>
+      <div class="highlight-box hl-green">
+        <h4>Academic Freedom</h4>
+        <p>Pioneer of Computer Science education in India. Known for its rigorous academic curriculum and strong focus on fundamental research.</p>
+      </div>
+      <div class="highlight-box hl-amber">
+        <h4>Infrastructure</h4>
+        <p>Home to a National Wind Tunnel Facility and an autonomous airstrip for Aerospace research. One of the largest residential campuses in India.</p>
+      </div>
+      <div class="highlight-box hl-purple">
+        <h4>Startup Ecosystem</h4>
+        <p>Startup Incubation and Innovation Centre (SIIC) has supported 200+ companies. Leading in drone technology and cybersecurity research.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-wrap">
+    <div class="section-title">Branches & Programs</div>
+    <div class="branches-grid">
+
+      <div class="branch-card">
+        <div class="branch-name">Computer Science & Engineering</div>
+        <div class="branch-row"><span>JEE Cutoff (GEN)</span><span>~200–250 rank</span></div>
+        <div class="branch-row"><span>Avg Package</span><span>₹35–45 LPA</span></div>
+        <div class="branch-row"><span>Seats (B.Tech)</span><span>120</span></div>
+        <span class="branch-badge tag-blue">Top Branch</span>
+      </div>
+
+      <div class="branch-card">
+        <div class="branch-name">Electrical Engineering</div>
+        <div class="branch-row"><span>JEE Cutoff (GEN)</span><span>~1000–1300 rank</span></div>
+        <div class="branch-row"><span>Avg Package</span><span>₹24–30 LPA</span></div>
+        <div class="branch-row"><span>Seats (B.Tech)</span><span>190</span></div>
+        <span class="branch-badge tag-green">High Demand</span>
+      </div>
+
+      <div class="branch-card">
+        <div class="branch-name">Mechanical Engineering</div>
+        <div class="branch-row"><span>JEE Cutoff (GEN)</span><span>~2500–3000 rank</span></div>
+        <div class="branch-row"><span>Avg Package</span><span>₹18–22 LPA</span></div>
+        <div class="branch-row"><span>Seats (B.Tech)</span><span>150</span></div>
+        <span class="branch-badge tag-amber">Core Branch</span>
+      </div>
+
+      <div class="branch-card">
+        <div class="branch-name">Aerospace Engineering</div>
+        <div class="branch-row"><span>JEE Cutoff (GEN)</span><span>~3500–4500 rank</span></div>
+        <div class="branch-row"><span>Avg Package</span><span>₹18–25 LPA</span></div>
+        <div class="branch-row"><span>Seats (B.Tech)</span><span>60</span></div>
+        <span class="branch-badge tag-blue">Best in India</span>
+      </div>
+
+      <div class="branch-card">
+        <div class="branch-name">Economics (B.S.)</div>
+        <div class="branch-row"><span>JEE Cutoff (GEN)</span><span>~2000–3000 rank</span></div>
+        <div class="branch-row"><span>Avg Package</span><span>₹20–28 LPA</span></div>
+        <div class="branch-row"><span>Seats (B.S.)</span><span>50</span></div>
+        <span class="branch-badge tag-purple">Unique Program</span>
+      </div>
+
+      <div class="branch-card">
+        <div class="branch-name">Civil Engineering</div>
+        <div class="branch-row"><span>JEE Cutoff (GEN)</span><span>~5500–6500 rank</span></div>
+        <div class="branch-row"><span>Avg Package</span><span>₹14–18 LPA</span></div>
+        <div class="branch-row"><span>Seats (B.Tech)</span><span>140</span></div>
+        <span class="branch-badge tag-amber">Core Branch</span>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="section-wrap">
+    <div class="section-title">JEE Advanced Cutoffs (2025 Est, General Category)</div>
+    <div class="placement-bar">
+      <div class="bar-row">
+        <span class="bar-label">CSE</span>
+        <div class="bar-track"><div class="bar-fill" style="width:98%;background:#3b82f6"></div></div>
+        <span class="bar-val blue">~200–250</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-label">Electrical</span>
+        <div class="bar-track"><div class="bar-fill" style="width:85%;background:#22c55e"></div></div>
+        <span class="bar-val green">~1000–1300</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-label">Economics</span>
+        <div class="bar-track"><div class="bar-fill" style="width:75%;background:#8b5cf6"></div></div>
+        <span class="bar-val purple">~2000–3000</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-label">Mechanical</span>
+        <div class="bar-track"><div class="bar-fill" style="width:65%;background:#f59e0b"></div></div>
+        <span class="bar-val amber">~2500–3000</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-label">Aerospace</span>
+        <div class="bar-track"><div class="bar-fill" style="width:55%;background:#2563eb"></div></div>
+        <span class="bar-val blue">~3500–4500</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-label">Civil</span>
+        <div class="bar-track"><div class="bar-fill" style="width:35%;background:#f97316"></div></div>
+        <span class="bar-val orange">~5500–6500</span>
+      </div>
+    </div>
+    <p style="font-size:.75rem;color:#9ca3af;padding-left:.25rem;margin-top:.5rem">
+      * Lower rank = more competitive. Kanpur has a relatively large intake capacity.
+    </p>
+  </div>
+
+  <div class="section-wrap">
+    <div class="section-title">Placements 2024-25</div>
+    <div class="cards-grid">
+      <div class="info-card">
+        <h3>Package Summary</h3>
+        <ul>
+          <li><span class="dot dot-blue"></span>Highest CTC: ₹1.9 Cr (International)</li>
+          <li><span class="dot dot-green"></span>Highest Domestic: ₹1.2 Cr</li>
+          <li><span class="dot dot-amber"></span>Average Package: ₹26.3 LPA</li>
+          <li><span class="dot dot-purple"></span>Median Package: ₹20 LPA</li>
+          <li><span class="dot dot-blue"></span>CSE Average: ₹42 LPA</li>
+          <li><span class="dot dot-red"></span>Total Offers: 1500+</li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <h3>Sector-wise Hiring</h3>
+        <ul>
+          <li><span class="dot dot-blue"></span>IT / Software: 42%</li>
+          <li><span class="dot dot-green"></span>Core Engineering: 25%</li>
+          <li><span class="dot dot-amber"></span>Finance / Fintech: 18%</li>
+          <li><span class="dot dot-purple"></span>Consulting: 10%</li>
+          <li><span class="dot dot-pink"></span>Others (R&D): 5%</li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <h3>Key Stats</h3>
+        <ul>
+          <li><span class="dot dot-green"></span>Placement Rate: 91%+</li>
+          <li><span class="dot dot-blue"></span>Companies Visited: 350+</li>
+          <li><span class="dot dot-amber"></span>PPOs Received: 280+</li>
+          <li><span class="dot dot-purple"></span>PSU Recruitment: Active</li>
+          <li><span class="dot dot-red"></span>Top Recruiter: Microsoft / Texas Inst.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-wrap">
+    <div class="section-title">Top Recruiting Companies</div>
+    <div class="companies-flex">
+      <span class="company-pill" style="background:#dbeafe;color:#1e40af">Google</span>
+      <span class="company-pill" style="background:#dcfce7;color:#166534">Microsoft</span>
+      <span class="company-pill" style="background:#fef3c7;color:#92400e">Goldman Sachs</span>
+      <span class="company-pill" style="background:#ede9fe;color:#5b21b6">Nvidia</span>
+      <span class="company-pill" style="background:#cffafe;color:#155e75">Intel</span>
+      <span class="company-pill" style="background:#fbcfe8;color:#9d174d">Texas Instruments</span>
+      <span class="company-pill" style="background:#fde68a;color:#78350f">Apple</span>
+      <span class="company-pill" style="background:#bfdbfe;color:#1e3a8a">Qualcomm</span>
+      <span class="company-pill" style="background:#bbf7d0;color:#14532d">McKinsey</span>
+      <span class="company-pill" style="background:#ddd6fe;color:#4c1d95">Barclays</span>
+      <span class="company-pill" style="background:#fca5a5;color:#7f1d1d">Samsung</span>
+      <span class="company-pill" style="background:#a5f3fc;color:#164e63">HUL</span>
+      <span class="company-pill" style="background:#c4b5fd;color:#3b0764">ITC</span>
+      <span class="company-pill" style="background:#6ee7b7;color:#065f46">Jaguar Land Rover</span>
+      <span class="company-pill" style="background:#93c5fd;color:#1e3a8a">Quadeye</span>
+      <span class="company-pill" style="background:#f9a8d4;color:#831843">Graviton</span>
+      <span class="company-pill" style="background:#fde68a;color:#78350f">Airtel</span>
+      <span class="company-pill" style="background:#bfdbfe;color:#1e3a8a">Wells Fargo</span>
+      <span class="company-pill" style="background:#bbf7d0;color:#14532d">TATA Steel</span>
+      <span class="company-pill" style="background:#ede9fe;color:#5b21b6">HAL</span>
+    </div>
+  </div>
+
+  <div class="section-wrap">
+    <div class="section-title">Campus Life</div>
+    <div class="campus-grid">
+      <div class="campus-card">
+        <div class="campus-icon">🏠</div>
+        <h4>Halls of Residence</h4>
+        <p>13 Halls. Known for "Hall Culture" and great autonomy given to students in management.</p>
+      </div>
+      <div class="campus-card">
+        <div class="campus-icon">🎨</div>
+        <h4>Antaragni</h4>
+        <p>One of India's biggest cultural fests. Four days of music, dance, and literary events.</p>
+      </div>
+      <div class="campus-card">
+        <div class="campus-icon">⚙️</div>
+        <h4>Techkriti</h4>
+        <p>Annual technical and entrepreneurial festival with participants from all over the world.</p>
+      </div>
+      <div class="campus-card">
+        <div class="campus-icon">🛩️</div>
+        <h4>Airstrip</h4>
+        <p>IIT Kanpur is the only IIT with its own glider club and functional airstrip for research.</p>
+      </div>
+      <div class="campus-card">
+        <div class="campus-icon">🌲</div>
+        <h4>Peacock Campus</h4>
+        <p>A lush green, sprawling 1000+ acre campus. Home to hundreds of peacocks and wildlife.</p>
+      </div>
+      <div class="campus-card">
+        <div class="campus-icon">🍛</div>
+        <h4>Canteens</h4>
+        <p>MT (Main Temple) and various hall canteens that serve till 2-3 AM for late-night studiers.</p>
+      </div>
+      <div class="campus-card">
+        <div class="campus-icon">🎾</div>
+        <h4>Udghosh</h4>
+        <p>The annual inter-collegiate sports festival with top-tier facilities for every major sport.</p>
+      </div>
+      <div class="campus-card">
+        <div class="campus-icon">🚲</div>
+        <h4>Cycle Culture</h4>
+        <p>Vehicle-free academic zone. Almost every student and faculty uses cycles to commute.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-wrap">
+    <div class="section-title">Notable Alumni</div>
+    <div class="cards-grid">
+      <div class="info-card">
+        <h3>Global Leaders</h3>
+        <ul>
+          <li><span class="dot dot-blue"></span>Arvind Krishna — CEO, IBM</li>
+          <li><span class="dot dot-blue"></span>Narayana Murthy — Co-founder, Infosys</li>
+          <li><span class="dot dot-blue"></span>Mukesh Bansal — Founder, Myntra & Curefit</li>
+          <li><span class="dot dot-blue"></span>Som Mittal — Former President, NASSCOM</li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <h3>Science & Public Service</h3>
+        <ul>
+          <li><span class="dot dot-green"></span>Ashoke Sen — Renowned String Theorist</li>
+          <li><span class="dot dot-green"></span>Satyendra Dubey — IES Officer (Whistleblower)</li>
+          <li><span class="dot dot-green"></span>Rajeev Motwani — Late Stanford Professor (Mentor to Google founders)</li>
+          <li><span class="dot dot-green"></span>K. Radhakrishnan — Former Chairman, ISRO</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  
+  <footer style="max-width: 960px; width: 100%; margin: 4rem auto 2rem; position: relative; overflow: hidden; border-radius: 30px; box-shadow: 0 15px 40px rgba(0,0,0,0.3); color: #fff; font-family: 'Segoe UI', Tahoma, sans-serif;">
+  
+  <div style="position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(6, 78, 59, 0.5), rgba(0, 0, 0, 0.85)), url('https://careerchoice360.in/colleges/images/iit-kanpur-ban.jpg') center/cover no-repeat; z-index: -1;"></div>
+  
+  <div style="padding: 4rem 2.5rem 1.5rem; text-shadow: 0 2px 6px rgba(0,0,0,0.8);">
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 3rem; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 2.5rem;">
+      
+      <div>
+        <h4 style="color: #6ee7b7; margin-bottom: 1rem; font-size: 1.5rem;">IIT Kanpur</h4>
+        <p style="font-size: 1rem; line-height: 1.7; color: #e2e8f0;">
+          Pioneers in <span style="font-weight: 800; color: #6ee7b7;">Aerospace</span> and Computer Science. Known for a tough yet rewarding academic culture.
+        </p>
+      </div>
+
+      <div style="text-align: right;">
+        <h4 style="color: #6ee7b7; margin-bottom: 1.2rem; font-size: 1.1rem;">Details</h4>
+        <ul style="list-style: none; font-size: 0.95rem; line-height: 2.2; padding: 0;">
+          <li>📍 Kalyanpur, Kanpur, Uttar Pradesh</li>
+          <li>🌐 iitk.ac.in</li>
+          <li>✈️ Private Airstrip Campus</li>
+        </ul>
+      </div>
+    </div>
+
+    <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 1.8rem; font-size: 0.85rem; color: #cbd5e1;">
+      <p>© 2026 College Knowledge</p>
+      <p>Developed by <b style="color: #6ee7b7;">Aman Kumar</b></p>
+    </div>
+  </div>
+</footer>
+
+
+</main>

@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Emotional Support — CollegeFinder</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Syne:wght@700;800&display=swap" rel="stylesheet"/>
+<style>
+:root{--bg:#06091a;--card:rgba(255,255,255,0.04);--bord:rgba(255,255,255,0.09);--text:#f0f4ff;--muted:#8899bb;--green2:#34d399;--blue2:#3b82f6;--purple:#8b5cf6;--amber2:#fbbf24;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;background:radial-gradient(ellipse 70% 50% at 20% 10%,rgba(139,92,246,0.14) 0,transparent 55%),radial-gradient(ellipse 50% 60% at 80% 85%,rgba(16,185,129,0.1) 0,transparent 55%);}
+.wrap{position:relative;z-index:1;max-width:800px;margin:0 auto;padding:2rem 1.5rem 4rem;}
+.hdr{text-align:center;margin-bottom:2rem;}
+.badge{display:inline-block;background:rgba(139,92,246,0.18);border:1px solid rgba(139,92,246,0.4);border-radius:20px;padding:.3rem 1rem;font-size:.72rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#c4b5fd;margin-bottom:.8rem;}
+.hdr h1{font-family:'Syne',sans-serif;font-size:clamp(1.6rem,4vw,2.4rem);font-weight:800;letter-spacing:-.02em;margin-bottom:.5rem;background:linear-gradient(135deg,#fff 30%,#c4b5fd 70%,#34d399);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.hdr p{color:var(--muted);font-size:.88rem;line-height:1.6;}
+.chat-card{background:var(--card);border:1px solid var(--bord);border-radius:20px;overflow:hidden;backdrop-filter:blur(10px);}
+.chat-header{background:linear-gradient(135deg,rgba(139,92,246,0.2),rgba(16,185,129,0.12));padding:1.2rem 1.5rem;display:flex;align-items:center;gap:1rem;border-bottom:1px solid var(--bord);}
+.bot-avatar{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#8b5cf6,#34d399);display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;}
+.bot-info .bot-name{font-family:'Syne',sans-serif;font-size:.95rem;font-weight:700;color:#c4b5fd;}
+.bot-info .bot-status{font-size:.72rem;color:var(--muted);display:flex;align-items:center;gap:.3rem;margin-top:.1rem;}
+.online-dot{width:7px;height:7px;border-radius:50%;background:#34d399;animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.4;}}
+.messages{padding:1.5rem;min-height:420px;max-height:520px;overflow-y:auto;display:flex;flex-direction:column;gap:1rem;}
+.msg{display:flex;gap:.7rem;align-items:flex-start;animation:msgIn .3s ease;}
+@keyframes msgIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+.msg.bot{flex-direction:row;}
+.msg.user{flex-direction:row-reverse;}
+.msg-avatar{width:32px;height:32px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.95rem;}
+.msg.bot .msg-avatar{background:linear-gradient(135deg,rgba(139,92,246,0.3),rgba(16,185,129,0.2));border:1px solid rgba(139,92,246,0.3);}
+.msg.user .msg-avatar{background:rgba(59,130,246,0.2);border:1px solid rgba(59,130,246,0.3);}
+.msg-bubble{max-width:75%;padding:.8rem 1.1rem;border-radius:16px;font-size:.85rem;line-height:1.6;}
+.msg.bot .msg-bubble{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);border-bottom-left-radius:4px;color:var(--text);}
+.msg.user .msg-bubble{background:rgba(37,99,235,0.25);border:1px solid rgba(59,130,246,0.3);border-bottom-right-radius:4px;color:#e0efff;}
+.typing{display:none;align-items:center;gap:.4rem;padding:.6rem 1rem;background:rgba(255,255,255,0.04);border-radius:14px;max-width:80px;}
+.typing span{width:7px;height:7px;border-radius:50%;background:rgba(196,181,253,0.6);animation:bounce 1.2s infinite;}
+.typing span:nth-child(2){animation-delay:.15s;}
+.typing span:nth-child(3){animation-delay:.3s;}
+@keyframes bounce{0%,60%,100%{transform:translateY(0);}30%{transform:translateY(-6px);}}
+.quick-chips{display:flex;flex-wrap:wrap;gap:.5rem;padding:0 1.5rem 1rem;}
+.chip{padding:.4rem .85rem;border-radius:20px;font-size:.76rem;font-weight:500;cursor:pointer;border:1px solid rgba(139,92,246,0.35);background:rgba(139,92,246,0.1);color:#c4b5fd;transition:.2s;font-family:'DM Sans',sans-serif;}
+.chip:hover{background:rgba(139,92,246,0.2);border-color:rgba(196,181,253,0.5);}
+.input-area{padding:1rem 1.5rem;border-top:1px solid var(--bord);display:flex;gap:.8rem;align-items:center;}
+.chat-input{flex:1;background:rgba(255,255,255,0.06);border:1.5px solid var(--bord);border-radius:12px;color:var(--text);font-size:.9rem;font-family:'DM Sans',sans-serif;padding:.7rem 1rem;outline:none;transition:.2s;resize:none;}
+.chat-input:focus{border-color:rgba(139,92,246,0.5);background:rgba(139,92,246,0.08);}
+.chat-input::placeholder{color:var(--muted);}
+.send-btn{width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,#8b5cf6,#6d28d9);border:none;color:#fff;font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.2s;flex-shrink:0;}
+.send-btn:hover{transform:scale(1.05);box-shadow:0 4px 16px rgba(139,92,246,0.4);}
+.disclaimer{text-align:center;padding:1.2rem 1.5rem;font-size:.72rem;color:rgba(255,255,255,0.3);line-height:1.5;}
+/* scrollbar */
+.messages::-webkit-scrollbar{width:4px;}
+.messages::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.1);border-radius:99px;}
+@media(max-width:500px){.wrap{padding:1rem .8rem 3rem;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="hdr">
+  <div class="badge">Emotional Support</div>
+  <h1>You're Not Alone 💜</h1>
+  <p>Talk to our AI companion — about JEE stress, college anxiety, or anything on your mind.<br/>No judgment. Just kind support.</p>
+</div>
+
+<div class="chat-card">
+  <div class="chat-header">
+    <div class="bot-avatar">🌸</div>
+    <div class="bot-info">
+      <div class="bot-name">Asha — Your Support Friend</div>
+      <div class="bot-status"><span class="online-dot"></span>Online • Here for you</div>
+    </div>
+  </div>
+
+  <div class="messages" id="msgs"></div>
+
+  <div style="padding:0 1.5rem .5rem;display:flex;align-items:center;gap:.5rem;">
+    <div class="typing" id="typingIndicator">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+
+  <div class="quick-chips" id="quickChips">
+    <span class="chip" onclick="sendChip('I\'m stressed about JEE results')">😰 JEE Stress</span>
+    <span class="chip" onclick="sendChip('I\'m not happy with my rank')">😔 Low Rank</span>
+    <span class="chip" onclick="sendChip('My parents have high expectations from me')">👨‍👩‍👦 Parent Pressure</span>
+    <span class="chip" onclick="sendChip('I feel like a failure')">💔 Feel Like Failing</span>
+    <span class="chip" onclick="sendChip('I need motivation to study')">⚡ Need Motivation</span>
+    <span class="chip" onclick="sendChip('Tell me which college is good for me')">🏛️ College Advice</span>
+  </div>
+
+  <div class="input-area">
+    <input type="text" class="chat-input" id="chatInput" placeholder="Type how you're feeling..." onkeydown="handleKey(event)"/>
+    <button class="send-btn" onclick="sendMessage()">➤</button>
+  </div>
+
+  <div class="disclaimer">
+    Asha is an AI companion. For serious mental health concerns, please speak to a professional or trusted adult.
+  </div>
+</div>
+</div>
+
+<script>
+var GREET = "Namaste! 🌸 I'm Asha, your emotional support friend from CollegeFinder. I'm here to listen — whether it's JEE pressure, college worries, family expectations, or anything else weighing on your heart. You can talk to me freely. How are you feeling today?";
+
+var RESPONSES = {
+  stress: ["I completely understand that feeling. JEE preparation is one of the most demanding journeys a student can take. The pressure, the sleepless nights, the constant self-doubt — it's real and it's heavy. 💜 Can you tell me more about what's stressing you most right now?",
+    "Stress during this time is completely normal. In fact, it shows how much you care. But remember — your worth is NOT defined by any exam result. You are so much more than a rank. 🌸 What's going on specifically?"],
+  rank: ["I hear you, and I want you to know — your rank doesn't define your future. There are thousands of successful engineers, entrepreneurs, and leaders who didn't get into 'top' colleges. What matters most is what YOU do with the opportunities you have. 💪 Tell me more about your situation?",
+    "A rank is just a number on one day of your life. It doesn't capture your intelligence, your creativity, your potential, or your character. Many great people faced setbacks early and went on to do extraordinary things. 🌟 What college did you get, and what are you thinking?"],
+  failure: ["Please don't call yourself a failure — because you are NOT one. You took on one of India's toughest exams. Even attempting it takes courage. Every step you took to prepare, every concept you learned, every night you stayed up studying — that all counts. 💜",
+    "You are not a failure. You are someone who tried hard, and trying hard in the face of difficulty is one of the most admirable things a person can do. Failure is not a person — it's just a moment. And this moment will pass. 🌸 I'm here with you."],
+  parent: ["Parental pressure can feel absolutely suffocating — especially when you love them and don't want to let them down. Know that your parents' expectations come from love, even if they don't always express it the right way. 💙 You can only do your best, and your best is enough.",
+    "It's so hard when the people you love most become a source of your anxiety. Their dreams for you come from love, but you also deserve space to be human and to make mistakes. 🌸 Would it help to talk about what they're expecting and how you feel about it?"],
+  motivation: ["Motivation comes and goes — even for the best students. What you need is discipline AND self-compassion. Don't beat yourself up when you slip. Pick up where you left off. 🔥 Every single minute you study is a minute invested in your future.",
+    "On days when motivation is low, try this: just start with 5 minutes. Not an hour — just 5 minutes of one topic. Often, starting is the hardest part, and once you begin, momentum builds. You have more strength than you think. ⚡"],
+  college: ["I'd love to help you think about colleges! Just remember — no college makes or breaks your future. Your skills, your work ethic, your attitude — THOSE are what employers and life will value. Which state are you from, and what's your approximate rank? I can guide you a bit! 🏛️",
+    "The 'best' college is the one where YOU will thrive — not just the one with the highest ranking. Consider factors like location, culture, placements in your field, and whether you'll be happy there. What branch are you interested in? Let's think through this together. 😊"],
+  sad: ["I'm sorry you're feeling this way. 💜 Your feelings are valid and I'm glad you're talking about them. Sometimes just putting words to how we feel helps a little. Can you tell me more about what's making you sad?",
+    "It's okay to feel sad. You don't have to be strong all the time. 🌸 This period of life is genuinely hard, and it's okay to acknowledge that. I'm here — talk to me."],
+  lonely: ["Feeling lonely during this journey is more common than you think. Many students around you are feeling the exact same way but are too afraid to say it. You are not alone in this. 💜 I'm here with you.",
+    "Loneliness can be so painful. Remember that reaching out — even to an AI like me — shows real courage and self-awareness. Is there anyone in your life you feel you could talk to? Or would you like to keep talking here?"],
+  default: ["I hear you, and I want you to know your feelings matter. 💜 This time in life — with exams, college decisions, and family pressure — can feel overwhelming. You're doing better than you think. Can you tell me more about what's on your mind?",
+    "Thank you for sharing that with me. 🌸 Whatever you're going through, you don't have to face it alone. I'm here to listen and support you. What would help you most right now — to vent, get advice, or just feel heard?",
+    "That sounds really tough, and I'm glad you felt comfortable enough to share it. 💙 Sometimes the weight of expectations and uncertainty feels too heavy. But remember — you've already made it through every hard day so far. You're stronger than you know.",
+    "I appreciate you opening up. 🌸 Big life transitions like this bring a lot of emotions — fear, doubt, comparison, hope. All of those are normal. Let's talk through what you're feeling. What's the biggest thing weighing on you?"]
+};
+
+function getResponse(msg) {
+  var m = msg.toLowerCase();
+  if(m.includes("stress")||m.includes("anxiety")||m.includes("nervous")||m.includes("worried")||m.includes("pressure"))
+    return pick(RESPONSES.stress);
+  if(m.includes("rank")||m.includes("marks")||m.includes("score")||m.includes("result")||m.includes("percentile"))
+    return pick(RESPONSES.rank);
+  if(m.includes("fail")||m.includes("disappoint")||m.includes("loser")||m.includes("worthless"))
+    return pick(RESPONSES.failure);
+  if(m.includes("parent")||m.includes("mom")||m.includes("dad")||m.includes("family")||m.includes("expect"))
+    return pick(RESPONSES.parent);
+  if(m.includes("motiv")||m.includes("study")||m.includes("focus")||m.includes("concentrate")||m.includes("energy"))
+    return pick(RESPONSES.motivation);
+  if(m.includes("college")||m.includes("nit")||m.includes("iit")||m.includes("admission")||m.includes("which college"))
+    return pick(RESPONSES.college);
+  if(m.includes("sad")||m.includes("cry")||m.includes("depressed")||m.includes("upset")||m.includes("unhappy"))
+    return pick(RESPONSES.sad);
+  if(m.includes("alone")||m.includes("lonely")||m.includes("no one")||m.includes("nobody"))
+    return pick(RESPONSES.lonely);
+  return pick(RESPONSES.default);
+}
+
+function pick(arr){return arr[Math.floor(Math.random()*arr.length)];}
+
+var msgCount=0;
+function addMsg(text,isBot,delay){
+  delay=delay||0;
+  setTimeout(function(){
+    var msgs=document.getElementById("msgs");
+    var div=document.createElement("div");
+    div.className="msg "+(isBot?"bot":"user");
+    div.style.animationDelay="0s";
+    var avatar=isBot?"🌸":"👤";
+    div.innerHTML='<div class="msg-avatar">'+avatar+'</div><div class="msg-bubble">'+text+'</div>';
+    msgs.appendChild(div);
+    msgs.scrollTop=msgs.scrollHeight;
+    msgCount++;
+  },delay);
+}
+
+function showTyping(){
+  var t=document.getElementById("typingIndicator");
+  t.style.display="flex";
+  var m=document.getElementById("msgs");
+  m.scrollTop=m.scrollHeight;
+}
+function hideTyping(){document.getElementById("typingIndicator").style.display="none";}
+
+function sendMessage(){
+  var inp=document.getElementById("chatInput");
+  var text=inp.value.trim();
+  if(!text)return;
+  inp.value="";
+  // hide quick chips after first message
+  document.getElementById("quickChips").style.display="none";
+  addMsg(text,false);
+  showTyping();
+  var resp=getResponse(text);
+  setTimeout(function(){hideTyping();addMsg(resp,true);},1200+Math.random()*800);
+}
+
+function sendChip(text){
+  document.getElementById("chatInput").value=text;
+  sendMessage();
+}
+
+function handleKey(e){if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();sendMessage();}}
+
+// Initial greeting
+window.addEventListener("load",function(){
+  setTimeout(function(){addMsg(GREET,true);},400);
+});
+</script>
+</body>
+</html>

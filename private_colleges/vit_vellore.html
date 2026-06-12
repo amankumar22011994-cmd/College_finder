@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>VIT Vellore - College Detail</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: linear-gradient(135deg, #f1f5f9, #e2e8f0); color: #111827; font-family: sans-serif; min-height: 100vh; }
+    .page { padding: 2rem 6vw; display: flex; flex-direction: column; align-items: center; }
+    .back-btn { align-self: flex-start; margin-bottom: 1.5rem; padding: .5rem 1rem; background: #dbeafe; border: none; border-radius: 8px; font-size: .9rem; font-weight: 500; cursor: pointer; color: #1e40af; text-decoration: none; display: inline-block; transition: 0.2s; }
+    .back-btn:hover { background: #bfdbfe; }
+    .hero-card { width: 100%; max-width: 960px; border-radius: 16px; overflow: hidden; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.18); margin-bottom: 2rem; }
+    .hero-bg { position: absolute; inset: 0; background-image: url("https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/VIT_University_Vellore_Campus.jpg/1280px-VIT_University_Vellore_Campus.jpg"); background-size: cover; background-position: center; filter: brightness(0.4); z-index: 0; }
+    .hero-content { position: relative; z-index: 1; display: flex; align-items: center; gap: 20px; padding: 2rem; }
+    .hero-logo { width: 72px; height: 72px; border-radius: 50%; background: white; display: flex; align-items: center; justify-content: center; overflow: hidden; flex-shrink: 0; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+    .hero-logo img { width: 80%; height: 80%; object-fit: contain; }
+    .hero-info h1 { color: whitesmoke; font-size: 1.6rem; font-weight: 700; margin-bottom: .3rem; }
+    .hero-info p { color: #919aab; font-size: .9rem; margin-bottom: .5rem; }
+    .hero-tags { display: flex; flex-wrap: wrap; gap: .5rem; }
+    .tag { padding: .25rem .75rem; border-radius: 20px; font-size: .78rem; font-weight: 500; }
+    .tag-blue { background: #dbeafe; color: #1e40af; } .tag-green { background: #dcfce7; color: #166534; } .tag-amber { background: #fef3c7; color: #92400e; } .tag-purple { background: #ede9fe; color: #5b21b6; }
+    .section-wrap { width: 100%; max-width: 960px; margin-bottom: 2rem; }
+    .section-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 1rem; padding-left: .25rem; color: #111827; }
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1rem; }
+    .stat-card { background: #fff; border-radius: 12px; padding: 1.1rem 1rem; text-align: center; box-shadow: 0 4px 14px rgba(0,0,0,0.08); }
+    .stat-num { font-size: 1.4rem; font-weight: 700; margin-bottom: .2rem; }
+    .stat-label { font-size: .78rem; color: #6b7280; }
+    .blue { color: #2563eb; } .green { color: #16a34a; } .amber { color: #d97706; } .purple { color: #7c3aed; } .red { color: #dc2626; } .orange { color: #f97316; }
+    .highlight-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 1rem; }
+    .highlight-box { background: #fff; border-radius: 12px; padding: 1.2rem; box-shadow: 0 4px 14px rgba(0,0,0,0.08); border-left: 4px solid; }
+    .hl-blue { border-color: #3b82f6; } .hl-green { border-color: #22c55e; } .hl-amber { border-color: #f59e0b; } .hl-purple { border-color: #8b5cf6; }
+    .highlight-box h4 { font-size: .88rem; font-weight: 600; margin-bottom: .5rem; }
+    .highlight-box p { font-size: .8rem; color: #6b7280; line-height: 1.5; }
+    .branches-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; }
+    .branch-card { background: #fff; border-radius: 12px; padding: 1.2rem; box-shadow: 0 4px 14px rgba(0,0,0,0.08); }
+    .branch-name { font-size: .92rem; font-weight: 600; margin-bottom: .6rem; color: #111827; }
+    .branch-row { display: flex; justify-content: space-between; font-size: .8rem; margin-bottom: .3rem; }
+    .branch-row span:first-child { color: #6b7280; } .branch-row span:last-child { font-weight: 600; color: #1d4ed8; }
+    .branch-badge { display: inline-block; margin-top: .5rem; padding: .2rem .6rem; border-radius: 20px; font-size: .72rem; font-weight: 500; }
+    .placement-bar { background: #fff; border-radius: 12px; padding: 1.5rem; box-shadow: 0 4px 14px rgba(0,0,0,0.08); margin-bottom: 1rem; }
+    .bar-row { display: flex; align-items: center; gap: 1rem; margin-bottom: .9rem; }
+    .bar-row:last-child { margin-bottom: 0; }
+    .bar-label { font-size: .82rem; color: #4b5563; width: 120px; flex-shrink: 0; }
+    .bar-track { flex: 1; background: #f3f4f6; border-radius: 99px; height: 10px; overflow: hidden; }
+    .bar-fill { height: 100%; border-radius: 99px; }
+    .bar-val { font-size: .82rem; font-weight: 600; width: 80px; text-align: right; flex-shrink: 0; }
+    .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }
+    .info-card { background: #fff; border-radius: 12px; padding: 1.2rem; box-shadow: 0 4px 14px rgba(0,0,0,0.08); }
+    .info-card h3 { font-size: .85rem; font-weight: 600; margin-bottom: .8rem; color: #374151; }
+    .info-card ul { list-style: none; }
+    .info-card ul li { font-size: .82rem; color: #4b5563; padding: .3rem 0; border-bottom: .5px solid #f3f4f6; display: flex; align-items: center; gap: .4rem; }
+    .info-card ul li:last-child { border-bottom: none; }
+    .dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+    .dot-blue { background: #3b82f6; } .dot-green { background: #22c55e; } .dot-amber { background: #f59e0b; } .dot-purple { background: #8b5cf6; } .dot-red { background: #ef4444; } .dot-pink { background: #ec4899; }
+    .companies-flex { display: flex; flex-wrap: wrap; gap: .75rem; }
+    .company-pill { padding: .5rem 1rem; border-radius: 20px; font-size: .82rem; font-weight: 500; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+    .campus-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }
+    .campus-card { background: #fff; border-radius: 12px; padding: 1.2rem; box-shadow: 0 4px 14px rgba(0,0,0,0.08); text-align: center; }
+    .campus-icon { font-size: 1.6rem; margin-bottom: .6rem; }
+    .campus-card h4 { font-size: .88rem; font-weight: 600; margin-bottom: .4rem; }
+    .campus-card p { font-size: .78rem; color: #6b7280; line-height: 1.5; }
+    @media (max-width: 600px) { .page { padding: 1.2rem 4vw; } }
+  </style>
+</head>
+<body>
+<main class="page">
+  <a href="../Main_colleges/private.html" class="back-btn">← Back to All Private Colleges</a>
+  <div class="hero-card">
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <div class="hero-logo"><img src="https://upload.wikimedia.org/wikipedia/en/thumb/6/69/VIT_University_seal.svg/220px-VIT_University_seal.svg.png" alt="VIT Vellore" onerror="this.style.display='none'"></div>
+      <div class="hero-info">
+        <h1>VIT Vellore</h1>
+        <p>Vellore Institute of Technology &nbsp;|&nbsp; Vellore, Tamil Nadu</p>
+        <div class="hero-tags">
+          <span class="tag tag-blue">Established 1984</span>
+          <span class="tag tag-green">NIRF Rank #11</span>
+          <span class="tag tag-amber">Deemed University</span>
+          <span class="tag tag-purple">NIRF Top 15 Private</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="section-wrap">
+    <div class="section-title">Quick Overview</div>
+    <div class="stats-grid">
+      <div class="stat-card"><div class="stat-num blue">~30,000</div><div class="stat-label">Total Students</div></div>
+      <div class="stat-card"><div class="stat-num green">2,500+</div><div class="stat-label">Faculty Members</div></div>
+      <div class="stat-card"><div class="stat-num amber">372 acres</div><div class="stat-label">Campus Area</div></div>
+      <div class="stat-card"><div class="stat-num purple">20</div><div class="stat-label">Departments</div></div>
+      <div class="stat-card"><div class="stat-num red">₹75 LPA</div><div class="stat-label">Highest Package</div></div>
+      <div class="stat-card"><div class="stat-num blue">85%</div><div class="stat-label">Placement Rate</div></div>
+    </div>
+  </div>
+  <div class="section-wrap">
+    <div class="section-title">About VIT Vellore</div>
+    <div class="highlight-row"><div class="highlight-box hl-blue"><h4>Legacy &amp; Prestige</h4><p>Founded in 1984 by Dr. G. Viswanathan. India's largest private engineering university by enrollment. Consistently in NIRF top 15. Known for strong placement culture and massive alumni network across the globe.</p></div>
+<div class="highlight-box hl-green"><h4>Research &amp; Innovation</h4><p>20+ research centers including TIFAC-CORE, CBCMT, and Centre for Nanoscience. 2000+ research publications annually. Strong collaboration with NASA, Boeing, and Airbus for aerospace research.</p></div>
+<div class="highlight-box hl-amber"><h4>FFCS System</h4><p>Unique Fully Flexible Credit System (FFCS) — students build their own timetable and can choose courses freely. No mandatory lectures — attendance is flexible, promoting self-directed learning.</p></div>
+<div class="highlight-box hl-purple"><h4>Global Collaborations</h4><p>600+ MoUs with global universities including Penn State, Georgia Tech, and KTH Sweden. 15% international students. Strong pathways to MS programs in USA, Canada, and Europe.</p></div></div>
+  </div>
+  <div class="section-wrap">
+    <div class="section-title">Branches &amp; Programs</div>
+    <div class="branches-grid"><div class="branch-card"><div class="branch-name">CSE</div><div class="branch-row"><span>Cutoff (GEN)</span><span>VITEEE 95+ %ile</span></div><div class="branch-row"><span>Avg Package</span><span>₹10–22 LPA</span></div><div class="branch-row"><span>Seats</span><span>600</span></div><span class="branch-badge tag-blue">Top Branch</span></div>
+<div class="branch-card"><div class="branch-name">CSE — AI &amp; ML Spec.</div><div class="branch-row"><span>Cutoff (GEN)</span><span>VITEEE 96+ %ile</span></div><div class="branch-row"><span>Avg Package</span><span>₹12–25 LPA</span></div><div class="branch-row"><span>Seats</span><span>300</span></div><span class="branch-badge tag-purple">High Demand</span></div>
+<div class="branch-card"><div class="branch-name">Electronics &amp; Communication</div><div class="branch-row"><span>Cutoff (GEN)</span><span>VITEEE 93+ %ile</span></div><div class="branch-row"><span>Avg Package</span><span>₹8–16 LPA</span></div><div class="branch-row"><span>Seats</span><span>400</span></div><span class="branch-badge tag-green">Core Branch</span></div>
+<div class="branch-card"><div class="branch-name">Mechanical Engineering</div><div class="branch-row"><span>Cutoff (GEN)</span><span>VITEEE 88+ %ile</span></div><div class="branch-row"><span>Avg Package</span><span>₹7–12 LPA</span></div><div class="branch-row"><span>Seats</span><span>400</span></div><span class="branch-badge tag-amber">Core Branch</span></div>
+<div class="branch-card"><div class="branch-name">Civil Engineering</div><div class="branch-row"><span>Cutoff (GEN)</span><span>VITEEE 82+ %ile</span></div><div class="branch-row"><span>Avg Package</span><span>₹6–10 LPA</span></div><div class="branch-row"><span>Seats</span><span>300</span></div><span class="branch-badge tag-amber">Core Branch</span></div>
+<div class="branch-card"><div class="branch-name">Biotechnology</div><div class="branch-row"><span>Cutoff (GEN)</span><span>VITEEE 88+ %ile</span></div><div class="branch-row"><span>Avg Package</span><span>₹8–14 LPA</span></div><div class="branch-row"><span>Seats</span><span>120</span></div><span class="branch-badge tag-green">Unique Offering</span></div>
+<div class="branch-card"><div class="branch-name">Electrical &amp; Electronics</div><div class="branch-row"><span>Cutoff (GEN)</span><span>VITEEE 90+ %ile</span></div><div class="branch-row"><span>Avg Package</span><span>₹7–13 LPA</span></div><div class="branch-row"><span>Seats</span><span>300</span></div><span class="branch-badge tag-green">Core Branch</span></div>
+<div class="branch-card"><div class="branch-name">Information Technology</div><div class="branch-row"><span>Cutoff (GEN)</span><span>VITEEE 92+ %ile</span></div><div class="branch-row"><span>Avg Package</span><span>₹9–18 LPA</span></div><div class="branch-row"><span>Seats</span><span>300</span></div><span class="branch-badge tag-blue">Growing Branch</span></div></div>
+  </div>
+  <div class="section-wrap">
+    <div class="section-title">Cutoffs (2025, General Category)</div>
+    <div class="placement-bar"><div class="bar-row"><span class="bar-label">CSE (AI &amp; ML)</span><div class="bar-track"><div class="bar-fill" style="width:99%;background:#3b82f6"></div></div><span class="bar-val blue">96+ %ile</span></div>
+<div class="bar-row"><span class="bar-label">CSE</span><div class="bar-track"><div class="bar-fill" style="width:96%;background:#8b5cf6"></div></div><span class="bar-val purple">95+ %ile</span></div>
+<div class="bar-row"><span class="bar-label">IT</span><div class="bar-track"><div class="bar-fill" style="width:90%;background:#22c55e"></div></div><span class="bar-val green">92+ %ile</span></div>
+<div class="bar-row"><span class="bar-label">ECE</span><div class="bar-track"><div class="bar-fill" style="width:87%;background:#f59e0b"></div></div><span class="bar-val amber">93+ %ile</span></div>
+<div class="bar-row"><span class="bar-label">EEE</span><div class="bar-track"><div class="bar-fill" style="width:82%;background:#f97316"></div></div><span class="bar-val orange">90+ %ile</span></div>
+<div class="bar-row"><span class="bar-label">Biotech</span><div class="bar-track"><div class="bar-fill" style="width:75%;background:#16a34a"></div></div><span class="bar-val green">88+ %ile</span></div>
+<div class="bar-row"><span class="bar-label">Mechanical</span><div class="bar-track"><div class="bar-fill" style="width:72%;background:#7c3aed"></div></div><span class="bar-val purple">88+ %ile</span></div>
+<div class="bar-row"><span class="bar-label">Civil</span><div class="bar-track"><div class="bar-fill" style="width:62%;background:#dc2626"></div></div><span class="bar-val red">82+ %ile</span></div></div>
+    <p style="font-size:.75rem;color:#9ca3af;padding-left:.25rem;margin-top:.5rem">* VITEEE percentile shown. Higher %ile = more competitive branch.</p>
+  </div>
+  <div class="section-wrap">
+    <div class="section-title">Placements 2025</div>
+    <div class="cards-grid">
+      <div class="info-card"><h3>Package Summary</h3><ul><li><span class="dot dot-blue"></span>Highest CTC: ₹75 LPA</li>
+<li><span class="dot dot-green"></span>Average Package: ₹9.5 LPA</li>
+<li><span class="dot dot-amber"></span>Median Package: ₹7 LPA</li>
+<li><span class="dot dot-purple"></span>CSE (AI) Average: ₹14 LPA</li>
+<li><span class="dot dot-blue"></span>Total Offers: 8,000+</li>
+<li><span class="dot dot-red"></span>Mass Recruiter Offers: 4,000+</li></ul></div>
+      <div class="info-card"><h3>Sector-wise Hiring</h3><ul><li><span class="dot dot-blue"></span>Tech &amp; IT: 55%</li>
+<li><span class="dot dot-green"></span>Core Engineering: 22%</li>
+<li><span class="dot dot-amber"></span>Consulting: 12%</li>
+<li><span class="dot dot-purple"></span>Research &amp; Higher Studies: 8%</li>
+<li><span class="dot dot-pink"></span>Startups: 3%</li></ul></div>
+      <div class="info-card"><h3>Key Stats</h3><ul><li><span class="dot dot-green"></span>Placement Rate: 85%+</li>
+<li><span class="dot dot-blue"></span>Companies: 500+</li>
+<li><span class="dot dot-amber"></span>PPOs: 20%</li>
+<li><span class="dot dot-purple"></span>International Offers: 150+</li>
+<li><span class="dot dot-red"></span>Mass Recruiters: TCS, Infosys, Wipro</li></ul></div>
+    </div>
+  </div>
+  <div class="section-wrap">
+    <div class="section-title">Top Recruiting Companies</div>
+    <div class="companies-flex"><span class="company-pill" style="background:#dbeafe;color:#1e40af">TCS</span>
+<span class="company-pill" style="background:#dcfce7;color:#166534">Infosys</span>
+<span class="company-pill" style="background:#fef3c7;color:#92400e">Wipro</span>
+<span class="company-pill" style="background:#ede9fe;color:#5b21b6">Amazon</span>
+<span class="company-pill" style="background:#cffafe;color:#155e75">Microsoft</span>
+<span class="company-pill" style="background:#fbcfe8;color:#9d174d">Cognizant</span>
+<span class="company-pill" style="background:#fde68a;color:#78350f">Capgemini</span>
+<span class="company-pill" style="background:#bfdbfe;color:#1e3a8a">HCL</span>
+<span class="company-pill" style="background:#bbf7d0;color:#14532d">Accenture</span>
+<span class="company-pill" style="background:#ddd6fe;color:#4c1d95">Oracle</span>
+<span class="company-pill" style="background:#fca5a5;color:#7f1d1d">Samsung</span>
+<span class="company-pill" style="background:#a5f3fc;color:#164e63">L&T</span>
+<span class="company-pill" style="background:#c4b5fd;color:#3b0764">Deloitte</span>
+<span class="company-pill" style="background:#6ee7b7;color:#065f46">Bosch</span>
+<span class="company-pill" style="background:#93c5fd;color:#1e3a8a">Zoho</span>
+<span class="company-pill" style="background:#f9a8d4;color:#831843">Flipkart</span>
+<span class="company-pill" style="background:#fde68a;color:#78350f">Qualcomm</span>
+<span class="company-pill" style="background:#bbf7d0;color:#14532d">IBM</span>
+<span class="company-pill" style="background:#ede9fe;color:#5b21b6">Intel</span>
+<span class="company-pill" style="background:#fee2e2;color:#991b1b">ISRO</span></div>
+  </div>
+  <div class="section-wrap">
+    <div class="section-title">Campus Life</div>
+    <div class="campus-grid"><div class="campus-card"><div class="campus-icon">🏠</div><h4>Hostels</h4><p>30+ hostels with modern facilities. Separate blocks for boys, girls, and international students. AC rooms available. 24/7 Wi-Fi and cafeteria.</p></div>
+<div class="campus-card"><div class="campus-icon">🎭</div><h4>Riviera</h4><p>VIT's international cultural fest — Asia's largest student-organized cultural fest. 5-day extravaganza with world-class artists, 1 lakh+ attendees.</p></div>
+<div class="campus-card"><div class="campus-icon">⚙️</div><h4>Gravitas</h4><p>Asia's second-largest technical fest. Robotics, AI hackathons, and talks by global tech leaders. 40,000+ participants from 1,000+ colleges.</p></div>
+<div class="campus-card"><div class="campus-icon">🏏</div><h4>Sports</h4><p>Olympic-standard stadium, international-level cricket ground, 5 football fields, 20 tennis courts, 3 swimming pools, athletics track.</p></div>
+<div class="campus-card"><div class="campus-icon">🌆</div><h4>Vellore Location</h4><p>Vellore — Tamil Nadu's historic city. Excellent connectivity to Chennai (135 km). Famous Vellore Fort near campus. Peaceful academic town environment.</p></div>
+<div class="campus-card"><div class="campus-icon">🍽️</div><h4>Dining</h4><p>40+ dining venues on campus including Domino's, Subway, and campus messes. VIT's food variety is famous among all Indian campuses.</p></div>
+<div class="campus-card"><div class="campus-icon">📚</div><h4>Central Library</h4><p>4 lakh+ books. Digital access to 30,000+ journals. AC reading rooms. RFID-based smart library system. Open till midnight.</p></div>
+<div class="campus-card"><div class="campus-icon">🚀</div><h4>Student Clubs</h4><p>200+ clubs including ISTE, IEEE, ACM, NCC, NSS, Toastmasters, and specialized technical societies in every engineering domain.</p></div></div>
+  </div>
+  <div class="section-wrap">
+    <div class="section-title">Notable Alumni</div>
+    <div class="cards-grid">
+      <div class="info-card"><h3>Tech &amp; Business Leaders</h3><ul><li><span class="dot dot-blue"></span>E. Balagurusamy — Pioneer of CS Education in India</li>
+<li><span class="dot dot-blue"></span>Multiple VPs and Directors at Microsoft, Google, Amazon</li>
+<li><span class="dot dot-blue"></span>CTO of Zoho — VIT alumni led the product team</li>
+<li><span class="dot dot-blue"></span>Startup founders across US, Singapore, and India</li></ul></div>
+      <div class="info-card"><h3>Research &amp; Academia</h3><ul><li><span class="dot dot-green"></span>PhD researchers at top US, UK, and Singapore universities</li>
+<li><span class="dot dot-green"></span>NASA and ESA collaborating researchers from VIT</li>
+<li><span class="dot dot-green"></span>Faculty at IITs, NITs, and international universities</li>
+<li><span class="dot dot-green"></span>Published researchers in Nature, IEEE, and Springer journals</li></ul></div>
+    </div>
+  </div>
+  <footer style="max-width:960px;width:100%;margin:4rem auto 2rem;position:relative;overflow:hidden;border-radius:30px;box-shadow:0 15px 40px rgba(0,0,0,0.3);color:#fff;">
+    <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(15,23,42,0.45),rgba(15,23,42,0.75)),url('https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/VIT_University_Vellore_Campus.jpg/1280px-VIT_University_Vellore_Campus.jpg') center/cover no-repeat;filter:saturate(1.2);z-index:-1;"></div>
+    <div style="padding:4rem 2.5rem 1.5rem;text-shadow:0 2px 8px rgba(0,0,0,0.9);">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:3rem;border-bottom:1px solid rgba(255,255,255,0.4);padding-bottom:2.5rem;">
+        <div>
+          <h4 style="color:#fbbf24;margin-bottom:1rem;font-size:1.5rem;">India's Largest Private Tech University</h4>
+          <p style="font-size:1rem;line-height:1.7;">VIT Vellore — shaping <span style='color:#fbbf24;font-weight:800'>1,00,000+ global engineers</span> with innovation, research, and world-class education.</p>
+        </div>
+        <div>
+          <h4 style="color:#fbbf24;margin-bottom:1.2rem;font-size:1.1rem;">Quick Links</h4>
+          <ul style="list-style:none;font-size:0.95rem;line-height:2.2;">
+            <li>🏠 Home - All Colleges</li>
+            <li>🚀 Campus &amp; Life</li>
+          </ul>
+        </div>
+      </div>
+      <p style="text-align:center;padding-top:1.8rem;font-size:0.9rem;">© 2026 College Knowledge | Developed by <b style="color:#fbbf24;">Aman Kumar</b></p>
+    </div>
+  </footer>
+</main>
+</body>
+</html>

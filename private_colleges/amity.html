@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Amity University Noida - College Detail</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: linear-gradient(135deg, #f1f5f9, #e2e8f0); color: #111827; font-family: sans-serif; min-height: 100vh; }
+    .page { padding: 2rem 6vw; display: flex; flex-direction: column; align-items: center; }
+    .back-btn { align-self: flex-start; margin-bottom: 1.5rem; padding: .5rem 1rem; background: #fef3c7; border: none; border-radius: 8px; font-size: .9rem; font-weight: 500; cursor: pointer; color: #92400e; text-decoration: none; display: inline-block; transition: 0.2s; }
+    .back-btn:hover { background: #fde68a; }
+    .hero-card { width: 100%; max-width: 960px; border-radius: 16px; overflow: hidden; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.18); margin-bottom: 2rem; }
+    .hero-bg { position: absolute; inset: 0; background-image: url("https://static.theprint.in/wp-content/uploads/2022/09/Amity-University-Noida.jpg"); background-size: cover; background-position: center; filter: brightness(0.4); z-index: 0; }
+    .hero-content { position: relative; z-index: 1; display: flex; align-items: center; gap: 20px; padding: 2rem; }
+    .hero-logo { width: 72px; height: 72px; border-radius: 50%; background: white; display: flex; align-items: center; justify-content: center; overflow: hidden; flex-shrink: 0; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+    .hero-logo img { width: 85%; height: 85%; object-fit: contain; }
+    .hero-info h1 { color: whitesmoke; font-size: 1.6rem; font-weight: 700; margin-bottom: .3rem; }
+    .hero-info p { color: #cbd5e1; font-size: .9rem; margin-bottom: .5rem; }
+    .hero-tags { display: flex; flex-wrap: wrap; gap: .5rem; }
+    .tag { padding: .25rem .75rem; border-radius: 20px; font-size: .78rem; font-weight: 500; }
+    .tag-blue { background: #dbeafe; color: #1e40af; } .tag-green { background: #dcfce7; color: #166534; } .tag-amber { background: #fef3c7; color: #92400e; } .tag-purple { background: #ede9fe; color: #5b21b6; }
+    .section-wrap { width: 100%; max-width: 960px; margin-bottom: 2rem; }
+    .section-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 1rem; padding-left: .25rem; color: #111827; }
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1rem; }
+    .stat-card { background: #fff; border-radius: 12px; padding: 1.1rem 1rem; text-align: center; box-shadow: 0 4px 14px rgba(0,0,0,0.08); }
+    .stat-num { font-size: 1.4rem; font-weight: 700; margin-bottom: .2rem; }
+    .stat-label { font-size: .78rem; color: #6b7280; }
+    .blue { color: #2563eb; } .green { color: #16a34a; } .amber { color: #d97706; } .purple { color: #7c3aed; } .red { color: #dc2626; } .orange { color: #f97316; }
+    .highlight-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 1rem; }
+    .highlight-box { background: #fff; border-radius: 12px; padding: 1.2rem; box-shadow: 0 4px 14px rgba(0,0,0,0.08); border-left: 4px solid; }
+    .hl-blue { border-color: #3b82f6; } .hl-green { border-color: #22c55e; } .hl-amber { border-color: #f59e0b; } .hl-purple { border-color: #8b5cf6; }
+    .highlight-box h4 { font-size: .88rem; font-weight: 600; margin-bottom: .5rem; }
+    .highlight-box p { font-size: .8rem; color: #6b7280; line-height: 1.5; }
+    .branches-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; }
+    .branch-card { background: #fff; border-radius: 12px; padding: 1.2rem; box-shadow: 0 4px 14px rgba(0,0,0,0.08); }
+    .branch-name { font-size: .92rem; font-weight: 600; margin-bottom: .6rem; color: #111827; }
+    .branch-row { display: flex; justify-content: space-between; font-size: .8rem; margin-bottom: .3rem; }
+    .branch-row span:first-child { color: #6b7280; } .branch-row span:last-child { font-weight: 600; color: #1d4ed8; }
+    .branch-badge { display: inline-block; margin-top: .5rem; padding: .2rem .6rem; border-radius: 20px; font-size: .72rem; font-weight: 500; }
+    .placement-bar { background: #fff; border-radius: 12px; padding: 1.5rem; box-shadow: 0 4px 14px rgba(0,0,0,0.08); margin-bottom: 1rem; }
+    .bar-row { display: flex; align-items: center; gap: 1rem; margin-bottom: .9rem; }
+    .bar-row:last-child { margin-bottom: 0; }
+    .bar-label { font-size: .82rem; color: #4b5563; width: 120px; flex-shrink: 0; }
+    .bar-track { flex: 1; background: #f3f4f6; border-radius: 99px; height: 10px; overflow: hidden; }
+    .bar-fill { height: 100%; border-radius: 99px; }
+    .bar-val { font-size: .82rem; font-weight: 600; width: 80px; text-align: right; flex-shrink: 0; }
+    .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }
+    .info-card { background: #fff; border-radius: 12px; padding: 1.2rem; box-shadow: 0 4px 14px rgba(0,0,0,0.08); }
+    .info-card h3 { font-size: .85rem; font-weight: 600; margin-bottom: .8rem; color: #374151; }
+    .info-card ul { list-style: none; }
+    .info-card ul li { font-size: .82rem; color: #4b5563; padding: .3rem 0; border-bottom: .5px solid #f3f4f6; display: flex; align-items: center; gap: .4rem; }
+    .info-card ul li:last-child { border-bottom: none; }
+    .dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+    .dot-blue { background: #3b82f6; } .dot-green { background: #22c55e; } .dot-amber { background: #f59e0b; } .dot-purple { background: #8b5cf6; } .dot-red { background: #ef4444; } .dot-pink { background: #ec4899; }
+    .companies-flex { display: flex; flex-wrap: wrap; gap: .75rem; }
+    .company-pill { padding: .5rem 1rem; border-radius: 20px; font-size: .82rem; font-weight: 500; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+    .campus-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }
+    .campus-card { background: #fff; border-radius: 12px; padding: 1.2rem; box-shadow: 0 4px 14px rgba(0,0,0,0.08); text-align: center; }
+    .campus-icon { font-size: 1.6rem; margin-bottom: .6rem; }
+    .campus-card h4 { font-size: .88rem; font-weight: 600; margin-bottom: .4rem; }
+    .campus-card p { font-size: .78rem; color: #6b7280; line-height: 1.5; }
+    @media (max-width: 600px) { .page { padding: 1.2rem 4vw; } }
+  </style>
+</head>
+<body>
+<main class="page">
+  <a href="../Main_colleges/private.html" class="back-btn">← Back to All Private Colleges</a>
+  <div class="hero-card">
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <div class="hero-logo"><img src="https://upload.wikimedia.org/wikipedia/en/thumb/d/d2/Amity_University_logo.png/220px-Amity_University_logo.png" alt="Amity Noida"></div>
+      <div class="hero-info">
+        <h1>Amity University Noida</h1>
+        <p>Amity University Uttar Pradesh &nbsp;|&nbsp; Sector 125, Noida, Uttar Pradesh</p>
+        <div class="hero-tags">
+          <span class="tag tag-blue">Established 2005</span>
+          <span class="tag tag-green">NIRF Rank #22 (Univ)</span>
+          <span class="tag tag-amber">NAAC A+ Accredited</span>
+          <span class="tag tag-purple">Flagship Campus</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-wrap">
+    <div class="section-title">Quick Overview</div>
+    <div class="stats-grid">
+      <div class="stat-card"><div class="stat-num blue">~45,000</div><div class="stat-label">Total Students</div></div>
+      <div class="stat-card"><div class="stat-num green">1,700+</div><div class="stat-label">Faculty Members</div></div>
+      <div class="stat-card"><div class="stat-num amber">85 acres</div><div class="stat-label">Campus Area</div></div>
+      <div class="stat-card"><div class="stat-num purple">2600+</div><div class="stat-label">Patents Filed</div></div>
+      <div class="stat-card"><div class="stat-num red">₹75 LPA</div><div class="stat-label">Highest Package</div></div>
+      <div class="stat-card"><div class="stat-num blue">95%</div><div class="stat-label">Placement Rate</div></div>
+    </div>
+  </div>
+
+  <div class="section-wrap">
+    <div class="section-title">About Amity Noida</div>
+    <div class="highlight-row">
+      <div class="highlight-box hl-blue"><h4>Global Exposure</h4><p>Offers "Study Abroad Program" (SAP) across London, Dubai, and Singapore. 12 international campuses and 14 Indian universities under the group.</p></div>
+      <div class="highlight-box hl-green"><h4>Research Focus</h4><p>Highly ranked for research (NIRF #38). State-of-the-art labs and a massive culture of filing patents and innovation in biotech and nanotechnology.</p></div>
+      <div class="highlight-box hl-amber"><h4>Corporate Linkages</h4><p>Known for CEO forums and industry interaction. Strategically located in Noida's industrial hub with access to 800+ recruiting partners.</p></div>
+      <div class="highlight-box hl-purple"><h4>Modern Infrastructure</h4><p>High-tech smart campus with central AC, hi-tech security, multi-cuisine food courts, and an Olympic-size sports complex.</p></div>
+    </div>
+  </div>
+
+  <div class="section-wrap">
+    <div class="section-title">Top Programs (ASET &amp; ASB)</div>
+    <div class="branches-grid">
+      <div class="branch-card"><div class="branch-name">Computer Science (CSE)</div><div class="branch-row"><span>Eligibility</span><span>Merit/Entrance</span></div><div class="branch-row"><span>Avg Package</span><span>₹9.6–12 LPA</span></div><div class="branch-row"><span>Seats</span><span>600+</span></div><span class="branch-badge tag-blue">Top Placement</span></div>
+      <div class="branch-card"><div class="branch-name">MBA (General)</div><div class="branch-row"><span>Entrance</span><span>MAT/CAT/Amity</span></div><div class="branch-row"><span>Avg Package</span><span>₹7.3–9 LPA</span></div><div class="branch-row"><span>Seats</span><span>400+</span></div><span class="branch-badge tag-green">Corporate Fav</span></div>
+      <div class="branch-card"><div class="branch-name">Electronics &amp; Comm.</div><div class="branch-row"><span>Eligibility</span><span>10+2 Merit</span></div><div class="branch-row"><span>Avg Package</span><span>₹7–10 LPA</span></div><div class="branch-row"><span>Seats</span><span>180</span></div><span class="branch-badge tag-green">Tech Focused</span></div>
+      <div class="branch-card"><div class="branch-name">Biotechnology</div><div class="branch-row"><span>Focus</span><span>Research</span></div><div class="branch-row"><span>Avg Package</span><span>₹6–8 LPA</span></div><div class="branch-row"><span>Rank</span><span>Top 5 in India</span></div><span class="branch-badge tag-purple">Niche Area</span></div>
+    </div>
+  </div>
+
+  <div class="section-wrap">
+    <div class="section-title">NIRF 2025 Category Rankings</div>
+    <div class="placement-bar">
+      <div class="bar-row"><span class="bar-label">Pharmacy</span><div class="bar-track"><div class="bar-fill" style="width:92%;background:#3b82f6"></div></div><span class="bar-val blue">#18</span></div>
+      <div class="bar-row"><span class="bar-label">University</span><div class="bar-track"><div class="bar-fill" style="width:88%;background:#8b5cf6"></div></div><span class="bar-val purple">#22</span></div>
+      <div class="bar-row"><span class="bar-label">Overall</span><div class="bar-track"><div class="bar-fill" style="width:82%;background:#22c55e"></div></div><span class="bar-val green">#37</span></div>
+      <div class="bar-row"><span class="bar-label">Engineering</span><div class="bar-track"><div class="bar-fill" style="width:82%;background:#f59e0b"></div></div><span class="bar-val amber">#37</span></div>
+      <div class="bar-row"><span class="bar-label">Management</span><div class="bar-track"><div class="bar-fill" style="width:72%;background:#f97316"></div></div><span class="bar-val orange">#49</span></div>
+    </div>
+    <p style="font-size:.75rem;color:#9ca3af;padding-left:.25rem;margin-top:.5rem">* Based on MHRD NIRF 2025 release.</p>
+  </div>
+
+  <div class="section-wrap">
+    <div class="section-title">Placements 2025 Highlights</div>
+    <div class="cards-grid">
+      <div class="info-card"><h3>Salary Stats</h3><ul><li><span class="dot dot-blue"></span>Highest: ₹75.00 LPA</li>
+<li><span class="dot dot-green"></span>Average (Engineering): ₹9.6 LPA</li>
+<li><span class="dot dot-amber"></span>Average (MBA): ₹7.35 LPA</li>
+<li><span class="dot dot-purple"></span>Median Package: ₹6.0 LPA</li>
+<li><span class="dot dot-red"></span>Offers Made: 6000+</li></ul></div>
+      <div class="info-card"><h3>Hiring Partners</h3><ul><li><span class="dot dot-blue"></span>Fortune 500 Cos: 140+</li>
+<li><span class="dot dot-green"></span>Total Recruiters: 800+</li>
+<li><span class="dot dot-amber"></span>New Recruiters: 280+</li>
+<li><span class="dot dot-purple"></span>International Offers: 3</li></ul></div>
+      <div class="info-card"><h3>Key Sectors</h3><ul><li><span class="dot dot-green"></span>IT &amp; Tech: 45%</li>
+<li><span class="dot dot-blue"></span>Consulting: 15%</li>
+<li><span class="dot dot-amber"></span>Manufacturing: 12%</li>
+<li><span class="dot dot-purple"></span>FMCG &amp; Retail: 10%</li></ul></div>
+    </div>
+  </div>
+
+  <div class="section-wrap">
+    <div class="section-title">Top Recruiters</div>
+    <div class="companies-flex">
+      <span class="company-pill" style="background:#dbeafe;color:#1e40af">Amazon</span>
+      <span class="company-pill" style="background:#dcfce7;color:#166534">Microsoft</span>
+      <span class="company-pill" style="background:#fef3c7;color:#92400e">Adobe</span>
+      <span class="company-pill" style="background:#ede9fe;color:#5b21b6">NVIDIA</span>
+      <span class="company-pill" style="background:#cffafe;color:#155e75">Google</span>
+      <span class="company-pill" style="background:#fbcfe8;color:#9d174d">Flipkart</span>
+      <span class="company-pill" style="background:#fde68a;color:#78350f">Cisco</span>
+      <span class="company-pill" style="background:#bfdbfe;color:#1e3a8a">IBM</span>
+      <span class="company-pill" style="background:#bbf7d0;color:#14532d">Capgemini</span>
+      <span class="company-pill" style="background:#ddd6fe;color:#4c1d95">TCS</span>
+      <span class="company-pill" style="background:#fca5a5;color:#7f1d1d">Blackrock</span>
+      <span class="company-pill" style="background:#a5f3fc;color:#164e63">Samsung R&D</span>
+    </div>
+  </div>
+
+  <div class="section-wrap">
+    <div class="section-title">Campus Life @ Amity</div>
+    <div class="campus-grid">
+      <div class="campus-card"><div class="campus-icon">🎭</div><h4>Sangathan</h4><p>Annual inter-institutional sports meet spanning over a month with huge participation.</p></div>
+      <div class="campus-card"><div class="campus-icon">🎤</div><h4>Amity Youth Fest</h4><p>Mega cultural event with star-studded concerts, fashion shows, and tech competitions.</p></div>
+      <div class="campus-card"><div class="campus-icon">🍽️</div><h4>Food Courts</h4><p>H-Block and I-Block cafes, Domino's, Subway, and multi-cuisine messes on campus.</p></div>
+      <div class="campus-card"><div class="campus-icon">🏫</div><h4>Hostels</h4><p>Fully secure, apartment-style AC/Non-AC hostels for 15,000+ students.</p></div>
+    </div>
+  </div>
+
+  <div class="section-wrap">
+    <div class="section-title">Notable Alumni</div>
+    <div class="cards-grid">
+      <div class="info-card"><h3>Corporate &amp; Tech</h3><ul><li><span class="dot dot-blue"></span>Kanika Bakshi (Director, Oracle)</li>
+<li><span class="dot dot-blue"></span>Richa Bansal (Manager, Deloitte)</li>
+<li><span class="dot dot-blue"></span>Vivek Srivastava (Data Head, AIG)</li></ul></div>
+      <div class="info-card"><h3>Media &amp; Public</h3><ul><li><span class="dot dot-pink"></span>Disha Patani (Indian Actress)</li>
+<li><span class="dot dot-pink"></span>Vivek Bindra (Business Coach)</li>
+<li><span class="dot dot-pink"></span>Pankaj Singh (Politician)</li></ul></div>
+    </div>
+  </div>
+
+  <footer style="max-width:960px;width:100%;margin:4rem auto 2rem;position:relative;overflow:hidden;border-radius:30px;box-shadow:0 15px 40px rgba(0,0,0,0.3);color:#fff;">
+    <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(15,23,42,0.45),rgba(15,23,42,0.75)),url('https://static.theprint.in/wp-content/uploads/2022/09/Amity-University-Noida.jpg') center/cover no-repeat;z-index:-1;"></div>
+    <div style="padding:4rem 2.5rem 1.5rem;text-shadow:0 2px 8px rgba(0,0,0,0.9);">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:3rem;border-bottom:1px solid rgba(255,255,255,0.4);padding-bottom:2.5rem;">
+        <div>
+          <h4 style="color:#fbbf24;margin-bottom:1rem;font-size:1.5rem;">Amity University Noida — Since 2005</h4>
+          <p style="font-size:1rem;line-height:1.7;">Building a Global Research and Innovation Hub in the heart of Delhi-NCR.</p>
+        </div>
+        <div>
+          <h4 style="color:#fbbf24;margin-bottom:1.2rem;font-size:1.1rem;">Quick Links</h4>
+          <ul style="list-style:none;font-size:0.95rem;line-height:2.2;">
+            <li>🏠 Home - All Private Colleges</li>
+            <li>🚀 Research &amp; Patents</li>
+          </ul>
+        </div>
+      </div>
+      <p style="text-align:center;padding-top:1.8rem;font-size:0.9rem;">© 2026 College Knowledge | Developed by <b style="color:#fbbf24;">Aman Kumar</b></p>
+    </div>
+  </footer>
+</main>
+</body>
+</html>

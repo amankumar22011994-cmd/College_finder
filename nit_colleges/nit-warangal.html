@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NIT Warangal - College Detail</title>
+  <style>
+
+    /* ===== BASE ===== */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
+      color: #111827;
+      font-family: sans-serif;
+      min-height: 100vh;
+    }
+
+    /* ===== PAGE LAYOUT ===== */
+    .page {
+      padding: 2rem 6vw;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* ===== BACK BUTTON ===== */
+    .back-btn {
+      align-self: flex-start;
+      margin-bottom: 1.5rem;
+      padding: .5rem 1rem;
+      background: #dbeafe;
+      border: none;
+      border-radius: 8px;
+      font-size: .9rem;
+      font-weight: 500;
+      cursor: pointer;
+      color: #1e40af;
+      text-decoration: none;
+      display: inline-block;
+      transition: 0.2s;
+    }
+    .back-btn:hover { background: #bfdbfe; }
+
+    /* ===== HERO CARD ===== */
+    .hero-card {
+      width: 100%;
+      max-width: 960px;
+      border-radius: 16px;
+      overflow: hidden;
+      position: relative;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.18);
+      margin-bottom: 2rem;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background-image: url("https://images.shiksha.com/mediadata/images/articles/1610607602phpyCXYLo.jpeg");
+      background-size: cover;
+      background-position: center;
+      filter: brightness(0.4);
+      z-index: 0;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      padding: 2rem;
+    }
+
+    .hero-logo {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      flex-shrink: 0;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+
+    .hero-logo img {
+      width: 80%;
+      height: 80%;
+      object-fit: contain;
+    }
+
+    .hero-info h1 { color: whitesmoke; font-size: 1.6rem; font-weight: 700; margin-bottom: .3rem; }
+    .hero-info p  { color: #919aab; font-size: .9rem; margin-bottom: .5rem; }
+    .hero-tags    { display: flex; flex-wrap: wrap; gap: .5rem; }
+
+    /* ===== TAGS / BADGES ===== */
+    .tag {
+      padding: .25rem .75rem;
+      border-radius: 20px;
+      font-size: .78rem;
+      font-weight: 500;
+    }
+    .tag-blue   { background: #dbeafe; color: #1e40af; }
+    .tag-green  { background: #dcfce7; color: #166534; }
+    .tag-amber  { background: #fef3c7; color: #92400e; }
+    .tag-purple { background: #ede9fe; color: #5b21b6; }
+    .tag-red    { background: #fee2e2; color: #991b1b; }
+
+    /* ===== SECTION WRAPPER ===== */
+    .section-wrap  { width: 100%; max-width: 960px; margin-bottom: 2rem; }
+    .section-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 1rem; padding-left: .25rem; color: #111827; }
+
+    /* ===== STATS GRID ===== */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 1rem;
+    }
+    .stat-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 1.1rem 1rem;
+      text-align: center;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+    }
+    .stat-num   { font-size: 1.4rem; font-weight: 700; margin-bottom: .2rem; }
+    .stat-label { font-size: .78rem; color: #6b7280; }
+
+    /* ===== COLORS ===== */
+    .blue   { color: #2563eb; }
+    .green  { color: #16a34a; }
+    .amber  { color: #d97706; }
+    .purple { color: #7c3aed; }
+    .red    { color: #dc2626; }
+    .orange { color: #f97316; }
+
+    /* ===== HIGHLIGHT ROW ===== */
+    .highlight-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 1rem;
+    }
+    .highlight-box {
+      background: #fff;
+      border-radius: 12px;
+      padding: 1.2rem;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+      border-left: 4px solid;
+    }
+    .hl-blue   { border-color: #3b82f6; }
+    .hl-green  { border-color: #22c55e; }
+    .hl-amber  { border-color: #f59e0b; }
+    .hl-purple { border-color: #8b5cf6; }
+    .highlight-box h4 { font-size: .88rem; font-weight: 600; margin-bottom: .5rem; }
+    .highlight-box p  { font-size: .8rem; color: #6b7280; line-height: 1.5; }
+
+    /* ===== BRANCHES GRID ===== */
+    .branches-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+    }
+    .branch-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 1.2rem;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+    }
+    .branch-name { font-size: .92rem; font-weight: 600; margin-bottom: .6rem; color: #111827; }
+    .branch-row  { display: flex; justify-content: space-between; font-size: .8rem; margin-bottom: .3rem; }
+    .branch-row span:first-child { color: #6b7280; }
+    .branch-row span:last-child  { font-weight: 600; color: #1d4ed8; }
+    .branch-badge {
+      display: inline-block;
+      margin-top: .5rem;
+      padding: .2rem .6rem;
+      border-radius: 20px;
+      font-size: .72rem;
+      font-weight: 500;
+    }
+
+    /* ===== PLACEMENT BAR ===== */
+    .placement-bar {
+      background: #fff;
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+      margin-bottom: 1rem;
+    }
+    .bar-row { display: flex; align-items: center; gap: 1rem; margin-bottom: .9rem; }
+    .bar-row:last-child { margin-bottom: 0; }
+    .bar-label { font-size: .82rem; color: #4b5563; width: 120px; flex-shrink: 0; }
+    .bar-track { flex: 1; background: #f3f4f6; border-radius: 99px; height: 10px; overflow: hidden; }
+    .bar-fill  { height: 100%; border-radius: 99px; }
+    .bar-val   { font-size: .82rem; font-weight: 600; width: 80px; text-align: right; flex-shrink: 0; }
+
+    /* ===== INFO CARDS ===== */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+    .info-card { background: #fff; border-radius: 12px; padding: 1.2rem; box-shadow: 0 4px 14px rgba(0,0,0,0.08); }
+    .info-card h3 { font-size: .85rem; font-weight: 600; margin-bottom: .8rem; color: #374151; }
+    .info-card ul { list-style: none; }
+    .info-card ul li {
+      font-size: .82rem;
+      color: #4b5563;
+      padding: .3rem 0;
+      border-bottom: .5px solid #f3f4f6;
+      display: flex;
+      align-items: center;
+      gap: .4rem;
+    }
+    .info-card ul li:last-child { border-bottom: none; }
+
+    /* ===== DOTS ===== */
+    .dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+    .dot-blue   { background: #3b82f6; }
+    .dot-green  { background: #22c55e; }
+    .dot-amber  { background: #f59e0b; }
+    .dot-purple { background: #8b5cf6; }
+    .dot-red    { background: #ef4444; }
+    .dot-pink   { background: #ec4899; }
+
+    /* ===== COMPANIES ===== */
+    .companies-flex { display: flex; flex-wrap: wrap; gap: .75rem; }
+    .company-pill {
+      padding: .5rem 1rem;
+      border-radius: 20px;
+      font-size: .82rem;
+      font-weight: 500;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    /* ===== CAMPUS GRID ===== */
+    .campus-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+    .campus-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 1.2rem;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+      text-align: center;
+    }
+    .campus-icon { font-size: 1.6rem; margin-bottom: .6rem; }
+    .campus-card h4 { font-size: .88rem; font-weight: 600; margin-bottom: .4rem; }
+    .campus-card p  { font-size: .78rem; color: #6b7280; line-height: 1.5; }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 600px) {
+      .hero-card { flex-direction: column; align-items: flex-start; }
+      .page { padding: 1.2rem 4vw; }
+    }
+
+  </style>
+</head>
+<body>
+
+<main class="page">
+
+  <a href="../Main_colleges/nit.html" class="back-btn">← Back to All NITs</a>
+
+  <div class="hero-card">
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <div class="hero-logo">
+        <img src="https://upload.wikimedia.org/wikipedia/en/f/fb/National_Institute_of_Technology%2C_Warangal_logo.png" alt="NIT Warangal Logo">
+      </div>
+      <div class="hero-info">
+        <h1>NIT Warangal</h1>
+        <p>National Institute of Technology Warangal &nbsp;|&nbsp; Warangal, Telangana</p>
+        <div class="hero-tags">
+          <span class="tag tag-blue">Established 1959</span>
+          <span class="tag tag-green">NIRF Rank #21</span>
+          <span class="tag tag-amber">First REC of India</span>
+          <span class="tag tag-purple">Institute of National Importance</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-wrap">
+    <div class="section-title">Quick Overview</div>
+    <div class="stats-grid">
+      <div class="stat-card"><div class="stat-num blue">~7,000</div><div class="stat-label">Total Students</div></div>
+      <div class="stat-card"><div class="stat-num green">380+</div><div class="stat-label">Faculty Members</div></div>
+      <div class="stat-card"><div class="stat-num amber">256 acres</div><div class="stat-label">Campus Area</div></div>
+      <div class="stat-card"><div class="stat-num purple">13</div><div class="stat-label">Departments</div></div>
+      <div class="stat-card"><div class="stat-num red">₹88.0 LPA</div><div class="stat-label">Highest Package</div></div>
+      <div class="stat-card"><div class="stat-num blue">91%</div><div class="stat-label">Placement Rate</div></div>
+    </div>
+  </div>
+
+  <div class="section-wrap">
+    <div class="section-title">About NIT Warangal</div>
+    <div class="highlight-row">
+      <div class="highlight-box hl-blue">
+        <h4>The Pioneer</h4>
+        <p>Established in 1959, it is the first in the chain of 30 NITs in India. It was the foundation stone for the Regional Engineering College (REC) movement laid by Pandit Jawaharlal Nehru.</p>
+      </div>
+      <div class="highlight-box hl-green">
+        <h4>Coding Culture</h4>
+        <p>Widely regarded for having one of the best competitive programming cultures in India. Students consistently rank high on platforms like CodeChef and LeetCode.</p>
+      </div>
+      <div class="highlight-box hl-amber">
+        <h4>Research Hub</h4>
+        <p>Strong focus on power systems, manufacturing, and advanced materials. It houses the Siemens Center of Excellence and several DST-funded high-tech laboratories.</p>
+      </div>
+      <div class="highlight-box hl-purple">
+        <h4>Alumni Network</h4>
+        <p>Boasts a massive and influential alumni network across Global 500 companies and premier research institutions like NASA and IISc.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-wrap">
+    <div class="section-title">Branches & Programs</div>
+    <div class="branches-grid">
+
+      <div class="branch-card">
+        <div class="branch-name">Computer Science & Engineering</div>
+        <div class="branch-row"><span>JEE Mains Cutoff (GEN)</span><span>99.3–99.7 %ile</span></div>
+        <div class="branch-row"><span>Avg Package</span><span>₹25–30 LPA</span></div>
+        <div class="branch-row"><span>Seats (B.Tech)</span><span>130</span></div>
+        <span class="branch-badge tag-blue">Elite Branch</span>
+      </div>
+
+      <div class="branch-card">
+        <div class="branch-name">Electronics & Communication Engg</div>
+        <div class="branch-row"><span>JEE Mains Cutoff (GEN)</span><span>98.4–99.0 %ile</span></div>
+        <div class="branch-row"><span>Avg Package</span><span>₹18–22 LPA</span></div>
+        <div class="branch-row"><span>Seats (B.Tech)</span><span>100</span></div>
+        <span class="branch-badge tag-green">Top Choice</span>
+      </div>
+
+      <div class="branch-card">
+        <div class="branch-name">Electrical & Electronics Engg</div>
+        <div class="branch-row"><span>JEE Mains Cutoff (GEN)</span><span>97.2–98.1 %ile</span></div>
+        <div class="branch-row"><span>Avg Package</span><span>₹14–18 LPA</span></div>
+        <div class="branch-row"><span>Seats (B.Tech)</span><span>100</span></div>
+        <span class="branch-badge tag-amber">Core Strength</span>
+      </div>
+
+      <div class="branch-card">
+        <div class="branch-name">Mechanical Engineering</div>
+        <div class="branch-row"><span>JEE Mains Cutoff (GEN)</span><span>96.5–97.4 %ile</span></div>
+        <div class="branch-row"><span>Avg Package</span><span>₹12–16 LPA</span></div>
+        <div class="branch-row"><span>Seats (B.Tech)</span><span>100</span></div>
+        <span class="branch-badge tag-amber">Core Branch</span>
+      </div>
+
+      <div class="branch-card">
+        <div class="branch-name">Civil Engineering</div>
+        <div class="branch-row"><span>JEE Mains Cutoff (GEN)</span><span>94.5–96.0 %ile</span></div>
+        <div class="branch-row"><span>Avg Package</span><span>₹9–12 LPA</span></div>
+        <div class="branch-row"><span>Seats (B.Tech)</span><span>100</span></div>
+        <span class="branch-badge tag-green">Legacy Branch</span>
+      </div>
+
+      <div class="branch-card">
+        <div class="branch-name">Chemical Engineering</div>
+        <div class="branch-row"><span>JEE Mains Cutoff (GEN)</span><span>95.0–96.5 %ile</span></div>
+        <div class="branch-row"><span>Avg Package</span><span>₹11–14 LPA</span></div>
+        <div class="branch-row"><span>Seats (B.Tech)</span><span>50</span></div>
+        <span class="branch-badge tag-purple">High Placement</span>
+      </div>
+
+      <div class="branch-card">
+        <div class="branch-name">Metallurgical & Materials</div>
+        <div class="branch-row"><span>JEE Mains Cutoff (GEN)</span><span>93.0–94.5 %ile</span></div>
+        <div class="branch-row"><span>Avg Package</span><span>₹10–13 LPA</span></div>
+        <div class="branch-row"><span>Seats (B.Tech)</span><span>50</span></div>
+        <span class="branch-badge tag-green">Research Focus</span>
+      </div>
+
+      <div class="branch-card">
+        <div class="branch-name">Biotechnology</div>
+        <div class="branch-row"><span>JEE Mains Cutoff (GEN)</span><span>92.5–94.0 %ile</span></div>
+        <div class="branch-row"><span>Avg Package</span><span>₹9–11 LPA</span></div>
+        <div class="branch-row"><span>Seats (B.Tech)</span><span>50</span></div>
+        <span class="branch-badge tag-red">Unique Field</span>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="section-wrap">
+    <div class="section-title">JEE Mains Cutoffs (2025, General Category — Percentile)</div>
+    <div class="placement-bar">
+      <div class="bar-row">
+        <span class="bar-label">CSE</span>
+        <div class="bar-track"><div class="bar-fill" style="width:99.7%;background:#3b82f6"></div></div>
+        <span class="bar-val blue">99.7 %ile</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-label">ECE</span>
+        <div class="bar-track"><div class="bar-fill" style="width:98.9%;background:#22c55e"></div></div>
+        <span class="bar-val green">98.9 %ile</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-label">EEE</span>
+        <div class="bar-track"><div class="bar-fill" style="width:97.8%;background:#f59e0b"></div></div>
+        <span class="bar-val amber">97.8 %ile</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-label">Mechanical</span>
+        <div class="bar-track"><div class="bar-fill" style="width:96.9%;background:#f97316"></div></div>
+        <span class="bar-val orange">96.9 %ile</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-label">Chemical</span>
+        <div class="bar-track"><div class="bar-fill" style="width:95.8%;background:#7c3aed"></div></div>
+        <span class="bar-val purple">95.8 %ile</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-label">Civil</span>
+        <div class="bar-track"><div class="bar-fill" style="width:95.2%;background:#16a34a"></div></div>
+        <span class="bar-val green">95.2 %ile</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-label">Metallurgy</span>
+        <div class="bar-track"><div class="bar-fill" style="width:93.8%;background:#dc2626"></div></div>
+        <span class="bar-val red">93.8 %ile</span>
+      </div>
+    </div>
+    <p style="font-size:.75rem;color:#9ca3af;padding-left:.25rem;margin-top:.5rem">
+      * Based on JoSAA 2025 Round-wise data for General Other State candidates.
+    </p>
+  </div>
+
+  <div class="section-wrap">
+    <div class="section-title">Placements 2025</div>
+    <div class="cards-grid">
+      <div class="info-card">
+        <h3>Package Summary</h3>
+        <ul>
+          <li><span class="dot dot-blue"></span>Highest CTC: ₹88 LPA</li>
+          <li><span class="dot dot-green"></span>Average Package: ₹17.3 LPA</li>
+          <li><span class="dot dot-amber"></span>CSE Average: ₹28.2 LPA</li>
+          <li><span class="dot dot-purple"></span>ECE Average: ₹20.5 LPA</li>
+          <li><span class="dot dot-blue"></span>Total Offers: 1400+</li>
+          <li><span class="dot dot-red"></span>Median CTC: ₹13.8 LPA</li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <h3>Top Sectors</h3>
+        <ul>
+          <li><span class="dot dot-blue"></span>IT &amp; Product: 48%</li>
+          <li><span class="dot dot-green"></span>Core Engineering: 24%</li>
+          <li><span class="dot dot-amber"></span>Consulting &amp; Analytics: 14%</li>
+          <li><span class="dot dot-purple"></span>BFSI: 10%</li>
+          <li><span class="dot dot-pink"></span>Public Sector (PSU): 4%</li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <h3>Hiring Insights</h3>
+        <ul>
+          <li><span class="dot dot-green"></span>Placement Rate: 91%+</li>
+          <li><span class="dot dot-blue"></span>Companies: 320+</li>
+          <li><span class="dot dot-amber"></span>Pre-Placement Offers: 245</li>
+          <li><span class="dot dot-purple"></span>Average (Core): ₹11.5 LPA</li>
+          <li><span class="dot dot-red"></span>Major Recruiter: Oracle, MS</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-wrap">
+    <div class="section-title">Top Recruiting Companies</div>
+    <div class="companies-flex">
+      <span class="company-pill" style="background:#dbeafe;color:#1e40af">Microsoft</span>
+      <span class="company-pill" style="background:#dcfce7;color:#166534">Google</span>
+      <span class="company-pill" style="background:#fef3c7;color:#92400e">Amazon</span>
+      <span class="company-pill" style="background:#ede9fe;color:#5b21b6">Oracle</span>
+      <span class="company-pill" style="background:#cffafe;color:#155e75">Salesforce</span>
+      <span class="company-pill" style="background:#fbcfe8;color:#9d174d">Adobe</span>
+      <span class="company-pill" style="background:#fde68a;color:#78350f">Qualcomm</span>
+      <span class="company-pill" style="background:#bfdbfe;color:#1e3a8a">Texas Instruments</span>
+      <span class="company-pill" style="background:#bbf7d0;color:#14532d">Goldman Sachs</span>
+      <span class="company-pill" style="background:#ddd6fe;color:#4c1d95">Uber</span>
+      <span class="company-pill" style="background:#fca5a5;color:#7f1d1d">P&G</span>
+      <span class="company-pill" style="background:#a5f3fc;color:#164e63">Schlumberger</span>
+      <span class="company-pill" style="background:#c4b5fd;color:#3b0764">IOCL</span>
+      <span class="company-pill" style="background:#6ee7b7;color:#065f46">L&T</span>
+      <span class="company-pill" style="background:#93c5fd;color:#1e3a8a">TATA Motors</span>
+    </div>
+  </div>
+
+  <div class="section-wrap">
+    <div class="section-title">Campus Life</div>
+    <div class="campus-grid">
+      <div class="campus-card">
+        <div class="campus-icon">🎭</div>
+        <h4>SpringSpree</h4>
+        <p>One of the biggest cultural fests in India. Features star nights, dance, music, and dramatic arts attracting students nationwide.</p>
+      </div>
+      <div class="campus-card">
+        <div class="campus-icon">⚙️</div>
+        <h4>Technozion</h4>
+        <p>The annual technical symposium. Known for its intense paper presentations, robotics competitions, and innovative project expos.</p>
+      </div>
+      <div class="campus-card">
+        <div class="campus-icon">🏠</div>
+        <h4>Ultra Mega Hostel</h4>
+        <p>Home to the 'Asian Games' style mega hostels for boys and dedicated girls' blocks with 24/7 high-speed fiber connectivity.</p>
+      </div>
+      <div class="campus-card">
+        <div class="campus-icon">🏏</div>
+        <h4>Sports Arena</h4>
+        <p>Olympic-sized swimming pool, synthetic athletics track, and international standard tennis and basketball courts.</p>
+      </div>
+      <div class="campus-card">
+        <div class="campus-icon">🏛️</div>
+        <h4>The Main Building</h4>
+        <p>A heritage structure known for its unique 'T-shape' design, housing the central administrative and examination wings.</p>
+      </div>
+      <div class="campus-card">
+        <div class="campus-icon">🍽️</div>
+        <h4>Mess & Food</h4>
+        <p>From Hyderabadi Biryani to North Indian thalis, the messes are known for providing consistent quality across all hostel blocks.</p>
+      </div>
+      <div class="campus-card">
+        <div class="campus-icon">📚</div>
+        <h4>Modern Library</h4>
+        <p>Digitalized library with access to over 200,000 resources and a dedicated 24-hour reading hall for competitive prep.</p>
+      </div>
+      <div class="campus-card">
+        <div class="campus-icon">🚀</div>
+        <h4>Innovation Center</h4>
+        <p>The center for budding entrepreneurs, providing incubation, funding, and mentorship for student-led startups.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-wrap">
+    <div class="section-title">Notable Alumni</div>
+    <div class="cards-grid">
+      <div class="info-card">
+        <h3>Industry Leaders</h3>
+        <ul>
+          <li><span class="dot dot-blue"></span>N. Chandrasekaran — Chairperson, Tata Sons</li>
+          <li><span class="dot dot-blue"></span>Siva S. Banda — Renowned Aerospace Scientist</li>
+          <li><span class="dot dot-blue"></span>Sudhir Vasudeva — Former CMD, ONGC</li>
+          <li><span class="dot dot-blue"></span>Lakshmi Narayana — Former Joint Director, CBI</li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <h3>Science & Public Life</h3>
+        <ul>
+          <li><span class="dot dot-green"></span>Dr. Y. S. R. Reddy — Former CM, Andhra Pradesh</li>
+          <li><span class="dot dot-green"></span>K. R. Rao — Pioneer in Discrete Cosine Transform</li>
+          <li><span class="dot dot-green"></span>V. R. Rao — Director, IIT Delhi (Former)</li>
+          <li><span class="dot dot-green"></span>S. Ramadorai — Vice Chairman, TCS (Former)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  
+
+  <footer style="max-width: 960px; width: 100%; margin: 4rem auto 2rem; position: relative; overflow: hidden; border-radius: 30px; box-shadow: 0 15px 40px rgba(0,0,0,0.3); color: #fff;">
+    <div style="position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(15, 23, 42, 0.45), rgba(15, 23, 42, 0.75)), url('https://media.telanganatoday.com/wp-content/uploads/2025/11/NIT-warangal-1.jpg') center/cover no-repeat; filter: saturate(1.2); z-index: -1;"></div>
+    <div style="padding: 4rem 2.5rem 1.5rem; text-shadow: 0 2px 8px rgba(0,0,0,0.9);">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 3rem; border-bottom: 1px solid rgba(255,255,255,0.4); padding-bottom: 2.5rem;">
+        <div>
+          <h4 style="color: #fbbf24; margin-bottom: 1rem; font-size: 1.5rem;">The Pride of Telangana</h4>
+          <p style="font-size: 1rem; line-height: 1.7;">NIT Warangal is where the <span style="color: #fbbf24; font-weight: 800;">NIT legacy began</span>. Defining engineering excellence for over six decades.</p>
+        </div>
+        <div>
+          <h4 style="color: #fbbf24; margin-bottom: 1.2rem; font-size: 1.1rem;">Quick Links</h4>
+          <ul style="list-style: none; font-size: 0.95rem; line-height: 2.2;">
+            <li>🏠 Home - All NITs</li>
+            <li>🚀 Research & Innovation</li>
+          </ul>
+        </div>
+      </div>
+      <p style="text-align: center; padding-top: 1.8rem; font-size: 0.9rem;">© 2026 College Knowledge | Developed by <b style="color: #fbbf24;">Aman Kumar</b></p>
+    </div>
+  </footer>
+
+</main>
+</body>
+</html>

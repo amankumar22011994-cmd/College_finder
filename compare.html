@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>IIT Compare — College Knowledge</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="compare.css">
+</head>
+<body>
+<div class="page">
+
+<!-- HEADER -->
+<a href="../index.html" class="back-btn">← Back Home</a>
+
+<div class="header">
+  <div class="header-badge">College Knowledge Portal</div>
+  <h1>Compare IITs</h1>
+  <p>Select colleges from the dropdown · Add up to 4 · Get a detailed side-by-side breakdown</p>
+</div>
+
+<!-- SELECTOR BOX -->
+<div class="selector-box">
+  <h2>Select Colleges</h2>
+
+  <div class="select-row">
+    <div class="select-wrap">
+      <select id="iitSelect">
+        <option value="">— Choose an IIT to add —</option>
+      </select>
+      <span class="select-arrow">▼</span>
+    </div>
+    <button class="add-btn" id="addBtn" onclick="addCollege()">+ Add</button>
+  </div>
+
+  <!-- SELECTED TAGS -->
+  <div class="selected-tags-area">
+    <div class="tags-label">Added for comparison:</div>
+    <div class="selected-tags" id="selectedTags">
+      <span class="empty-tag">No colleges selected yet</span>
+    </div>
+  </div>
+
+  <div class="action-row">
+    <div class="count-info">Selected: <span id="selCount">0</span> &nbsp;|&nbsp; Min 2, Max 4</div>
+    <div class="btns">
+      <button class="clear-btn" onclick="clearAll()">Clear All</button>
+      <button class="compare-btn" id="compareBtn" disabled onclick="runCompare()">Compare Now →</button>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- RESULT -->
+<div id="resultSection">
+  <div class="result-heading" id="resultHeading">Comparing IITs</div>
+  <div class="result-sub">Comparing <span id="resultCount">—</span> institutions &nbsp;·&nbsp; Cutoffs are General Category approximate ranks</div>
+
+  <div class="legend">
+    <div><span class="legend-dot" style="background:#86efac"></span> Best value in row</div>
+    <div><span class="legend-dot" style="background:#fca5a5"></span> Lowest value in row</div>
+  </div>
+
+  <!-- CARDS -->
+  <div class="cards-grid" id="cardsGrid"></div>
+
+  <!-- TABLE -->
+  <div class="table-section">
+    <h3>📊 Full Comparison Table</h3>
+    <div class="table-wrap">
+      <table id="compareTable"></table>
+    </div>
+  </div>
+
+  <!-- VERDICT -->
+  <div class="verdict-section">
+    <h3>🏆 Our Verdict</h3>
+    <div class="verdict-grid" id="verdictGrid"></div>
+    <div class="suitable-box">
+      <h4>✅ Who should choose which college?</h4>
+      <div class="profiles-wrap" id="profilesWrap"></div>
+    </div>
+  </div>
+</div>
+
+<div id="placeholder" class="placeholder">
+  <h3>Your comparison will appear here</h3>
+  <p>Add at least 2 IITs above and click Compare Now</p>
+</div>
+
+</div><!-- /page -->
+
+<script src="compare.js">
+</script>
+</body>
+</html>

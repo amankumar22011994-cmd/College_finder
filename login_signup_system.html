@@ -1,0 +1,435 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',sans-serif}
+.demo-bar{display:flex;align-items:center;justify-content:space-between;background:#0f172a;padding:1rem 2rem;border-bottom:1px solid #1e293b}
+.logo{color:#8b5cf6;font-weight:700;font-size:1.1rem;letter-spacing:.03em}
+.auth-btns{display:flex;gap:.6rem}
+.hbtn{padding:.42rem 1.1rem;border-radius:8px;font-size:.82rem;font-weight:600;cursor:pointer;transition:.2s;border:none;font-family:inherit}
+.hbtn.login{background:transparent;border:1px solid #334155;color:#94a3b8}
+.hbtn.login:hover{border-color:#8b5cf6;color:#c4b5fd}
+.hbtn.signup{background:linear-gradient(135deg,#7c3aed,#8b5cf6);color:#fff}
+.hbtn.signup:hover{transform:translateY(-1px);box-shadow:0 4px 14px rgba(139,92,246,.4)}
+.user-bar{display:none;align-items:center;gap:.7rem}
+.user-avatar{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#06b6d4);display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700;color:#fff}
+.user-name{color:#e2e8f0;font-size:.85rem;font-weight:600}
+.logout-btn{background:transparent;border:1px solid #334155;color:#94a3b8;padding:.3rem .8rem;border-radius:6px;cursor:pointer;font-size:.75rem;font-family:inherit}
+.logout-btn:hover{color:#f87171;border-color:#f87171}
+
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.8);backdrop-filter:blur(8px);z-index:1000;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:.3s}
+.overlay.show{opacity:1;pointer-events:all}
+
+.modal{background:#0d1117;border:1px solid #21262d;border-radius:20px;width:92%;max-width:420px;overflow:hidden;transform:scale(.94) translateY(20px);transition:.35s cubic-bezier(.34,1.56,.64,1);position:relative}
+.overlay.show .modal{transform:scale(1) translateY(0)}
+
+.modal-header{padding:1.6rem 1.8rem 1.2rem;text-align:center;border-bottom:1px solid #21262d;position:relative}
+.modal-close{position:absolute;top:1rem;right:1rem;background:transparent;border:none;color:#6b7280;font-size:1.2rem;cursor:pointer;width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;transition:.2s}
+.modal-close:hover{background:#1e293b;color:#e2e8f0}
+.modal-title{font-size:1.2rem;font-weight:700;color:#f9fafb;margin-bottom:.3rem}
+.modal-sub{font-size:.8rem;color:#6b7280}
+.modal-tabs{display:flex;gap:.5rem;background:#161b22;padding:.4rem;border-radius:10px;margin:.8rem 0 0}
+.mtab{flex:1;padding:.5rem;border:none;border-radius:7px;font-size:.78rem;font-weight:600;cursor:pointer;transition:.2s;font-family:inherit;color:#6b7280;background:transparent}
+.mtab.active{background:#1e293b;color:#a78bfa}
+
+.modal-body{padding:1.4rem 1.8rem}
+
+.panel{display:none;animation:slideIn .25s ease}
+.panel.active{display:block}
+@keyframes slideIn{from{opacity:0;transform:translateX(8px)}to{opacity:1;transform:translateX(0)}}
+
+.field{margin-bottom:1rem}
+.field label{display:block;font-size:.7rem;font-weight:600;color:#6b7280;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.4rem}
+.field input{width:100%;padding:.65rem .9rem;background:#161b22;border:1.5px solid #30363d;border-radius:10px;color:#e6edf3;font-size:.88rem;font-family:inherit;outline:none;transition:.2s}
+.field input:focus{border-color:#8b5cf6;background:#1a1f2e}
+.field input::placeholder{color:#484f58}
+.field input.err{border-color:#f87171;background:#1a1010}
+
+.msg{font-size:.72rem;margin-top:.3rem;display:none}
+.msg.err-msg{color:#f87171}
+.msg.ok-msg{color:#34d399}
+
+.divider{display:flex;align-items:center;gap:.7rem;margin:1rem 0;font-size:.72rem;color:#484f58}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:#21262d}
+
+.social-row{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-bottom:1rem}
+.social-btn{display:flex;align-items:center;justify-content:center;gap:.5rem;padding:.6rem;border:1.5px solid #30363d;border-radius:10px;background:#161b22;color:#c9d1d9;font-size:.8rem;font-weight:600;cursor:pointer;transition:.2s;font-family:inherit}
+.social-btn:hover{border-color:#8b5cf6;background:#1a1f2e;color:#c4b5fd}
+.social-icon{width:18px;height:18px;border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:12px}
+
+.submit-btn{width:100%;padding:.85rem;border:none;border-radius:12px;font-size:.92rem;font-weight:700;font-family:inherit;cursor:pointer;transition:.25s;margin-top:.4rem;position:relative;overflow:hidden}
+.submit-btn.purple{background:linear-gradient(135deg,#7c3aed,#8b5cf6);color:#fff}
+.submit-btn.purple:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(139,92,246,.4)}
+.submit-btn.blue{background:linear-gradient(135deg,#2563eb,#3b82f6);color:#fff}
+.submit-btn.blue:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(59,130,246,.4)}
+.submit-btn.green{background:linear-gradient(135deg,#059669,#10b981);color:#fff}
+.submit-btn.green:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(16,185,129,.4)}
+.submit-btn:active{transform:translateY(0)!important}
+.submit-btn:disabled{opacity:.6;transform:none;cursor:not-allowed}
+
+.btn-ripple{position:absolute;border-radius:50%;background:rgba(255,255,255,.25);transform:scale(0);animation:ripple .5s linear;pointer-events:none}
+@keyframes ripple{to{transform:scale(4);opacity:0}}
+
+.phone-flag{display:flex;align-items:center;gap:.5rem;padding:.5rem .9rem;background:#161b22;border:1.5px solid #30363d;border-radius:10px;color:#c9d1d9;font-size:.88rem;margin-bottom:.5rem}
+.otp-wrap{display:none;animation:slideIn .25s ease}
+.otp-boxes{display:flex;gap:.5rem;justify-content:center;margin:.7rem 0}
+.otp-box{width:52px;height:52px;border:2px solid #30363d;border-radius:12px;background:#161b22;color:#e6edf3;font-size:1.4rem;font-weight:700;text-align:center;outline:none;transition:.2s;font-family:inherit}
+.otp-box:focus{border-color:#8b5cf6;background:#1a1f2e}
+.otp-box.filled{border-color:#10b981;background:#0d1f18;color:#34d399}
+
+.progress-dots{display:flex;justify-content:center;gap:.4rem;margin-bottom:.4rem}
+.pdot{width:6px;height:6px;border-radius:50%;background:#30363d;transition:.3s}
+.pdot.active{background:#8b5cf6;transform:scale(1.3)}
+.pdot.done{background:#34d399}
+
+.success-anim{text-align:center;padding:1rem 0;animation:popIn .4s cubic-bezier(.34,1.56,.64,1)}
+@keyframes popIn{from{opacity:0;transform:scale(.7)}to{opacity:1;transform:scale(1)}}
+.success-icon{font-size:3rem;margin-bottom:.6rem;display:block}
+.success-title{font-size:1.1rem;font-weight:700;color:#34d399;margin-bottom:.3rem}
+.success-msg{font-size:.82rem;color:#6b7280}
+
+.switch-link{text-align:center;font-size:.78rem;color:#6b7280;margin-top:1rem}
+.switch-link a{color:#a78bfa;cursor:pointer;text-decoration:none;font-weight:600}
+.switch-link a:hover{color:#c4b5fd}
+
+.toast{position:fixed;bottom:1.5rem;right:1.5rem;background:#1e293b;border:1px solid #334155;border-radius:12px;padding:.8rem 1.2rem;font-size:.82rem;color:#e2e8f0;z-index:2000;transform:translateY(60px);opacity:0;transition:.3s;max-width:280px}
+.toast.show{transform:translateY(0);opacity:1}
+.toast.success{border-color:#34d399;background:#0d1f18;color:#34d399}
+.toast.error{border-color:#f87171;background:#1a0f0f;color:#f87171}
+</style>
+
+<div class="demo-bar">
+  <div class="logo">🎓 CollegeFinder</div>
+  <div class="auth-btns" id="authBtns">
+    <button class="hbtn login" onclick="openModal('login')">Login</button>
+    <button class="hbtn signup" onclick="openModal('signup')">Sign Up</button>
+  </div>
+  <div class="user-bar" id="userBar">
+    <div class="user-avatar" id="userAvatar">?</div>
+    <span class="user-name" id="userName">User</span>
+    <button class="logout-btn" onclick="logout()">Logout</button>
+  </div>
+</div>
+
+<div style="background:#030712;min-height:220px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem;text-align:center;">
+  <p style="color:#6b7280;font-size:.9rem;margin-bottom:.5rem">👆 Click Login or Sign Up to test</p>
+  <p id="loggedMsg" style="display:none;color:#34d399;font-size:1rem;font-weight:600;animation:popIn .4s ease">Welcome back! You are logged in ✓</p>
+</div>
+
+<div class="overlay" id="overlay" onclick="handleOverlayClick(event)">
+<div class="modal" id="modal">
+  <div class="modal-header">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-title" id="modalTitle">Welcome back</div>
+    <div class="modal-sub" id="modalSub">Sign in to your CollegeFinder account</div>
+    <div class="modal-tabs" id="modalTabs">
+      <button class="mtab active" id="tab-pass" onclick="switchTab('pass')">Password</button>
+      <button class="mtab" id="tab-google" onclick="switchTab('google')">Google</button>
+      <button class="mtab" id="tab-phone" onclick="switchTab('phone')">Phone OTP</button>
+    </div>
+  </div>
+  <div class="modal-body">
+
+    <div class="panel active" id="panel-pass">
+      <div id="signupExtra" style="display:none">
+        <div class="field"><label>Full Name</label><input type="text" id="regName" placeholder="Rahul Sharma"><div class="msg err-msg" id="nameErr"></div></div>
+      </div>
+      <div class="field"><label>Email</label><input type="email" id="authEmail" placeholder="you@example.com"><div class="msg err-msg" id="emailErr"></div></div>
+      <div class="field">
+        <label>Password</label>
+        <div style="position:relative">
+          <input type="password" id="authPass" placeholder="Min 6 characters" style="padding-right:2.5rem">
+          <button onclick="togglePass('authPass',this)" style="position:absolute;right:.7rem;top:50%;transform:translateY(-50%);background:transparent;border:none;color:#6b7280;cursor:pointer;font-size:.85rem">👁</button>
+        </div>
+        <div class="msg err-msg" id="passErr"></div>
+      </div>
+      <div id="signupConfirm" style="display:none">
+        <div class="field"><label>Confirm Password</label><input type="password" id="authPassC" placeholder="Repeat password"><div class="msg err-msg" id="passCErr"></div></div>
+      </div>
+      <button class="submit-btn purple" id="passSubmitBtn" onclick="handlePassAuth(event)">Sign In</button>
+      <div class="divider">or continue with</div>
+      <div class="social-row">
+        <button class="social-btn" onclick="handleGoogle()"><div class="social-icon" style="background:#fff;font-size:11px;font-weight:700;color:#4285f4">G</div>Google</button>
+        <button class="social-btn" onclick="switchTab('phone')"><div class="social-icon" style="font-size:14px">📱</div>Phone</button>
+      </div>
+    </div>
+
+    <div class="panel" id="panel-google">
+      <div style="text-align:center;padding:.5rem 0 1rem">
+        <div style="width:60px;height:60px;background:#fff;border-radius:50%;margin:0 auto .8rem;display:flex;align-items:center;justify-content:center;font-size:1.6rem;font-weight:800;color:#4285f4">G</div>
+        <p style="color:#c9d1d9;font-size:.9rem;line-height:1.5">Continue with your Google account.<br>Fast & secure, no password needed.</p>
+      </div>
+      <button class="submit-btn" style="background:#fff;color:#3c4043;font-weight:700;display:flex;align-items:center;justify-content:center;gap:.6rem" onclick="handleGoogle()">
+        <div style="width:20px;height:20px;background:#4285f4;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:#fff">G</div>
+        Sign in with Google
+      </button>
+      <p style="font-size:.72rem;color:#484f58;text-align:center;margin-top:.8rem">Demo: Google OAuth simulation</p>
+    </div>
+
+    <div class="panel" id="panel-phone">
+      <div class="progress-dots" id="phoneDots">
+        <div class="pdot active" id="pd1"></div>
+        <div class="pdot" id="pd2"></div>
+        <div class="pdot" id="pd3"></div>
+      </div>
+      <div id="phoneStep1">
+        <div class="field">
+          <label>Mobile Number</label>
+          <div class="phone-flag">
+            <span style="font-size:1rem">🇮🇳</span>
+            <span style="color:#6b7280">+91</span>
+            <div style="width:1px;height:16px;background:#30363d;margin:0 .3rem"></div>
+            <input type="tel" id="phoneNum" placeholder="98765 43210" maxlength="10" style="background:transparent;border:none;flex:1;outline:none;color:#e6edf3;font-size:.88rem;padding:0;font-family:inherit">
+          </div>
+          <div class="msg err-msg" id="phoneErr"></div>
+        </div>
+        <button class="submit-btn blue" onclick="sendOTP()">Send OTP →</button>
+      </div>
+      <div class="otp-wrap" id="phoneStep2">
+        <p style="color:#6b7280;font-size:.8rem;text-align:center;margin-bottom:.3rem">OTP sent to +91 <span id="phoneMask"></span></p>
+        <div class="otp-boxes" id="otpBoxes">
+          <input class="otp-box" maxlength="1" oninput="otpMove(this,0)" onkeydown="otpBack(this,0,event)">
+          <input class="otp-box" maxlength="1" oninput="otpMove(this,1)" onkeydown="otpBack(this,1,event)">
+          <input class="otp-box" maxlength="1" oninput="otpMove(this,2)" onkeydown="otpBack(this,2,event)">
+          <input class="otp-box" maxlength="1" oninput="otpMove(this,3)" onkeydown="otpBack(this,3,event)">
+        </div>
+        <div class="msg err-msg" id="otpErr" style="text-align:center;margin-bottom:.5rem"></div>
+        <button class="submit-btn green" onclick="verifyOTP()">Verify & Continue ✓</button>
+        <p style="text-align:center;font-size:.75rem;color:#6b7280;margin-top:.6rem">Demo OTP: <strong style="color:#fbbf24;letter-spacing:.2em">1234</strong></p>
+        <p style="text-align:center;font-size:.72rem;margin-top:.3rem"><a href="#" style="color:#8b5cf6;text-decoration:none" onclick="resendOTP(event)">Resend OTP</a></p>
+      </div>
+    </div>
+
+    <div class="panel" id="panel-success">
+      <div class="success-anim">
+        <span class="success-icon" id="successEmoji">🎉</span>
+        <div class="success-title" id="successTitle">You're in!</div>
+        <div class="success-msg" id="successMsgTxt">Welcome to CollegeFinder</div>
+      </div>
+    </div>
+
+    <div class="switch-link" id="switchLink">
+      Already have an account? <a onclick="toggleMode()">Log in</a>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+var mode='login';
+var currentTab='pass';
+
+function openModal(m){
+  mode=m;
+  setMode(m);
+  switchTab('pass');
+  document.getElementById('overlay').classList.add('show');
+}
+function closeModal(){
+  document.getElementById('overlay').classList.remove('show');
+  clearErrors();
+}
+function handleOverlayClick(e){if(e.target===document.getElementById('overlay'))closeModal();}
+
+function setMode(m){
+  mode=m;
+  if(m==='signup'){
+    document.getElementById('modalTitle').textContent='Create account';
+    document.getElementById('modalSub').textContent='Join CollegeFinder — it\'s free';
+    document.getElementById('signupExtra').style.display='block';
+    document.getElementById('signupConfirm').style.display='block';
+    document.getElementById('passSubmitBtn').textContent='Create Account →';
+    document.getElementById('switchLink').innerHTML='Already have an account? <a onclick="toggleMode()">Log in</a>';
+  } else {
+    document.getElementById('modalTitle').textContent='Welcome back';
+    document.getElementById('modalSub').textContent='Sign in to your CollegeFinder account';
+    document.getElementById('signupExtra').style.display='none';
+    document.getElementById('signupConfirm').style.display='none';
+    document.getElementById('passSubmitBtn').textContent='Sign In';
+    document.getElementById('switchLink').innerHTML='New here? <a onclick="toggleMode()">Create account</a>';
+  }
+}
+
+function toggleMode(){
+  setMode(mode==='login'?'signup':'login');
+  clearErrors();
+}
+
+function switchTab(t){
+  currentTab=t;
+  ['pass','google','phone'].forEach(id=>{
+    document.getElementById('tab-'+id).classList.toggle('active',id===t);
+    document.getElementById('panel-'+id).classList.toggle('active',id===t);
+  });
+  document.getElementById('panel-success').classList.remove('active');
+}
+
+function clearErrors(){
+  ['nameErr','emailErr','passErr','passCErr','phoneErr','otpErr'].forEach(id=>{
+    var el=document.getElementById(id);if(el){el.style.display='none';el.textContent=''}
+  });
+  ['regName','authEmail','authPass','authPassC'].forEach(id=>{
+    var el=document.getElementById(id);if(el)el.classList.remove('err');
+  });
+}
+
+function showErr(fieldId,errId,msg){
+  var f=document.getElementById(fieldId),e=document.getElementById(errId);
+  if(f)f.classList.add('err');
+  if(e){e.textContent=msg;e.style.display='block';}
+  return false;
+}
+
+function handlePassAuth(e){
+  clearErrors();
+  var ok=true;
+  if(mode==='signup'){
+    var nm=document.getElementById('regName').value.trim();
+    if(!nm)ok=showErr('regName','nameErr','Name required');
+  }
+  var em=document.getElementById('authEmail').value.trim();
+  if(!em||!em.includes('@'))ok=showErr('authEmail','emailErr','Valid email required');
+  var pw=document.getElementById('authPass').value;
+  if(pw.length<6)ok=showErr('authPass','passErr','Min 6 characters');
+  if(mode==='signup'){
+    var pc=document.getElementById('authPassC').value;
+    if(pw!==pc)ok=showErr('authPassC','passCErr','Passwords do not match');
+  }
+  if(!ok)return;
+
+  if(mode==='signup'){
+    var users=JSON.parse(localStorage.getItem('cf_users')||'{}');
+    if(users[em]){showErr('authEmail','emailErr','Email already registered');return;}
+    var nm2=document.getElementById('regName').value.trim();
+    users[em]={name:nm2,pass:pw,method:'email',joined:new Date().toISOString()};
+    localStorage.setItem('cf_users',JSON.stringify(users));
+    loginUser({name:nm2,email:em,method:'email'});
+    showSuccess('🎉','Account created!','Welcome to CollegeFinder, '+nm2+'!');
+  } else {
+    var users2=JSON.parse(localStorage.getItem('cf_users')||'{}');
+    if(!users2[em]){showErr('authEmail','emailErr','No account found for this email');return;}
+    if(users2[em].pass!==pw){showErr('authPass','passErr','Wrong password');return;}
+    loginUser({name:users2[em].name,email:em,method:'email'});
+    showSuccess('👋','Welcome back!','Logged in as '+users2[em].name);
+  }
+  ripple(e.currentTarget||document.getElementById('passSubmitBtn'));
+}
+
+function handleGoogle(){
+  var gname='Google User';
+  var gem='google@demo.com';
+  var users=JSON.parse(localStorage.getItem('cf_users')||'{}');
+  if(!users[gem]){
+    users[gem]={name:gname,pass:'',method:'google',joined:new Date().toISOString()};
+    localStorage.setItem('cf_users',JSON.stringify(users));
+  }
+  loginUser({name:gname,email:gem,method:'google'});
+  showSuccess('🔑','Google Sign-in!','Welcome, '+gname);
+}
+
+var generatedOTP='';
+function sendOTP(){
+  var ph=document.getElementById('phoneNum').value.replace(/\s/g,'');
+  if(ph.length<10||!/^\d+$/.test(ph)){
+    var e=document.getElementById('phoneErr');e.textContent='Valid 10-digit number required';e.style.display='block';return;
+  }
+  generatedOTP='1234';
+  document.getElementById('phoneMask').textContent=ph.substring(0,3)+'XXXXX'+ph.slice(-2);
+  document.getElementById('phoneStep1').style.display='none';
+  document.getElementById('phoneStep2').style.display='block';
+  document.getElementById('pd1').classList.remove('active');document.getElementById('pd1').classList.add('done');
+  document.getElementById('pd2').classList.add('active');
+  document.querySelectorAll('.otp-box').forEach(b=>{b.value='';b.classList.remove('filled')});
+  setTimeout(()=>document.querySelector('.otp-box').focus(),100);
+  showToast('OTP sent! (Demo: 1234)','success');
+}
+
+function resendOTP(e){
+  e.preventDefault();
+  showToast('OTP resent! (Demo: 1234)','success');
+}
+
+function otpMove(el,idx){
+  var boxes=document.querySelectorAll('.otp-box');
+  el.value=el.value.replace(/[^0-9]/g,'');
+  if(el.value){el.classList.add('filled');if(idx<3)boxes[idx+1].focus();}
+  else el.classList.remove('filled');
+  if(idx===3&&getOTPVal().length===4)verifyOTP();
+}
+function otpBack(el,idx,e){
+  if(e.key==='Backspace'&&!el.value&&idx>0)document.querySelectorAll('.otp-box')[idx-1].focus();
+}
+function getOTPVal(){return Array.from(document.querySelectorAll('.otp-box')).map(b=>b.value).join('');}
+
+function verifyOTP(){
+  var entered=getOTPVal();
+  if(entered.length<4){var e=document.getElementById('otpErr');e.textContent='Enter all 4 digits';e.style.display='block';return;}
+  if(entered!==generatedOTP){var e=document.getElementById('otpErr');e.textContent='Wrong OTP. Try 1234';e.style.display='block';return;}
+  var ph=document.getElementById('phoneNum').value;
+  var pname='User'+ph.slice(-4);
+  var users=JSON.parse(localStorage.getItem('cf_users')||'{}');
+  var key='ph_'+ph;
+  if(!users[key]){users[key]={name:pname,pass:'',phone:ph,method:'phone',joined:new Date().toISOString()};localStorage.setItem('cf_users',JSON.stringify(users));}
+  document.getElementById('pd2').classList.remove('active');document.getElementById('pd2').classList.add('done');
+  document.getElementById('pd3').classList.add('active');
+  loginUser({name:users[key].name,phone:ph,method:'phone'});
+  showSuccess('📱','Phone verified!','Welcome, '+pname+'!');
+}
+
+function loginUser(data){
+  localStorage.setItem('cf_session',JSON.stringify({...data,loginTime:new Date().toISOString()}));
+  var initials=data.name?data.name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2):'U';
+  document.getElementById('authBtns').style.display='none';
+  document.getElementById('userBar').style.display='flex';
+  document.getElementById('userAvatar').textContent=initials;
+  document.getElementById('userName').textContent=data.name||'User';
+  document.getElementById('loggedMsg').style.display='block';
+}
+
+function logout(){
+  localStorage.removeItem('cf_session');
+  document.getElementById('authBtns').style.display='flex';
+  document.getElementById('userBar').style.display='none';
+  document.getElementById('loggedMsg').style.display='none';
+  showToast('Logged out successfully');
+}
+
+function showSuccess(emoji,title,msg){
+  ['pass','google','phone'].forEach(id=>{
+    document.getElementById('panel-'+id).classList.remove('active');
+  });
+  document.getElementById('successEmoji').textContent=emoji;
+  document.getElementById('successTitle').textContent=title;
+  document.getElementById('successMsgTxt').textContent=msg;
+  document.getElementById('panel-success').classList.add('active');
+  document.getElementById('switchLink').style.display='none';
+  document.getElementById('modalTabs').style.display='none';
+  setTimeout(closeModal,1800);
+  setTimeout(()=>{document.getElementById('switchLink').style.display='';document.getElementById('modalTabs').style.display='';},2000);
+}
+
+function togglePass(id,btn){
+  var el=document.getElementById(id);
+  el.type=el.type==='password'?'text':'password';
+}
+
+function showToast(msg,type){
+  var t=document.getElementById('toast');
+  t.textContent=msg;t.className='toast show'+(type?' '+type:'');
+  clearTimeout(t._tid);
+  t._tid=setTimeout(()=>t.classList.remove('show'),2800);
+}
+
+function ripple(btn){
+  var r=document.createElement('span');r.className='btn-ripple';
+  r.style.cssText='width:200px;height:200px;left:50%;top:50%;margin:-100px 0 0 -100px;';
+  btn.appendChild(r);setTimeout(()=>r.remove(),600);
+}
+
+(function init(){
+  var sess=localStorage.getItem('cf_session');
+  if(sess){try{loginUser(JSON.parse(sess));}catch(e){localStorage.removeItem('cf_session');}}
+  document.getElementById('phoneStep2').style.display='none';
+})();
+</script>

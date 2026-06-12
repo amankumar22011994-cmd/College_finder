@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>BITS Hyderabad - College Detail</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: linear-gradient(135deg, #f1f5f9, #e2e8f0); color: #111827; font-family: sans-serif; min-height: 100vh; }
+    .page { padding: 2rem 6vw; display: flex; flex-direction: column; align-items: center; }
+    .back-btn { align-self: flex-start; margin-bottom: 1.5rem; padding: .5rem 1rem; background: #dbeafe; border: none; border-radius: 8px; font-size: .9rem; font-weight: 500; cursor: pointer; color: #1e40af; text-decoration: none; display: inline-block; transition: 0.2s; }
+    .back-btn:hover { background: #bfdbfe; }
+    .hero-card { width: 100%; max-width: 960px; border-radius: 16px; overflow: hidden; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.18); margin-bottom: 2rem; }
+    .hero-bg { position: absolute; inset: 0; background-image: url("https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/BITS_Hyderabad_Campus.jpg/1280px-BITS_Hyderabad_Campus.jpg"); background-size: cover; background-position: center; filter: brightness(0.4); z-index: 0; }
+    .hero-content { position: relative; z-index: 1; display: flex; align-items: center; gap: 20px; padding: 2rem; }
+    .hero-logo { width: 72px; height: 72px; border-radius: 50%; background: white; display: flex; align-items: center; justify-content: center; overflow: hidden; flex-shrink: 0; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+    .hero-logo img { width: 80%; height: 80%; object-fit: contain; }
+    .hero-info h1 { color: whitesmoke; font-size: 1.6rem; font-weight: 700; margin-bottom: .3rem; }
+    .hero-info p { color: #919aab; font-size: .9rem; margin-bottom: .5rem; }
+    .hero-tags { display: flex; flex-wrap: wrap; gap: .5rem; }
+    .tag { padding: .25rem .75rem; border-radius: 20px; font-size: .78rem; font-weight: 500; }
+    .tag-blue { background: #dbeafe; color: #1e40af; } .tag-green { background: #dcfce7; color: #166534; } .tag-amber { background: #fef3c7; color: #92400e; } .tag-purple { background: #ede9fe; color: #5b21b6; }
+    .section-wrap { width: 100%; max-width: 960px; margin-bottom: 2rem; }
+    .section-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 1rem; padding-left: .25rem; color: #111827; }
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1rem; }
+    .stat-card { background: #fff; border-radius: 12px; padding: 1.1rem 1rem; text-align: center; box-shadow: 0 4px 14px rgba(0,0,0,0.08); }
+    .stat-num { font-size: 1.4rem; font-weight: 700; margin-bottom: .2rem; }
+    .stat-label { font-size: .78rem; color: #6b7280; }
+    .blue { color: #2563eb; } .green { color: #16a34a; } .amber { color: #d97706; } .purple { color: #7c3aed; } .red { color: #dc2626; } .orange { color: #f97316; }
+    .highlight-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 1rem; }
+    .highlight-box { background: #fff; border-radius: 12px; padding: 1.2rem; box-shadow: 0 4px 14px rgba(0,0,0,0.08); border-left: 4px solid; }
+    .hl-blue { border-color: #3b82f6; } .hl-green { border-color: #22c55e; } .hl-amber { border-color: #f59e0b; } .hl-purple { border-color: #8b5cf6; }
+    .highlight-box h4 { font-size: .88rem; font-weight: 600; margin-bottom: .5rem; }
+    .highlight-box p { font-size: .8rem; color: #6b7280; line-height: 1.5; }
+    .branches-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; }
+    .branch-card { background: #fff; border-radius: 12px; padding: 1.2rem; box-shadow: 0 4px 14px rgba(0,0,0,0.08); }
+    .branch-name { font-size: .92rem; font-weight: 600; margin-bottom: .6rem; color: #111827; }
+    .branch-row { display: flex; justify-content: space-between; font-size: .8rem; margin-bottom: .3rem; }
+    .branch-row span:first-child { color: #6b7280; } .branch-row span:last-child { font-weight: 600; color: #1d4ed8; }
+    .branch-badge { display: inline-block; margin-top: .5rem; padding: .2rem .6rem; border-radius: 20px; font-size: .72rem; font-weight: 500; }
+    .placement-bar { background: #fff; border-radius: 12px; padding: 1.5rem; box-shadow: 0 4px 14px rgba(0,0,0,0.08); margin-bottom: 1rem; }
+    .bar-row { display: flex; align-items: center; gap: 1rem; margin-bottom: .9rem; }
+    .bar-row:last-child { margin-bottom: 0; }
+    .bar-label { font-size: .82rem; color: #4b5563; width: 120px; flex-shrink: 0; }
+    .bar-track { flex: 1; background: #f3f4f6; border-radius: 99px; height: 10px; overflow: hidden; }
+    .bar-fill { height: 100%; border-radius: 99px; }
+    .bar-val { font-size: .82rem; font-weight: 600; width: 80px; text-align: right; flex-shrink: 0; }
+    .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }
+    .info-card { background: #fff; border-radius: 12px; padding: 1.2rem; box-shadow: 0 4px 14px rgba(0,0,0,0.08); }
+    .info-card h3 { font-size: .85rem; font-weight: 600; margin-bottom: .8rem; color: #374151; }
+    .info-card ul { list-style: none; }
+    .info-card ul li { font-size: .82rem; color: #4b5563; padding: .3rem 0; border-bottom: .5px solid #f3f4f6; display: flex; align-items: center; gap: .4rem; }
+    .info-card ul li:last-child { border-bottom: none; }
+    .dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+    .dot-blue { background: #3b82f6; } .dot-green { background: #22c55e; } .dot-amber { background: #f59e0b; } .dot-purple { background: #8b5cf6; } .dot-red { background: #ef4444; } .dot-pink { background: #ec4899; }
+    .companies-flex { display: flex; flex-wrap: wrap; gap: .75rem; }
+    .company-pill { padding: .5rem 1rem; border-radius: 20px; font-size: .82rem; font-weight: 500; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+    .campus-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }
+    .campus-card { background: #fff; border-radius: 12px; padding: 1.2rem; box-shadow: 0 4px 14px rgba(0,0,0,0.08); text-align: center; }
+    .campus-icon { font-size: 1.6rem; margin-bottom: .6rem; }
+    .campus-card h4 { font-size: .88rem; font-weight: 600; margin-bottom: .4rem; }
+    .campus-card p { font-size: .78rem; color: #6b7280; line-height: 1.5; }
+    @media (max-width: 600px) { .page { padding: 1.2rem 4vw; } }
+  </style>
+</head>
+<body>
+<main class="page">
+  <a href="../Main_colleges/private.html" class="back-btn">← Back to All Private Colleges</a>
+  <div class="hero-card">
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <div class="hero-logo"><img src="https://upload.wikimedia.org/wikipedia/en/thumb/d/d2/BITS_Pilani-Logo.svg/220px-BITS_Pilani-Logo.svg.png" alt="BITS Hyderabad" onerror="this.style.display='none'"></div>
+      <div class="hero-info">
+        <h1>BITS Hyderabad</h1>
+        <p>Birla Institute of Technology and Science — Hyderabad Campus &nbsp;|&nbsp; Jawahar Nagar, Hyderabad, Telangana</p>
+        <div class="hero-tags">
+          <span class="tag tag-blue">Established 2008</span>
+          <span class="tag tag-green">NIRF Rank #50</span>
+          <span class="tag tag-amber">Deemed University</span>
+          <span class="tag tag-purple">BITS Pilani — Hyderabad Campus</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="section-wrap">
+    <div class="section-title">Quick Overview</div>
+    <div class="stats-grid">
+      <div class="stat-card"><div class="stat-num blue">~5,000</div><div class="stat-label">Total Students</div></div>
+      <div class="stat-card"><div class="stat-num green">230+</div><div class="stat-label">Faculty Members</div></div>
+      <div class="stat-card"><div class="stat-num amber">200 acres</div><div class="stat-label">Campus Area</div></div>
+      <div class="stat-card"><div class="stat-num purple">13</div><div class="stat-label">Departments</div></div>
+      <div class="stat-card"><div class="stat-num red">₹1.50 Cr</div><div class="stat-label">Highest Package</div></div>
+      <div class="stat-card"><div class="stat-num blue">89%</div><div class="stat-label">Placement Rate</div></div>
+    </div>
+  </div>
+  <div class="section-wrap">
+    <div class="section-title">About BITS Hyderabad</div>
+    <div class="highlight-row"><div class="highlight-box hl-blue"><h4>Legacy &amp; Prestige</h4><p>Established in 2008 as the third BITS campus. Shares same admission standards and BITSAT process as Pilani. Located in Hyderabad — India's second-largest IT hub — giving students unmatched industry proximity.</p></div>
+<div class="highlight-box hl-green"><h4>Research &amp; Innovation</h4><p>Active research in AI, pharma tech, and materials science. Proximity to Hyderabad's pharma corridor gives students unique research opportunities in biotech and drug discovery.</p></div>
+<div class="highlight-box hl-amber"><h4>Practice School</h4><p>Same Practice School as Pilani. Students intern at companies in Hyderabad's IT hub — Infosys, Microsoft, Amazon, and pharma giants like Dr. Reddy's and Cipla.</p></div>
+<div class="highlight-box hl-purple"><h4>Hyderabad Advantage</h4><p>Located near HITECH City — Hyderabad's IT corridor with Amazon, Google, Microsoft, and 300+ IT companies within 30 minutes. Best location for tech internships among all BITS campuses.</p></div></div>
+  </div>
+  <div class="section-wrap">
+    <div class="section-title">Branches &amp; Programs</div>
+    <div class="branches-grid"><div class="branch-card"><div class="branch-name">Computer Science</div><div class="branch-row"><span>Cutoff (GEN)</span><span>BITSAT 375+</span></div><div class="branch-row"><span>Avg Package</span><span>₹29–46 LPA</span></div><div class="branch-row"><span>Seats</span><span>120</span></div><span class="branch-badge tag-blue">Top Branch</span></div>
+<div class="branch-card"><div class="branch-name">Electronics &amp; Instrumentation</div><div class="branch-row"><span>Cutoff (GEN)</span><span>BITSAT 348+</span></div><div class="branch-row"><span>Avg Package</span><span>₹19–30 LPA</span></div><div class="branch-row"><span>Seats</span><span>75</span></div><span class="branch-badge tag-green">High Demand</span></div>
+<div class="branch-card"><div class="branch-name">Electrical &amp; Electronics</div><div class="branch-row"><span>Cutoff (GEN)</span><span>BITSAT 338+</span></div><div class="branch-row"><span>Avg Package</span><span>₹17–26 LPA</span></div><div class="branch-row"><span>Seats</span><span>75</span></div><span class="branch-badge tag-green">Core Branch</span></div>
+<div class="branch-card"><div class="branch-name">Mechanical Engineering</div><div class="branch-row"><span>Cutoff (GEN)</span><span>BITSAT 322+</span></div><div class="branch-row"><span>Avg Package</span><span>₹13–19 LPA</span></div><div class="branch-row"><span>Seats</span><span>75</span></div><span class="branch-badge tag-amber">Core Branch</span></div>
+<div class="branch-card"><div class="branch-name">Chemical Engineering</div><div class="branch-row"><span>Cutoff (GEN)</span><span>BITSAT 308+</span></div><div class="branch-row"><span>Avg Package</span><span>₹12–17 LPA</span></div><div class="branch-row"><span>Seats</span><span>55</span></div><span class="branch-badge tag-purple">Research Focus</span></div>
+<div class="branch-card"><div class="branch-name">Civil Engineering</div><div class="branch-row"><span>Cutoff (GEN)</span><span>BITSAT 300+</span></div><div class="branch-row"><span>Avg Package</span><span>₹10–14 LPA</span></div><div class="branch-row"><span>Seats</span><span>55</span></div><span class="branch-badge tag-amber">Core Branch</span></div>
+<div class="branch-card"><div class="branch-name">Mathematics &amp; Computing (Hons.)</div><div class="branch-row"><span>Cutoff (GEN)</span><span>BITSAT 358+</span></div><div class="branch-row"><span>Avg Package</span><span>₹21–34 LPA</span></div><div class="branch-row"><span>Seats</span><span>55</span></div><span class="branch-badge tag-purple">Analytical Track</span></div></div>
+  </div>
+  <div class="section-wrap">
+    <div class="section-title">Cutoffs (2025, General Category)</div>
+    <div class="placement-bar"><div class="bar-row"><span class="bar-label">CSE</span><div class="bar-track"><div class="bar-fill" style="width:99%;background:#3b82f6"></div></div><span class="bar-val blue">375+</span></div>
+<div class="bar-row"><span class="bar-label">Math &amp; Computing</span><div class="bar-track"><div class="bar-fill" style="width:93%;background:#8b5cf6"></div></div><span class="bar-val purple">358+</span></div>
+<div class="bar-row"><span class="bar-label">EI Engg</span><div class="bar-track"><div class="bar-fill" style="width:87%;background:#22c55e"></div></div><span class="bar-val green">348+</span></div>
+<div class="bar-row"><span class="bar-label">EEE</span><div class="bar-track"><div class="bar-fill" style="width:82%;background:#f59e0b"></div></div><span class="bar-val amber">338+</span></div>
+<div class="bar-row"><span class="bar-label">Mechanical</span><div class="bar-track"><div class="bar-fill" style="width:74%;background:#f97316"></div></div><span class="bar-val orange">322+</span></div>
+<div class="bar-row"><span class="bar-label">Chemical</span><div class="bar-track"><div class="bar-fill" style="width:65%;background:#7c3aed"></div></div><span class="bar-val purple">308+</span></div>
+<div class="bar-row"><span class="bar-label">Civil</span><div class="bar-track"><div class="bar-fill" style="width:58%;background:#16a34a"></div></div><span class="bar-val green">300+</span></div></div>
+    <p style="font-size:.75rem;color:#9ca3af;padding-left:.25rem;margin-top:.5rem">* BITSAT scores shown. Higher score = more competitive branch.</p>
+  </div>
+  <div class="section-wrap">
+    <div class="section-title">Placements 2025</div>
+    <div class="cards-grid">
+      <div class="info-card"><h3>Package Summary</h3><ul><li><span class="dot dot-blue"></span>Highest CTC: ₹1.50 Cr (International)</li>
+<li><span class="dot dot-green"></span>Highest Domestic: ₹1.00 Cr</li>
+<li><span class="dot dot-amber"></span>Average Package: ₹21 LPA</li>
+<li><span class="dot dot-purple"></span>Median Package: ₹16 LPA</li>
+<li><span class="dot dot-blue"></span>CSE Average: ₹32 LPA</li>
+<li><span class="dot dot-red"></span>Total Offers: 1600+</li></ul></div>
+      <div class="info-card"><h3>Sector-wise Hiring</h3><ul><li><span class="dot dot-blue"></span>Tech &amp; Software: 52%</li>
+<li><span class="dot dot-green"></span>Finance &amp; Consulting: 20%</li>
+<li><span class="dot dot-amber"></span>Pharma &amp; Core Engg: 16%</li>
+<li><span class="dot dot-purple"></span>Research &amp; Higher Studies: 8%</li>
+<li><span class="dot dot-pink"></span>Startups: 4%</li></ul></div>
+      <div class="info-card"><h3>Key Stats</h3><ul><li><span class="dot dot-green"></span>Placement Rate: 89%+</li>
+<li><span class="dot dot-blue"></span>Companies: 280+</li>
+<li><span class="dot dot-amber"></span>PPOs: 36%</li>
+<li><span class="dot dot-purple"></span>Pharma Partners: 50+</li>
+<li><span class="dot dot-red"></span>International Offers: 80+</li></ul></div>
+    </div>
+  </div>
+  <div class="section-wrap">
+    <div class="section-title">Top Recruiting Companies</div>
+    <div class="companies-flex"><span class="company-pill" style="background:#dbeafe;color:#1e40af">Google</span>
+<span class="company-pill" style="background:#dcfce7;color:#166534">Microsoft</span>
+<span class="company-pill" style="background:#fef3c7;color:#92400e">Amazon</span>
+<span class="company-pill" style="background:#ede9fe;color:#5b21b6">Goldman Sachs</span>
+<span class="company-pill" style="background:#cffafe;color:#155e75">Qualcomm</span>
+<span class="company-pill" style="background:#fbcfe8;color:#9d174d">Texas Instruments</span>
+<span class="company-pill" style="background:#fde68a;color:#78350f">Adobe</span>
+<span class="company-pill" style="background:#bfdbfe;color:#1e3a8a">Dr. Reddy's</span>
+<span class="company-pill" style="background:#bbf7d0;color:#14532d">Cipla</span>
+<span class="company-pill" style="background:#ddd6fe;color:#4c1d95">JP Morgan</span>
+<span class="company-pill" style="background:#fca5a5;color:#7f1d1d">McKinsey</span>
+<span class="company-pill" style="background:#a5f3fc;color:#164e63">Samsung R&D</span>
+<span class="company-pill" style="background:#c4b5fd;color:#3b0764">Cisco</span>
+<span class="company-pill" style="background:#6ee7b7;color:#065f46">Nvidia</span>
+<span class="company-pill" style="background:#93c5fd;color:#1e3a8a">Flipkart</span>
+<span class="company-pill" style="background:#f9a8d4;color:#831843">Uber</span>
+<span class="company-pill" style="background:#fde68a;color:#78350f">Zomato</span>
+<span class="company-pill" style="background:#bbf7d0;color:#14532d">Tower Research</span>
+<span class="company-pill" style="background:#ede9fe;color:#5b21b6">Optiver</span>
+<span class="company-pill" style="background:#fee2e2;color:#991b1b">ISRO</span></div>
+  </div>
+  <div class="section-wrap">
+    <div class="section-title">Campus Life</div>
+    <div class="campus-grid"><div class="campus-card"><div class="campus-icon">🏠</div><h4>Hostels</h4><p>8 hostels on a fully residential campus. All students get on-campus accommodation. Vibrant hostel culture unique to all BITS campuses.</p></div>
+<div class="campus-card"><div class="campus-icon">🎭</div><h4>Pearl</h4><p>BITS Hyderabad's flagship cultural fest. One of South India's most energetic college fests with celebrity performances and 40,000+ attendees.</p></div>
+<div class="campus-card"><div class="campus-icon">⚙️</div><h4>Atmos</h4><p>Annual technical fest with cutting-edge competitions in AI, robotics, and IoT. Special pharma tech track unique to Hyderabad campus.</p></div>
+<div class="campus-card"><div class="campus-icon">🏙️</div><h4>HITECH City Proximity</h4><p>5 km from HITECH City — Hyderabad's IT hub with Amazon, Microsoft, Google, and 300+ companies. Best internship access of any private campus in India.</p></div>
+<div class="campus-card"><div class="campus-icon">🍽️</div><h4>Dining</h4><p>Multiple messes and food courts with diverse Indian cuisine. Special Hyderabadi biryani culture in mess and nearby dhabas.</p></div>
+<div class="campus-card"><div class="campus-icon">📚</div><h4>Central Library</h4><p>Large digital library with IEEE, ACM, Elsevier access. Special pharma research database for biotech and chemistry students.</p></div>
+<div class="campus-card"><div class="campus-icon">🏏</div><h4>Sports</h4><p>Cricket, football, basketball, volleyball, tennis courts, swimming pool, and a modern gymnasium. Annual BITS sports championship.</p></div>
+<div class="campus-card"><div class="campus-icon">🚀</div><h4>Student Clubs</h4><p>120+ clubs including Pharma Club (unique to Hyderabad), Coding, Robotics, Music, Drama, and Silicon Valley Alumni Connect events.</p></div></div>
+  </div>
+  <div class="section-wrap">
+    <div class="section-title">Notable Alumni</div>
+    <div class="cards-grid">
+      <div class="info-card"><h3>Tech &amp; Business Leaders</h3><ul><li><span class="dot dot-blue"></span>BITSians at Google, Microsoft, Amazon (senior roles)</li>
+<li><span class="dot dot-blue"></span>Founders of pharma and health tech startups</li>
+<li><span class="dot dot-blue"></span>Finance professionals at Goldman Sachs, JP Morgan</li>
+<li><span class="dot dot-blue"></span>Senior engineers and product managers at MNCs</li></ul></div>
+      <div class="info-card"><h3>Research &amp; Academia</h3><ul><li><span class="dot dot-green"></span>PhD researchers at top US and European universities</li>
+<li><span class="dot dot-green"></span>Scientists at pharma giants like Dr. Reddy's and Cipla</li>
+<li><span class="dot dot-green"></span>Researchers at IIIT Hyderabad and IIT collaborations</li>
+<li><span class="dot dot-green"></span>Faculty at NITs and private universities across India</li></ul></div>
+    </div>
+  </div>
+  <footer style="max-width:960px;width:100%;margin:4rem auto 2rem;position:relative;overflow:hidden;border-radius:30px;box-shadow:0 15px 40px rgba(0,0,0,0.3);color:#fff;">
+    <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(15,23,42,0.45),rgba(15,23,42,0.75)),url('https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/BITS_Hyderabad_Campus.jpg/1280px-BITS_Hyderabad_Campus.jpg') center/cover no-repeat;filter:saturate(1.2);z-index:-1;"></div>
+    <div style="padding:4rem 2.5rem 1.5rem;text-shadow:0 2px 8px rgba(0,0,0,0.9);">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:3rem;border-bottom:1px solid rgba(255,255,255,0.4);padding-bottom:2.5rem;">
+        <div>
+          <h4 style="color:#fbbf24;margin-bottom:1rem;font-size:1.5rem;">BITS Pilani — Hyderabad Campus Since 2008</h4>
+          <p style="font-size:1rem;line-height:1.7;">BITS Hyderabad — where <span style='color:#fbbf24;font-weight:800'>BITS excellence</span> meets Hyderabad's booming tech ecosystem.</p>
+        </div>
+        <div>
+          <h4 style="color:#fbbf24;margin-bottom:1.2rem;font-size:1.1rem;">Quick Links</h4>
+          <ul style="list-style:none;font-size:0.95rem;line-height:2.2;">
+            <li>🏠 Home - All Colleges</li>
+            <li>🚀 Campus &amp; Life</li>
+          </ul>
+        </div>
+      </div>
+      <p style="text-align:center;padding-top:1.8rem;font-size:0.9rem;">© 2026 College Knowledge | Developed by <b style="color:#fbbf24;">Aman Kumar</b></p>
+    </div>
+  </footer>
+</main>
+</body>
+</html>

@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>India Engineering Colleges Hub</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+    /* ── TOOLS SECTION ── */
+    .tools-section{padding:3rem 8vw 4rem;background:#020617;}
+    .tools-section-title{font-size:2rem;margin-bottom:2rem;border-left:5px solid #8b5cf6;padding-left:1rem;color:#f9fafb;}
+    .tools-row1{display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-bottom:2rem;}
+    .tools-row2{display:grid;grid-template-columns:1fr 1fr;gap:2rem;}
+    @media(max-width:900px){.tools-row1,.tools-row2{grid-template-columns:1fr;}}
+    .tool-card{border-radius:20px;overflow:hidden;border:1px solid #334155;transition:transform .25s,box-shadow .25s;}
+    .tool-card:hover{transform:translateY(-5px);box-shadow:0 20px 50px rgba(0,0,0,.45);}
+    .tc-header{padding:1.4rem 1.8rem 1.1rem;border-bottom:1px solid rgba(255,255,255,.07);}
+    .tc-badge{display:inline-block;padding:.2rem .7rem;border-radius:20px;font-size:.66rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;margin-bottom:.55rem;}
+    .tc-header h3{font-size:1.1rem;font-weight:700;color:#f9fafb;margin-bottom:.25rem;}
+    .tc-header p{font-size:.8rem;color:#94a3b8;line-height:1.5;}
+    .tc-body{padding:1.4rem 1.8rem;}
+
+    /* PREDICTOR */
+    .predictor-card{background:linear-gradient(155deg,#0a0f2e,#111540);}
+    .predictor-card .tc-header{background:linear-gradient(135deg,rgba(37,99,235,.22),rgba(139,92,246,.12));}
+    .predictor-card .tc-badge{background:rgba(59,130,246,.2);border:1px solid rgba(59,130,246,.4);color:#93c5fd;}
+    .mini-fields{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:1rem;}
+    .pct-full{grid-column:1/-1;}
+    .mini-field label{display:block;font-size:.66rem;font-weight:600;color:rgba(255,255,255,.42);letter-spacing:.05em;text-transform:uppercase;margin-bottom:.3rem;}
+    .mini-field select,.mini-field input[type="number"]{width:100%;padding:.52rem .8rem;background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.1);border-radius:10px;color:#f0f4ff;font-size:.84rem;font-family:inherit;outline:none;transition:.2s;}
+    .mini-field select:focus,.mini-field input[type="number"]:focus{border-color:#3b82f6;background:rgba(37,99,235,.14);}
+    .mini-field select option{background:#1a2050;color:#fff;}
+    input[type=range]{width:100%;accent-color:#3b82f6;margin-bottom:.22rem;cursor:pointer;}
+    .pct-display{display:flex;justify-content:space-between;font-size:.76rem;color:rgba(255,255,255,.42);}
+    .pct-display strong{color:#93c5fd;font-size:1rem;}
+    .mini-rank-result{background:rgba(37,99,235,.12);border:1px solid rgba(59,130,246,.25);border-radius:12px;padding:.85rem 1rem;margin-bottom:.9rem;display:none;animation:fadeUp .3s ease;}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+    .mini-rank-row{display:flex;justify-content:space-around;align-items:center;flex-wrap:wrap;gap:.5rem;}
+    .mini-rank-item{text-align:center;}
+    .mini-rank-item .rv{font-size:1.05rem;font-weight:800;color:#fbbf24;}
+    .mini-rank-item .rl{font-size:.6rem;color:rgba(255,255,255,.38);margin-top:.1rem;}
+    .adv-pill{padding:.2rem .75rem;border-radius:20px;font-size:.7rem;font-weight:700;}
+    .adv-pill.yes{background:rgba(16,185,129,.2);color:#34d399;border:1px solid rgba(52,211,153,.3);}
+    .adv-pill.no{background:rgba(239,68,68,.15);color:#fca5a5;border:1px solid rgba(252,165,165,.25);}
+    .tc-cta-btn{display:block;width:100%;padding:.8rem;border:none;border-radius:12px;font-size:.88rem;font-weight:700;font-family:inherit;text-align:center;text-decoration:none;cursor:pointer;transition:.2s;margin-bottom:.5rem;}
+    .predictor-card .tc-cta-btn{background:linear-gradient(135deg,#2563eb,#3b82f6);color:#fff;}
+    .predictor-card .tc-cta-btn:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(37,99,235,.4);}
+    .tc-link{display:block;text-align:center;font-size:.75rem;color:rgba(255,255,255,.35);text-decoration:none;transition:.2s;}
+    .tc-link:hover{color:#93c5fd;}
+
+    /* COMPARE */
+    .compare-card{background:linear-gradient(155deg,#0b1324,#0f1e38);}
+    .compare-card .tc-header{background:linear-gradient(135deg,rgba(14,165,233,.18),rgba(6,182,212,.1));}
+    .compare-card .tc-badge{background:rgba(14,165,233,.2);border:1px solid rgba(14,165,233,.4);color:#38bdf8;}
+    .compare-features{list-style:none;margin-bottom:1.2rem;display:flex;flex-direction:column;gap:.5rem;}
+    .compare-features li{font-size:.82rem;color:#cbd5e1;display:flex;align-items:center;gap:.5rem;}
+    .compare-features li::before{content:"✅";font-size:.8rem;}
+    .compare-card .tc-cta-btn{background:linear-gradient(135deg,#f59e0b,#f97316);color:#fff;font-size:.95rem;padding:.9rem;}
+    .compare-card .tc-cta-btn:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(245,158,11,.38);}
+    .compare-note{text-align:center;font-size:.72rem;color:rgba(255,255,255,.28);margin-top:.3rem;}
+
+    /* SUPPORT */
+    .support-card{background:linear-gradient(155deg,#0d0a1e,#130d2a);}
+    .support-card .tc-header{background:linear-gradient(135deg,rgba(139,92,246,.2),rgba(16,185,129,.1));}
+    .support-card .tc-badge{background:rgba(139,92,246,.2);border:1px solid rgba(139,92,246,.4);color:#c4b5fd;}
+    .mini-chat{display:flex;flex-direction:column;gap:.6rem;margin-bottom:.8rem;min-height:110px;max-height:160px;overflow-y:auto;}
+    .mini-chat::-webkit-scrollbar{width:3px;}
+    .mini-chat::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:99px;}
+    .mini-msg{display:flex;gap:.5rem;align-items:flex-start;animation:fadeUp .25s ease;}
+    .mini-msg.user{flex-direction:row-reverse;}
+    .mini-avatar{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.82rem;flex-shrink:0;}
+    .mini-msg.bot .mini-avatar{background:rgba(139,92,246,.25);border:1px solid rgba(139,92,246,.3);}
+    .mini-msg.user .mini-avatar{background:rgba(59,130,246,.2);}
+    .mini-bubble{max-width:80%;padding:.55rem .85rem;border-radius:11px;font-size:.79rem;line-height:1.5;color:#e2e8f0;}
+    .mini-msg.bot .mini-bubble{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);border-bottom-left-radius:3px;}
+    .mini-msg.user .mini-bubble{background:rgba(37,99,235,.2);border:1px solid rgba(59,130,246,.25);border-bottom-right-radius:3px;color:#c7deff;}
+    .mini-typing-txt{font-size:.7rem;color:rgba(255,255,255,.28);padding:.1rem .4rem;display:none;font-style:italic;}
+    .mini-input-row{display:flex;gap:.55rem;margin-bottom:.8rem;}
+    .mini-input{flex:1;padding:.6rem .85rem;background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.1);border-radius:10px;color:#f0f4ff;font-size:.83rem;font-family:inherit;outline:none;transition:.2s;}
+    .mini-input:focus{border-color:rgba(139,92,246,.5);background:rgba(139,92,246,.1);}
+    .mini-input::placeholder{color:rgba(255,255,255,.28);}
+    .mini-send-btn{width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,#8b5cf6,#6d28d9);border:none;color:#fff;font-size:.95rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.2s;flex-shrink:0;}
+    .mini-send-btn:hover{transform:scale(1.08);box-shadow:0 4px 14px rgba(139,92,246,.42);}
+    .support-card .tc-cta-btn{background:linear-gradient(135deg,#7c3aed,#8b5cf6);color:#fff;}
+    .support-card .tc-cta-btn:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(139,92,246,.42);}
+    .support-disclaimer{font-size:.66rem;color:rgba(255,255,255,.22);text-align:center;margin-top:.35rem;}
+
+    /* EXAM CALENDAR */
+    .exam-card{background:linear-gradient(155deg,#060c1a,#0a1628);}
+    .exam-card .tc-header{background:linear-gradient(135deg,rgba(16,185,129,.16),rgba(6,182,212,.1));}
+    .exam-card .tc-badge{background:rgba(16,185,129,.18);border:1px solid rgba(52,211,153,.35);color:#34d399;}
+    .exam-tabs{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:1rem;}
+    .etab{padding:.3rem .75rem;border-radius:20px;font-size:.72rem;font-weight:600;cursor:pointer;border:1.5px solid rgba(255,255,255,.1);background:rgba(255,255,255,.05);color:rgba(255,255,255,.5);transition:.2s;font-family:inherit;}
+    .etab.on{border-color:#34d399;background:rgba(16,185,129,.15);color:#34d399;}
+    .etab:hover:not(.on){border-color:rgba(255,255,255,.22);color:#fff;}
+    .exam-list{display:flex;flex-direction:column;gap:.5rem;max-height:320px;overflow-y:auto;padding-right:.15rem;}
+    .exam-list::-webkit-scrollbar{width:3px;}
+    .exam-list::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:99px;}
+    .exam-item{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:.75rem 1rem;display:grid;grid-template-columns:auto 1fr auto;gap:.7rem;align-items:start;transition:.18s;animation:fadeUp .25s ease both;}
+    .exam-item:hover{background:rgba(255,255,255,.07);border-color:rgba(52,211,153,.25);}
+    .exam-icon{font-size:1.2rem;margin-top:.1rem;}
+    .exam-name{font-size:.84rem;font-weight:700;color:#f0f4ff;margin-bottom:.15rem;display:flex;align-items:center;gap:.4rem;flex-wrap:wrap;}
+    .exam-meta{font-size:.68rem;color:#94a3b8;display:flex;flex-direction:column;gap:.18rem;line-height:1.4;}
+    .exam-meta span{display:flex;align-items:center;gap:.25rem;}
+    .exam-tag{padding:.1rem .38rem;border-radius:5px;font-size:.6rem;font-weight:600;}
+    .exam-tag.central{background:rgba(59,130,246,.15);color:#93c5fd;}
+    .exam-tag.state{background:rgba(16,185,129,.15);color:#34d399;}
+    .exam-tag.private{background:rgba(245,158,11,.15);color:#fbbf24;}
+    .exam-tag.research{background:rgba(139,92,246,.15);color:#c4b5fd;}
+    .exam-right{text-align:right;flex-shrink:0;}
+    .exam-date{font-size:.72rem;font-weight:700;color:#fbbf24;white-space:nowrap;}
+    .exam-fee{font-size:.64rem;color:#94a3b8;margin-top:.1rem;}
+    .exam-status{display:inline-block;padding:.12rem .42rem;border-radius:6px;font-size:.6rem;font-weight:700;margin-top:.15rem;}
+    .status-upcoming{background:rgba(16,185,129,.15);color:#34d399;}
+    .status-active{background:rgba(245,158,11,.2);color:#fbbf24;}
+    .status-closed{background:rgba(239,68,68,.12);color:#fca5a5;}
+    .exam-full-link{display:block;text-align:center;font-size:.73rem;color:rgba(255,255,255,.32);text-decoration:none;margin-top:.8rem;transition:.2s;}
+    .exam-full-link:hover{color:#34d399;}
+
+    /* ── AUTH HEADER ── */
+    .sh-auth{display:flex;align-items:center;}
+    .auth-btns{display:flex;gap:.6rem;}
+    .hbtn{padding:.42rem 1.1rem;border-radius:8px;font-size:.82rem;font-weight:600;cursor:pointer;transition:.2s;border:none;font-family:inherit;}
+    .hbtn.login{background:transparent;border:1px solid #334155;color:#94a3b8;}
+    .hbtn.login:hover{border-color:#8b5cf6;color:#c4b5fd;}
+    .hbtn.signup{background:linear-gradient(135deg,#7c3aed,#8b5cf6);color:#fff;}
+    .hbtn.signup:hover{transform:translateY(-1px);box-shadow:0 4px 14px rgba(139,92,246,.4);}
+    .user-bar{display:none;align-items:center;gap:.7rem;}
+    .user-avatar{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#06b6d4);display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700;color:#fff;}
+    .user-name{color:#e2e8f0;font-size:.85rem;font-weight:600;}
+    .logout-btn{background:transparent;border:1px solid #334155;color:#94a3b8;padding:.3rem .8rem;border-radius:6px;cursor:pointer;font-size:.75rem;font-family:inherit;transition:.2s;}
+    .logout-btn:hover{color:#f87171;border-color:#f87171;}
+
+    /* ── MODAL / OVERLAY ── */
+    .overlay{position:fixed;inset:0;background:rgba(0,0,0,.8);backdrop-filter:blur(8px);z-index:3000;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:.3s;}
+    .overlay.show{opacity:1;pointer-events:all;}
+    .modal{background:#0d1117;border:1px solid #21262d;border-radius:20px;width:92%;max-width:420px;overflow:hidden;transform:scale(.94) translateY(20px);transition:.35s cubic-bezier(.34,1.56,.64,1);position:relative;}
+    .overlay.show .modal{transform:scale(1) translateY(0);}
+    .modal-header{padding:1.6rem 1.8rem 1.2rem;text-align:center;border-bottom:1px solid #21262d;position:relative;}
+    .modal-close{position:absolute;top:1rem;right:1rem;background:transparent;border:none;color:#6b7280;font-size:1.2rem;cursor:pointer;width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;transition:.2s;}
+    .modal-close:hover{background:#1e293b;color:#e2e8f0;}
+    .modal-title{font-size:1.2rem;font-weight:700;color:#f9fafb;margin-bottom:.3rem;}
+    .modal-sub{font-size:.8rem;color:#6b7280;}
+    .modal-tabs{display:flex;gap:.5rem;background:#161b22;padding:.4rem;border-radius:10px;margin:.8rem 0 0;}
+    .mtab{flex:1;padding:.5rem;border:none;border-radius:7px;font-size:.78rem;font-weight:600;cursor:pointer;transition:.2s;font-family:inherit;color:#6b7280;background:transparent;}
+    .mtab.active{background:#1e293b;color:#a78bfa;}
+    .modal-body{padding:1.4rem 1.8rem;}
+    .panel{display:none;animation:slideIn .25s ease;}
+    .panel.active{display:block;}
+    @keyframes slideIn{from{opacity:0;transform:translateX(8px);}to{opacity:1;transform:translateX(0);}}
+    .field{margin-bottom:1rem;}
+    .field label{display:block;font-size:.7rem;font-weight:600;color:#6b7280;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.4rem;}
+    .field input{width:100%;padding:.65rem .9rem;background:#161b22;border:1.5px solid #30363d;border-radius:10px;color:#e6edf3;font-size:.88rem;font-family:inherit;outline:none;transition:.2s;}
+    .field input:focus{border-color:#8b5cf6;background:#1a1f2e;}
+    .field input::placeholder{color:#484f58;}
+    .field input.err{border-color:#f87171;background:#1a1010;}
+    .msg{font-size:.72rem;margin-top:.3rem;display:none;}
+    .msg.err-msg{color:#f87171;}
+    .msg.ok-msg{color:#34d399;}
+    .divider{display:flex;align-items:center;gap:.7rem;margin:1rem 0;font-size:.72rem;color:#484f58;}
+    .divider::before,.divider::after{content:'';flex:1;height:1px;background:#21262d;}
+    .social-row{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-bottom:1rem;}
+    .social-btn{display:flex;align-items:center;justify-content:center;gap:.5rem;padding:.6rem;border:1.5px solid #30363d;border-radius:10px;background:#161b22;color:#c9d1d9;font-size:.8rem;font-weight:600;cursor:pointer;transition:.2s;font-family:inherit;}
+    .social-btn:hover{border-color:#8b5cf6;background:#1a1f2e;color:#c4b5fd;}
+    .submit-btn{width:100%;padding:.85rem;border:none;border-radius:12px;font-size:.92rem;font-weight:700;font-family:inherit;cursor:pointer;transition:.25s;margin-top:.4rem;position:relative;overflow:hidden;}
+    .submit-btn.purple{background:linear-gradient(135deg,#7c3aed,#8b5cf6);color:#fff;}
+    .submit-btn.purple:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(139,92,246,.4);}
+    .submit-btn.blue{background:linear-gradient(135deg,#2563eb,#3b82f6);color:#fff;}
+    .submit-btn.blue:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(59,130,246,.4);}
+    .submit-btn.green{background:linear-gradient(135deg,#059669,#10b981);color:#fff;}
+    .submit-btn.green:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(16,185,129,.4);}
+    .submit-btn:active{transform:translateY(0)!important;}
+    .submit-btn:disabled{opacity:.6;transform:none;cursor:not-allowed;}
+    .phone-flag{display:flex;align-items:center;gap:.5rem;padding:.5rem .9rem;background:#161b22;border:1.5px solid #30363d;border-radius:10px;color:#c9d1d9;font-size:.88rem;margin-bottom:.5rem;}
+    .otp-wrap{display:none;animation:slideIn .25s ease;}
+    .otp-boxes{display:flex;gap:.5rem;justify-content:center;margin:.7rem 0;}
+    .otp-box{width:52px;height:52px;border:2px solid #30363d;border-radius:12px;background:#161b22;color:#e6edf3;font-size:1.4rem;font-weight:700;text-align:center;outline:none;transition:.2s;font-family:inherit;}
+    .otp-box:focus{border-color:#8b5cf6;background:#1a1f2e;}
+    .otp-box.filled{border-color:#10b981;background:#0d1f18;color:#34d399;}
+    .progress-dots{display:flex;justify-content:center;gap:.4rem;margin-bottom:.4rem;}
+    .pdot{width:6px;height:6px;border-radius:50%;background:#30363d;transition:.3s;}
+    .pdot.active{background:#8b5cf6;transform:scale(1.3);}
+    .pdot.done{background:#34d399;}
+    .success-anim{text-align:center;padding:1rem 0;animation:popIn .4s cubic-bezier(.34,1.56,.64,1);}
+    @keyframes popIn{from{opacity:0;transform:scale(.7);}to{opacity:1;transform:scale(1);}}
+    .success-icon{font-size:3rem;margin-bottom:.6rem;display:block;}
+    .success-title{font-size:1.1rem;font-weight:700;color:#34d399;margin-bottom:.3rem;}
+    .success-msg{font-size:.82rem;color:#6b7280;}
+    .switch-link{text-align:center;font-size:.78rem;color:#6b7280;margin-top:1rem;}
+    .switch-link a{color:#a78bfa;cursor:pointer;text-decoration:none;font-weight:600;}
+    .switch-link a:hover{color:#c4b5fd;}
+    .toast{position:fixed;bottom:1.5rem;right:1.5rem;background:#1e293b;border:1px solid #334155;border-radius:12px;padding:.8rem 1.2rem;font-size:.82rem;color:#e2e8f0;z-index:9999;transform:translateY(60px);opacity:0;transition:.3s;max-width:280px;}
+    .toast.show{transform:translateY(0);opacity:1;}
+    .toast.success{border-color:#34d399;background:#0d1f18;color:#34d399;}
+    .toast.error{border-color:#f87171;background:#1a0f0f;color:#f87171;}
+    </style>
+</head>
+<body>
+    <header class="sh-header">
+        <div class="sh-top">
+            <div class="sh-logo">
+                <span class="sh-logo-icon">🎓</span>
+                <span class="sh-logo-text">College<span>Finder</span></span>
+            </div>
+
+            <div class="sh-auth">
+                <div class="auth-btns" id="authBtns">
+                    <button class="hbtn login" onclick="openModal('login')">Login</button>
+                    <button class="hbtn signup" onclick="openModal('signup')">Sign Up</button>
+                </div>
+                <div class="user-bar" id="userBar">
+                    <div class="user-avatar" id="userAvatar">?</div>
+                    <span class="user-name" id="userName">User</span>
+                    <button class="logout-btn" onclick="logout()">Logout</button>
+                </div>
+            </div>
+        </div>
+
+        <nav class="sh-nav">
+            <a href="index.html">Home</a>
+            <a href="Main_colleges/iit.html">IITs</a>
+            <a href="Main_colleges/nit.html">NITs</a>
+            <a href="Main_colleges/iiit.html">IIITs</a>
+            <a href="Main_colleges/private.html">Private</a>
+            <a href="Main_colleges/govt.html">State Govt.</a>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="hero-overlay">
+            <h1>Find Colleges, Courses & Exams that are Best for You</h1>
+            <p>23 IITs • 31 NITs • 26 IIITs • Top private & state government colleges in one place.</p>
+            <div class="hero-search" style="position:relative;flex-direction:column;padding:0;border-radius:16px;overflow:visible;background:transparent;box-shadow:none;">
+                <div style="display:flex;width:100%;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 10px 25px rgba(0,0,0,0.3);">
+                    <input type="text" id="heroSearchInput" placeholder="Search college name (e.g. IIT Bombay, NIT Trichy...)" autocomplete="off"
+                        oninput="showSuggestions(this.value)"
+                        onkeydown="handleSearchKey(event)"
+                        style="flex:1;border:none;padding:1rem 1.5rem;border-radius:16px 0 0 16px;outline:none;font-size:1rem;">
+                    <button type="button" onclick="smartSearch('heroSearchInput')" style="background:#0ea5e9;color:white;border:none;padding:0 2rem;border-radius:0 16px 16px 0;font-weight:700;cursor:pointer;font-size:1rem;white-space:nowrap;">🔍 Search</button>
+                </div>
+                <div id="searchSuggestions" style="position:absolute;top:calc(100% + 6px);left:0;right:0;background:#0f172a;border:1px solid #334155;border-radius:12px;z-index:999;display:none;max-height:320px;overflow-y:auto;box-shadow:0 20px 50px rgba(0,0,0,0.6);"></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="category-section">
+        <h2>Explore by Category</h2>
+        <div class="category-grid">
+            <a href="Main_colleges/iit.html" class="cat-card"><h3>IITs</h3><p>All 23 Indian Institutes of Technology.</p></a>
+            <a href="Main_colleges/nit.html" class="cat-card"><h3>NITs</h3><p>31 National Institutes of Technology.</p></a>
+            <a href="Main_colleges/iiit.html" class="cat-card"><h3>IIITs</h3><p>26 Indian Institutes of Information Technology.</p></a>
+            <a href="Main_colleges/private.html" class="cat-card"><h3>Top Private</h3><p>BITS, VIT, SRM, and more.</p></a>
+            <a href="Main_colleges/govt.html" class="cat-card"><h3>State Govt.</h3><p>Top State Engineering Colleges.</p></a>
+        </div>
+    </section>
+
+    <!-- TOOLS SECTION -->
+    <section class="tools-section">
+        <h2 class="tools-section-title">🛠️ Tools For You</h2>
+
+        <div class="tools-row1">
+            <!-- 1. JEE Rank Predictor -->
+            <div class="tool-card predictor-card">
+                <div class="tc-header">
+                    <div class="tc-badge">Free Tool</div>
+                    <h3>🔮 JEE Rank & College Predictor</h3>
+                    <p>Enter percentile → get estimated rank → see best colleges for your score</p>
+                </div>
+                <div class="tc-body">
+                    <div class="mini-fields">
+                        <div class="pct-full">
+                            <label style="display:block;font-size:.66rem;font-weight:600;color:rgba(255,255,255,.42);letter-spacing:.05em;text-transform:uppercase;margin-bottom:.35rem;">Your JEE Main Percentile</label>
+                            <input type="range" min="50" max="100" step="0.1" value="97" id="miniSldr" oninput="miniSync()"/>
+                            <div class="pct-display"><span>50</span><strong id="miniPctVal">97.0</strong><span>100</span></div>
+                            <div class="mini-field" style="margin-top:.4rem;">
+                                <input type="number" min="0.01" max="100" step="0.01" id="miniPctInput" placeholder="Or type here (e.g. 97.50)" oninput="miniInputSync()"/>
+                            </div>
+                        </div>
+                        <div class="mini-field">
+                            <label>Category</label>
+                            <select id="miniCat">
+                                <option value="GEN">General (GEN)</option>
+                                <option value="EWS">EWS</option>
+                                <option value="OBC">OBC-NCL</option>
+                                <option value="SC">SC</option>
+                                <option value="ST">ST</option>
+                            </select>
+                        </div>
+                        <div class="mini-field">
+                            <label>Branch</label>
+                            <select id="miniBr">
+                                <option value="CSE">Computer Science (CSE)</option>
+                                <option value="ECE">Electronics (ECE)</option>
+                                <option value="EEE">Electrical</option>
+                                <option value="MECH">Mechanical</option>
+                                <option value="CIVIL">Civil</option>
+                                <option value="AI">AI / Data Science</option>
+                                <option value="ANY">All Courses / Any</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mini-rank-result" id="miniRankResult">
+                        <div class="mini-rank-row">
+                            <div class="mini-rank-item"><div class="rv" id="mRank">—</div><div class="rl">Estimated AIR</div></div>
+                            <div class="mini-rank-item"><div class="rv" id="mEff" style="color:#c4b5fd">—</div><div class="rl">Effective Rank</div></div>
+                            <div class="mini-rank-item" id="mAdvWrap"></div>
+                        </div>
+                    </div>
+                    <button class="tc-cta-btn" onclick="miniPredict()">Get My Rank & Colleges →</button>
+                    <a href="jee_predictor_final.html" class="tc-link">Open Full Predictor with detailed college list ↗</a>
+                </div>
+            </div>
+
+            <!-- 2. Compare Tool -->
+            <div class="tool-card compare-card">
+                <div class="tc-header">
+                    <div class="tc-badge">Compare Tool</div>
+                    <h3>⚖️ Compare Colleges Side by Side</h3>
+                    <p>Compare up to 4 IITs, NITs or IIITs across every parameter at once</p>
+                </div>
+                <div class="tc-body">
+                    <ul class="compare-features">
+                        <li>JEE Cutoff ranks for all branches (CSE, ECE, Mech…)</li>
+                        <li>Placement stats (Avg vs Highest package)</li>
+                        <li>Category-wise Opening/Closing ranks</li>
+                        <li>Campus area & Fee structures</li>
+                        <li>Direct comparison of up to 4 colleges</li>
+                    </ul>
+                    <a href="compare.html" class="tc-cta-btn">Start Comparing Now →</a>
+                    <p class="compare-note">Compare 23 IITs, 31 NITs and top IIITs.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="tools-row2">
+            <!-- 3. Support Bot -->
+            <div class="tool-card support-card">
+                <div class="tc-header">
+                    <div class="tc-badge">Emotional Support</div>
+                    <h3>💜 Talk to Asha — Your Support Friend</h3>
+                    <p>JEE stress, rank anxiety, family pressure? Always here — no judgment.</p>
+                </div>
+                <div class="tc-body">
+                    <div class="mini-chat" id="miniChat">
+                        <div class="mini-msg bot">
+                            <div class="mini-avatar">🌸</div>
+                            <div class="mini-bubble">Namaste! 💜 I'm Asha. JEE stress, rank anxiety or parent pressure — I'm here to listen. Just type anything.</div>
+                        </div>
+                    </div>
+                    <div class="mini-typing-txt" id="miniTyping">Asha is typing...</div>
+                    <div class="mini-input-row">
+                        <input type="text" class="mini-input" id="miniSupportInput" placeholder="How are you feeling today?" onkeydown="miniSupportKey(event)"/>
+                        <button class="mini-send-btn" onclick="miniSupportSend()">➤</button>
+                    </div>
+                    <a href="emotional-support.html" class="tc-cta-btn">Open Full Conversation with Asha ↗</a>
+                    <p class="support-disclaimer">AI companion only. For serious concerns, speak to a trusted adult.</p>
+                </div>
+            </div>
+
+            <!-- 4. Exam Calendar -->
+            <div class="tool-card exam-card">
+                <div class="tc-header">
+                    <div class="tc-badge">Exam Calendar 2026</div>
+                    <h3>📅 All Engineering Entrance Exams</h3>
+                    <p>Form dates, exam dates, fees — Central, State & Private exams in one place</p>
+                </div>
+                <div class="tc-body">
+                    <div class="exam-tabs">
+                        <button class="etab on" onclick="filterExams('ALL',this)">All</button>
+                        <button class="etab" onclick="filterExams('central',this)">Central Govt</button>
+                        <button class="etab" onclick="filterExams('state',this)">State Govt</button>
+                        <button class="etab" onclick="filterExams('private',this)">Private</button>
+                        <button class="etab" onclick="filterExams('research',this)">Research</button>
+                    </div>
+                    <div class="exam-list" id="examList"></div>
+                    <a href="#" class="exam-full-link">View full exam details with syllabus & eligibility ↗</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p>© 2026 CollegeFinder • Static info project for learning.</p>
+    </footer>
+
+    <!-- ── AUTH MODAL ── -->
+    <div class="overlay" id="overlay" onclick="handleOverlayClick(event)">
+        <div class="modal" id="modal">
+            <div class="modal-header">
+                <button class="modal-close" onclick="closeModal()">✕</button>
+                <div class="modal-title" id="modalTitle">Welcome back</div>
+                <div class="modal-sub" id="modalSub">Sign in to your CollegeFinder account</div>
+                <div class="modal-tabs" id="modalTabs">
+                    <button class="mtab active" id="tab-pass" onclick="switchTab('pass')">Password</button>
+                    <button class="mtab" id="tab-google" onclick="switchTab('google')">Google</button>
+                    <button class="mtab" id="tab-phone" onclick="switchTab('phone')">Phone OTP</button>
+                </div>
+            </div>
+            <div class="modal-body">
+
+                <!-- PASSWORD PANEL -->
+                <div class="panel active" id="panel-pass">
+                    <div id="signupExtra" style="display:none">
+                        <div class="field"><label>Full Name</label><input type="text" id="regName" placeholder="Rahul Sharma"><div class="msg err-msg" id="nameErr"></div></div>
+                    </div>
+                    <div class="field"><label>Email</label><input type="email" id="authEmail" placeholder="you@example.com"><div class="msg err-msg" id="emailErr"></div></div>
+                    <div class="field">
+                        <label>Password</label>
+                        <div style="position:relative">
+                            <input type="password" id="authPass" placeholder="Min 6 characters" style="padding-right:2.5rem">
+                            <button onclick="togglePass('authPass',this)" style="position:absolute;right:.7rem;top:50%;transform:translateY(-50%);background:transparent;border:none;color:#6b7280;cursor:pointer;font-size:.85rem">👁</button>
+                        </div>
+                        <div class="msg err-msg" id="passErr"></div>
+                    </div>
+                    <div id="signupConfirm" style="display:none">
+                        <div class="field"><label>Confirm Password</label><input type="password" id="authPassC" placeholder="Repeat password"><div class="msg err-msg" id="passCErr"></div></div>
+                    </div>
+                    <button class="submit-btn purple" id="passSubmitBtn" onclick="handlePassAuth(event)">Sign In</button>
+                    <div class="divider">or continue with</div>
+                    <div class="social-row">
+                        <button class="social-btn" onclick="handleGoogle()"><div style="width:18px;height:18px;border-radius:3px;background:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#4285f4">G</div> Google</button>
+                        <button class="social-btn" onclick="switchTab('phone')">📱 Phone</button>
+                    </div>
+                </div>
+
+                <!-- GOOGLE PANEL -->
+                <div class="panel" id="panel-google">
+                    <div style="text-align:center;padding:.5rem 0 1rem">
+                        <div style="width:60px;height:60px;background:#fff;border-radius:50%;margin:0 auto .8rem;display:flex;align-items:center;justify-content:center;font-size:1.6rem;font-weight:800;color:#4285f4">G</div>
+                        <p style="color:#c9d1d9;font-size:.9rem;line-height:1.5">Continue with your Google account.<br>Fast & secure, no password needed.</p>
+                    </div>
+                    <button class="submit-btn" style="background:#fff;color:#3c4043;font-weight:700;display:flex;align-items:center;justify-content:center;gap:.6rem" onclick="handleGoogle()">
+                        <div style="width:20px;height:20px;background:#4285f4;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:#fff">G</div>
+                        Sign in with Google
+                    </button>
+                    <p style="font-size:.72rem;color:#484f58;text-align:center;margin-top:.8rem">Demo: Google OAuth simulation</p>
+                </div>
+
+                <!-- PHONE OTP PANEL -->
+                <div class="panel" id="panel-phone">
+                    <div class="progress-dots" id="phoneDots">
+                        <div class="pdot active" id="pd1"></div>
+                        <div class="pdot" id="pd2"></div>
+                        <div class="pdot" id="pd3"></div>
+                    </div>
+                    <div id="phoneStep1">
+                        <div class="field">
+                            <label>Mobile Number</label>
+                            <div class="phone-flag">
+                                <span style="font-size:1rem">🇮🇳</span>
+                                <span style="color:#6b7280">+91</span>
+                                <div style="width:1px;height:16px;background:#30363d;margin:0 .3rem"></div>
+                                <input type="tel" id="phoneNum" placeholder="98765 43210" maxlength="10" style="background:transparent;border:none;flex:1;outline:none;color:#e6edf3;font-size:.88rem;padding:0;font-family:inherit">
+                            </div>
+                            <div class="msg err-msg" id="phoneErr"></div>
+                        </div>
+                        <button class="submit-btn blue" onclick="sendOTP()">Send OTP →</button>
+                    </div>
+                    <div class="otp-wrap" id="phoneStep2">
+                        <p style="color:#6b7280;font-size:.8rem;text-align:center;margin-bottom:.3rem">OTP sent to +91 <span id="phoneMask"></span></p>
+                        <div class="otp-boxes" id="otpBoxes">
+                            <input class="otp-box" maxlength="1" oninput="otpMove(this,0)" onkeydown="otpBack(this,0,event)">
+                            <input class="otp-box" maxlength="1" oninput="otpMove(this,1)" onkeydown="otpBack(this,1,event)">
+                            <input class="otp-box" maxlength="1" oninput="otpMove(this,2)" onkeydown="otpBack(this,2,event)">
+                            <input class="otp-box" maxlength="1" oninput="otpMove(this,3)" onkeydown="otpBack(this,3,event)">
+                        </div>
+                        <div class="msg err-msg" id="otpErr" style="text-align:center;margin-bottom:.5rem"></div>
+                        <button class="submit-btn green" onclick="verifyOTP()">Verify & Continue ✓</button>
+                        <p style="text-align:center;font-size:.75rem;color:#6b7280;margin-top:.6rem">Demo OTP: <strong style="color:#fbbf24;letter-spacing:.2em">1234</strong></p>
+                        <p style="text-align:center;font-size:.72rem;margin-top:.3rem"><a href="#" style="color:#8b5cf6;text-decoration:none" onclick="resendOTP(event)">Resend OTP</a></p>
+                    </div>
+                </div>
+
+                <!-- SUCCESS PANEL -->
+                <div class="panel" id="panel-success">
+                    <div class="success-anim">
+                        <span class="success-icon" id="successEmoji">🎉</span>
+                        <div class="success-title" id="successTitle">You're in!</div>
+                        <div class="success-msg" id="successMsgTxt">Welcome to CollegeFinder</div>
+                    </div>
+                </div>
+
+                <div class="switch-link" id="switchLink">
+                    New here? <a onclick="toggleMode()">Create account</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST -->
+    <div class="toast" id="toast"></div>
+
+    <script>
+    // ── SEARCH ───────────────────────────────────────────────────
+    // ── COLLEGE DATABASE ─────────────────────────────────────────
+    var COLLEGE_DB = [
+        // IITs
+        {name:"IIT Bombay", short:"IITB", type:"IIT", city:"Mumbai", state:"Maharashtra", url:"Main_colleges/iit.html#iit-bombay", tags:["iit","bombay","mumbai","iitb"]},
+        {name:"IIT Delhi", short:"IITD", type:"IIT", city:"New Delhi", state:"Delhi", url:"Main_colleges/iit.html#iit-delhi", tags:["iit","delhi","iitd","new delhi"]},
+        {name:"IIT Madras", short:"IITM", type:"IIT", city:"Chennai", state:"Tamil Nadu", url:"Main_colleges/iit.html#iit-madras", tags:["iit","madras","chennai","iitm"]},
+        {name:"IIT Kanpur", short:"IITK", type:"IIT", city:"Kanpur", state:"Uttar Pradesh", url:"Main_colleges/iit.html#iit-kanpur", tags:["iit","kanpur","iitk"]},
+        {name:"IIT Kharagpur", short:"IITKgp", type:"IIT", city:"Kharagpur", state:"West Bengal", url:"Main_colleges/iit.html#iit-kharagpur", tags:["iit","kharagpur","iitkgp","kgp"]},
+        {name:"IIT Roorkee", short:"IITR", type:"IIT", city:"Roorkee", state:"Uttarakhand", url:"Main_colleges/iit.html#iit-roorkee", tags:["iit","roorkee","iitr"]},
+        {name:"IIT Guwahati", short:"IITG", type:"IIT", city:"Guwahati", state:"Assam", url:"Main_colleges/iit.html#iit-guwahati", tags:["iit","guwahati","iitg"]},
+        {name:"IIT Hyderabad", short:"IITH", type:"IIT", city:"Hyderabad", state:"Telangana", url:"Main_colleges/iit.html#iit-hyderabad", tags:["iit","hyderabad","iith"]},
+        {name:"IIT Indore", short:"IITIn", type:"IIT", city:"Indore", state:"Madhya Pradesh", url:"Main_colleges/iit.html#iit-indore", tags:["iit","indore"]},
+        {name:"IIT Jodhpur", short:"IITJ", type:"IIT", city:"Jodhpur", state:"Rajasthan", url:"Main_colleges/iit.html#iit-jodhpur", tags:["iit","jodhpur","iitj"]},
+        {name:"IIT Patna", short:"IITP", type:"IIT", city:"Patna", state:"Bihar", url:"Main_colleges/iit.html#iit-patna", tags:["iit","patna","iitp"]},
+        {name:"IIT Ropar", short:"IITRpr", type:"IIT", city:"Ropar", state:"Punjab", url:"Main_colleges/iit.html#iit-ropar", tags:["iit","ropar"]},
+        {name:"IIT Bhubaneswar", short:"IITBBS", type:"IIT", city:"Bhubaneswar", state:"Odisha", url:"Main_colleges/iit.html#iit-bhubaneswar", tags:["iit","bhubaneswar","iitbbs"]},
+        {name:"IIT Gandhinagar", short:"IITGN", type:"IIT", city:"Gandhinagar", state:"Gujarat", url:"Main_colleges/iit.html#iit-gandhinagar", tags:["iit","gandhinagar","iitgn"]},
+        {name:"IIT Mandi", short:"IITMdi", type:"IIT", city:"Mandi", state:"Himachal Pradesh", url:"Main_colleges/iit.html#iit-mandi", tags:["iit","mandi"]},
+        {name:"IIT Tirupati", short:"IITTP", type:"IIT", city:"Tirupati", state:"Andhra Pradesh", url:"Main_colleges/iit.html#iit-tirupati", tags:["iit","tirupati","iittp"]},
+        {name:"IIT Palakkad", short:"IITPkd", type:"IIT", city:"Palakkad", state:"Kerala", url:"Main_colleges/iit.html#iit-palakkad", tags:["iit","palakkad","palakad"]},
+        {name:"IIT Jammu", short:"IITJmu", type:"IIT", city:"Jammu", state:"J&K", url:"Main_colleges/iit.html#iit-jammu", tags:["iit","jammu"]},
+        {name:"IIT Dharwad", short:"IITDhw", type:"IIT", city:"Dharwad", state:"Karnataka", url:"Main_colleges/iit.html#iit-dharwad", tags:["iit","dharwad"]},
+        {name:"IIT Bhilai", short:"IITBhl", type:"IIT", city:"Bhilai", state:"Chhattisgarh", url:"Main_colleges/iit.html#iit-bhilai", tags:["iit","bhilai"]},
+        {name:"IIT Goa", short:"IITGoa", type:"IIT", city:"Goa", state:"Goa", url:"Main_colleges/iit.html#iit-goa", tags:["iit","goa"]},
+        {name:"IIT Varanasi (BHU)", short:"IITBHU", type:"IIT", city:"Varanasi", state:"Uttar Pradesh", url:"Main_colleges/iit.html#iit-bhu", tags:["iit","varanasi","bhu","iit bhu","iit varanasi"]},
+        {name:"IIT ISM Dhanbad", short:"IIT-ISM", type:"IIT", city:"Dhanbad", state:"Jharkhand", url:"Main_colleges/iit.html#iit-ism", tags:["iit","dhanbad","ism","iit ism"]},
+        // NITs
+        {name:"NIT Trichy", short:"NITT", type:"NIT", city:"Tiruchirappalli", state:"Tamil Nadu", url:"Main_colleges/nit.html#nit-trichy", tags:["nit","trichy","nitt","tiruchirappalli","trichirappalli"]},
+        {name:"NIT Warangal", short:"NITW", type:"NIT", city:"Warangal", state:"Telangana", url:"Main_colleges/nit.html#nit-warangal", tags:["nit","warangal","nitw"]},
+        {name:"NIT Surathkal", short:"NITK", type:"NIT", city:"Surathkal", state:"Karnataka", url:"Main_colleges/nit.html#nit-surathkal", tags:["nit","surathkal","nitk","mangalore"]},
+        {name:"NIT Calicut", short:"NITC", type:"NIT", city:"Calicut", state:"Kerala", url:"Main_colleges/nit.html#nit-calicut", tags:["nit","calicut","nitc","kozhikode"]},
+        {name:"NIT Allahabad", short:"MNNIT", type:"NIT", city:"Allahabad", state:"Uttar Pradesh", url:"Main_colleges/nit.html#nit-allahabad", tags:["nit","allahabad","mnnit","prayagraj"]},
+        {name:"NIT Rourkela", short:"NITR", type:"NIT", city:"Rourkela", state:"Odisha", url:"Main_colleges/nit.html#nit-rourkela", tags:["nit","rourkela","nitr"]},
+        {name:"NIT Durgapur", short:"NITDGP", type:"NIT", city:"Durgapur", state:"West Bengal", url:"Main_colleges/nit.html#nit-durgapur", tags:["nit","durgapur"]},
+        {name:"NIT Jamshedpur", short:"NITJSR", type:"NIT", city:"Jamshedpur", state:"Jharkhand", url:"Main_colleges/nit.html#nit-jamshedpur", tags:["nit","jamshedpur"]},
+        {name:"NIT Kurukshetra", short:"NITKKR", type:"NIT", city:"Kurukshetra", state:"Haryana", url:"Main_colleges/nit.html#nit-kurukshetra", tags:["nit","kurukshetra"]},
+        {name:"NIT Nagpur (VNIT)", short:"VNIT", type:"NIT", city:"Nagpur", state:"Maharashtra", url:"Main_colleges/nit.html#nit-nagpur", tags:["nit","nagpur","vnit"]},
+        {name:"NIT Surat (SVNIT)", short:"SVNIT", type:"NIT", city:"Surat", state:"Gujarat", url:"Main_colleges/nit.html#nit-surat", tags:["nit","surat","svnit"]},
+        {name:"NIT Silchar", short:"NITS", type:"NIT", city:"Silchar", state:"Assam", url:"Main_colleges/nit.html#nit-silchar", tags:["nit","silchar"]},
+        {name:"NIT Patna", short:"NITP", type:"NIT", city:"Patna", state:"Bihar", url:"Main_colleges/nit.html#nit-patna", tags:["nit","patna"]},
+        {name:"NIT Jalandhar", short:"NITJ", type:"NIT", city:"Jalandhar", state:"Punjab", url:"Main_colleges/nit.html#nit-jalandhar", tags:["nit","jalandhar","nitj"]},
+        {name:"NIT Jaipur (MNIT)", short:"MNIT", type:"NIT", city:"Jaipur", state:"Rajasthan", url:"Main_colleges/nit.html#nit-jaipur", tags:["nit","jaipur","mnit"]},
+        {name:"NIT Bhopal (MANIT)", short:"MANIT", type:"NIT", city:"Bhopal", state:"Madhya Pradesh", url:"Main_colleges/nit.html#nit-bhopal", tags:["nit","bhopal","manit"]},
+        {name:"NIT Hamirpur", short:"NITH", type:"NIT", city:"Hamirpur", state:"Himachal Pradesh", url:"Main_colleges/nit.html#nit-hamirpur", tags:["nit","hamirpur"]},
+        {name:"NIT Agartala", short:"NITA", type:"NIT", city:"Agartala", state:"Tripura", url:"Main_colleges/nit.html#nit-agartala", tags:["nit","agartala"]},
+        {name:"NIT Srinagar", short:"NITSRI", type:"NIT", city:"Srinagar", state:"J&K", url:"Main_colleges/nit.html#nit-srinagar", tags:["nit","srinagar"]},
+        {name:"NIT Raipur", short:"NITRR", type:"NIT", city:"Raipur", state:"Chhattisgarh", url:"Main_colleges/nit.html#nit-raipur", tags:["nit","raipur"]},
+        {name:"NIT Manipur", short:"NITMN", type:"NIT", city:"Imphal", state:"Manipur", url:"Main_colleges/nit.html#nit-manipur", tags:["nit","manipur","imphal"]},
+        {name:"NIT Meghalaya", short:"NITMGH", type:"NIT", city:"Shillong", state:"Meghalaya", url:"Main_colleges/nit.html#nit-meghalaya", tags:["nit","meghalaya","shillong"]},
+        {name:"NIT Mizoram", short:"NITMZ", type:"NIT", city:"Aizawl", state:"Mizoram", url:"Main_colleges/nit.html#nit-mizoram", tags:["nit","mizoram","aizawl"]},
+        {name:"NIT Nagaland", short:"NITN", type:"NIT", city:"Dimapur", state:"Nagaland", url:"Main_colleges/nit.html#nit-nagaland", tags:["nit","nagaland","dimapur"]},
+        {name:"NIT Arunachal Pradesh", short:"NITAP", type:"NIT", city:"Itanagar", state:"Arunachal Pradesh", url:"Main_colleges/nit.html#nit-arunachal", tags:["nit","arunachal","itanagar"]},
+        {name:"NIT Delhi", short:"NITDL", type:"NIT", city:"Delhi", state:"Delhi", url:"Main_colleges/nit.html#nit-delhi", tags:["nit","delhi"]},
+        {name:"NIT Goa", short:"NITGOA", type:"NIT", city:"Goa", state:"Goa", url:"Main_colleges/nit.html#nit-goa", tags:["nit","goa"]},
+        {name:"NIT Puducherry", short:"NITPY", type:"NIT", city:"Puducherry", state:"Puducherry", url:"Main_colleges/nit.html#nit-puducherry", tags:["nit","puducherry","pondicherry"]},
+        {name:"NIT Sikkim", short:"NITSKM", type:"NIT", city:"Ravangla", state:"Sikkim", url:"Main_colleges/nit.html#nit-sikkim", tags:["nit","sikkim"]},
+        {name:"NIT Uttarakhand", short:"NITUK", type:"NIT", city:"Srinagar (Garhwal)", state:"Uttarakhand", url:"Main_colleges/nit.html#nit-uttarakhand", tags:["nit","uttarakhand","garhwal"]},
+        {name:"NIT Andhra Pradesh", short:"NITAP2", type:"NIT", city:"Tadepalligudem", state:"Andhra Pradesh", url:"Main_colleges/nit.html#nit-andhra", tags:["nit","andhra","tadepalligudem"]},
+        // IIITs
+        {name:"IIIT Hyderabad", short:"IIITH", type:"IIIT", city:"Hyderabad", state:"Telangana", url:"Main_colleges/iiit.html#iiit-hyderabad", tags:["iiit","hyderabad","iiith"]},
+        {name:"IIIT Bangalore", short:"IIITB", type:"IIIT", city:"Bangalore", state:"Karnataka", url:"Main_colleges/iiit.html#iiit-bangalore", tags:["iiit","bangalore","iiitb"]},
+        {name:"IIIT Allahabad", short:"IIITA", type:"IIIT", city:"Allahabad", state:"Uttar Pradesh", url:"Main_colleges/iiit.html#iiit-allahabad", tags:["iiit","allahabad","iiita","prayagraj"]},
+        {name:"IIIT Delhi", short:"IIITD", type:"IIIT", city:"Delhi", state:"Delhi", url:"Main_colleges/iiit.html#iiit-delhi", tags:["iiit","delhi","iiitd"]},
+        {name:"IIIT Pune", short:"COEP", type:"IIIT", city:"Pune", state:"Maharashtra", url:"Main_colleges/iiit.html#iiit-pune", tags:["iiit","pune"]},
+        {name:"IIIT Jabalpur", short:"IIITJbl", type:"IIIT", city:"Jabalpur", state:"Madhya Pradesh", url:"Main_colleges/iiit.html#iiit-jabalpur", tags:["iiit","jabalpur"]},
+        {name:"IIIT Gwalior", short:"IIITGwl", type:"IIIT", city:"Gwalior", state:"Madhya Pradesh", url:"Main_colleges/iiit.html#iiit-gwalior", tags:["iiit","gwalior"]},
+        {name:"IIIT Kancheepuram", short:"IIITKnch", type:"IIIT", city:"Kancheepuram", state:"Tamil Nadu", url:"Main_colleges/iiit.html#iiit-kancheepuram", tags:["iiit","kancheepuram","kanchipuram"]},
+        {name:"IIIT Lucknow", short:"IIITLko", type:"IIIT", city:"Lucknow", state:"Uttar Pradesh", url:"Main_colleges/iiit.html#iiit-lucknow", tags:["iiit","lucknow"]},
+        {name:"IIIT Vadodara", short:"IIITVdr", type:"IIIT", city:"Vadodara", state:"Gujarat", url:"Main_colleges/iiit.html#iiit-vadodara", tags:["iiit","vadodara","baroda"]},
+        {name:"IIIT Ranchi", short:"IIITRnc", type:"IIIT", city:"Ranchi", state:"Jharkhand", url:"Main_colleges/iiit.html#iiit-ranchi", tags:["iiit","ranchi"]},
+        {name:"IIIT Nagpur", short:"IIITNgp", type:"IIIT", city:"Nagpur", state:"Maharashtra", url:"Main_colleges/iiit.html#iiit-nagpur", tags:["iiit","nagpur"]},
+        {name:"IIIT Bhopal", short:"IIITBpl", type:"IIIT", city:"Bhopal", state:"Madhya Pradesh", url:"Main_colleges/iiit.html#iiit-bhopal", tags:["iiit","bhopal"]},
+        {name:"IIIT Srirangam", short:"IIITSrm", type:"IIIT", city:"Tiruchirappalli", state:"Tamil Nadu", url:"Main_colleges/iiit.html#iiit-srirangam", tags:["iiit","srirangam","trichy"]},
+        {name:"IIIT Sonepat", short:"IIITSnp", type:"IIIT", city:"Sonepat", state:"Haryana", url:"Main_colleges/iiit.html#iiit-sonepat", tags:["iiit","sonepat"]},
+        {name:"IIIT Kalyani", short:"IIITKln", type:"IIIT", city:"Kalyani", state:"West Bengal", url:"Main_colleges/iiit.html#iiit-kalyani", tags:["iiit","kalyani"]},
+        {name:"IIIT Una", short:"IIITUna", type:"IIIT", city:"Una", state:"Himachal Pradesh", url:"Main_colleges/iiit.html#iiit-una", tags:["iiit","una"]},
+        {name:"IIIT Kottayam", short:"IIITKtm", type:"IIIT", city:"Kottayam", state:"Kerala", url:"Main_colleges/iiit.html#iiit-kottayam", tags:["iiit","kottayam"]},
+        {name:"IIIT Sri City", short:"IIITSrc", type:"IIIT", city:"Sri City", state:"Andhra Pradesh", url:"Main_colleges/iiit.html#iiit-sricity", tags:["iiit","sri city","sricity"]},
+        {name:"IIIT Manipur", short:"IIITMnp", type:"IIIT", city:"Imphal", state:"Manipur", url:"Main_colleges/iiit.html#iiit-manipur", tags:["iiit","manipur"]},
+        {name:"IIIT Agartala", short:"IIITAgt", type:"IIIT", city:"Agartala", state:"Tripura", url:"Main_colleges/iiit.html#iiit-agartala", tags:["iiit","agartala"]},
+        {name:"IIIT Dharwad", short:"IIITDhw", type:"IIIT", city:"Dharwad", state:"Karnataka", url:"Main_colleges/iiit.html#iiit-dharwad", tags:["iiit","dharwad"]},
+        {name:"IIIT Raichur", short:"IIITRcr", type:"IIIT", city:"Raichur", state:"Karnataka", url:"Main_colleges/iiit.html#iiit-raichur", tags:["iiit","raichur"]},
+        {name:"IIIT Surat", short:"IIITSrt", type:"IIIT", city:"Surat", state:"Gujarat", url:"Main_colleges/iiit.html#iiit-surat", tags:["iiit","surat"]},
+        {name:"IIIT Bhagalpur", short:"IIITBgp", type:"IIIT", city:"Bhagalpur", state:"Bihar", url:"Main_colleges/iiit.html#iiit-bhagalpur", tags:["iiit","bhagalpur"]},
+        {name:"IIIT Kilohrad", short:"IIITKlh", type:"IIIT", city:"Kilohrad", state:"Haryana", url:"Main_colleges/iiit.html#iiit-kilohrad", tags:["iiit","kilohrad"]},
+        // Private / Deemed
+        {name:"BITS Pilani", short:"BITS", type:"Private", city:"Pilani", state:"Rajasthan", url:"Main_colleges/private.html#bits-pilani", tags:["bits","pilani","birla","bits pilani"]},
+        {name:"BITS Goa", short:"BITS-G", type:"Private", city:"Goa", state:"Goa", url:"Main_colleges/private.html#bits-goa", tags:["bits","goa"]},
+        {name:"BITS Hyderabad", short:"BITS-H", type:"Private", city:"Hyderabad", state:"Telangana", url:"Main_colleges/private.html#bits-hyderabad", tags:["bits","hyderabad"]},
+        {name:"VIT Vellore", short:"VIT", type:"Private", city:"Vellore", state:"Tamil Nadu", url:"Main_colleges/private.html#vit-vellore", tags:["vit","vellore"]},
+        {name:"VIT Chennai", short:"VIT-C", type:"Private", city:"Chennai", state:"Tamil Nadu", url:"Main_colleges/private.html#vit-chennai", tags:["vit","chennai"]},
+        {name:"SRM Kattankulathur", short:"SRM", type:"Private", city:"Chennai", state:"Tamil Nadu", url:"Main_colleges/private.html#srm", tags:["srm","kattankulathur","srm university"]},
+        {name:"Manipal Institute of Technology", short:"MIT Manipal", type:"Private", city:"Manipal", state:"Karnataka", url:"Main_colleges/private.html#manipal", tags:["manipal","mit","mahe","manipal institute"]},
+        {name:"KIIT Bhubaneswar", short:"KIIT", type:"Private", city:"Bhubaneswar", state:"Odisha", url:"Main_colleges/private.html#kiit", tags:["kiit","bhubaneswar","kalinga"]},
+        {name:"Thapar University", short:"Thapar", type:"Private", city:"Patiala", state:"Punjab", url:"Main_colleges/private.html#thapar", tags:["thapar","patiala"]},
+        {name:"Jadavpur University", short:"JU", type:"State Govt", city:"Kolkata", state:"West Bengal", url:"Main_colleges/govt.html#jadavpur", tags:["jadavpur","ju","kolkata"]},
+        {name:"COEP Pune", short:"COEP", type:"State Govt", city:"Pune", state:"Maharashtra", url:"Main_colleges/govt.html#coep", tags:["coep","pune","college of engineering pune"]},
+        {name:"VJTI Mumbai", short:"VJTI", type:"State Govt", city:"Mumbai", state:"Maharashtra", url:"Main_colleges/govt.html#vjti", tags:["vjti","mumbai","veermata"]},
+        {name:"PES University", short:"PESU", type:"Private", city:"Bangalore", state:"Karnataka", url:"Main_colleges/private.html#pes", tags:["pes","pes university","bangalore"]},
+        {name:"Amrita Vishwa Vidyapeetham", short:"Amrita", type:"Private", city:"Coimbatore", state:"Tamil Nadu", url:"Main_colleges/private.html#amrita", tags:["amrita","coimbatore"]},
+        {name:"IIEST Shibpur", short:"IIEST", type:"State Govt", city:"Howrah", state:"West Bengal", url:"Main_colleges/govt.html#iiest", tags:["iiest","shibpur","howrah","be college"]},
+        {name:"DCE Delhi (DTU)", short:"DTU", type:"State Govt", city:"Delhi", state:"Delhi", url:"Main_colleges/govt.html#dtu", tags:["dtu","delhi technological university","dce","delhi college of engineering"]},
+        {name:"NSIT Delhi (IGDTUW)", short:"NSIT", type:"State Govt", city:"Delhi", state:"Delhi", url:"Main_colleges/govt.html#nsit", tags:["nsit","netaji subhas","igdtuw","dwarka"]},
+        {name:"LNM Institute of IT (LNMIIT)", short:"LNMIIT", type:"Private", city:"Jaipur", state:"Rajasthan", url:"Main_colleges/private.html#lnmiit", tags:["lnmiit","lnm","jaipur"]},
+    ];
+
+    var selectedSuggestionIndex = -1;
+
+    function searchMatch(college, query){
+        var q = query.toLowerCase().trim();
+        if(!q) return false;
+        if(college.name.toLowerCase().includes(q)) return true;
+        if(college.short.toLowerCase().includes(q)) return true;
+        if(college.city.toLowerCase().includes(q)) return true;
+        if(college.state.toLowerCase().includes(q)) return true;
+        for(var i=0;i<college.tags.length;i++){
+            if(college.tags[i].includes(q)) return true;
+        }
+        return false;
+    }
+
+    function showSuggestions(query){
+        var box = document.getElementById('searchSuggestions');
+        query = query.trim();
+        if(query.length < 2){ box.style.display='none'; return; }
+        var results = COLLEGE_DB.filter(function(c){ return searchMatch(c, query); }).slice(0,8);
+        if(!results.length){ box.style.display='none'; return; }
+        var typeColors = {IIT:'#3b82f6', NIT:'#10b981', IIIT:'#8b5cf6', Private:'#f59e0b', 'State Govt':'#06b6d4'};
+        var html = '';
+        results.forEach(function(c, i){
+            var color = typeColors[c.type] || '#94a3b8';
+            html += '<div class="suggestion-item" data-url="'+c.url+'" data-index="'+i+'" '
+                + 'onmouseenter="hoverSuggestion('+i+')" '
+                + 'onclick="goToCollege(\''+c.url+'\')" '
+                + 'style="display:flex;align-items:center;gap:12px;padding:10px 16px;cursor:pointer;border-bottom:1px solid #1e293b;transition:.15s;">'
+                + '<div style="width:36px;height:36px;border-radius:8px;background:'+color+'22;border:1px solid '+color+'44;'
+                + 'display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:.65rem;font-weight:700;color:'+color+'">'+c.short.slice(0,4)+'</div>'
+                + '<div style="flex:1;min-width:0;">'
+                + '<div style="font-size:.88rem;font-weight:600;color:#f0f4ff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">'+c.name+'</div>'
+                + '<div style="font-size:.72rem;color:#64748b;margin-top:1px;">'+c.city+', '+c.state+'</div>'
+                + '</div>'
+                + '<span style="font-size:.65rem;font-weight:700;padding:.15rem .55rem;border-radius:20px;background:'+color+'22;color:'+color+';border:1px solid '+color+'44;flex-shrink:0;">'+c.type+'</span>'
+                + '</div>';
+        });
+        box.innerHTML = html;
+        box.style.display = 'block';
+        selectedSuggestionIndex = -1;
+    }
+
+    function hoverSuggestion(idx){
+        selectedSuggestionIndex = idx;
+        highlightSuggestion();
+    }
+
+    function highlightSuggestion(){
+        var items = document.querySelectorAll('.suggestion-item');
+        items.forEach(function(el, i){
+            el.style.background = (i === selectedSuggestionIndex) ? '#1e293b' : 'transparent';
+        });
+    }
+
+    function goToCollege(url){
+        document.getElementById('searchSuggestions').style.display='none';
+        window.location.href = url;
+    }
+
+    function handleSearchKey(e){
+        var box = document.getElementById('searchSuggestions');
+        var items = document.querySelectorAll('.suggestion-item');
+        if(e.key === 'ArrowDown'){
+            e.preventDefault();
+            selectedSuggestionIndex = Math.min(selectedSuggestionIndex+1, items.length-1);
+            highlightSuggestion();
+        } else if(e.key === 'ArrowUp'){
+            e.preventDefault();
+            selectedSuggestionIndex = Math.max(selectedSuggestionIndex-1, -1);
+            highlightSuggestion();
+        } else if(e.key === 'Enter'){
+            e.preventDefault();
+            if(selectedSuggestionIndex >= 0 && items[selectedSuggestionIndex]){
+                goToCollege(items[selectedSuggestionIndex].getAttribute('data-url'));
+            } else {
+                smartSearch('heroSearchInput');
+            }
+        } else if(e.key === 'Escape'){
+            box.style.display='none';
+        }
+    }
+
+    // Hide suggestions on outside click
+    document.addEventListener('click', function(e){
+        if(!e.target.closest('#heroSearchInput') && !e.target.closest('#searchSuggestions')){
+            var box = document.getElementById('searchSuggestions');
+            if(box) box.style.display='none';
+        }
+    });
+
+    function smartSearch(inputId){
+        var query = document.getElementById(inputId).value.toLowerCase().trim();
+        if(!query) return;
+        // Check exact or close match in DB first
+        var results = COLLEGE_DB.filter(function(c){ return searchMatch(c, query); });
+        if(results.length === 1){
+            goToCollege(results[0].url);
+            return;
+        }
+        if(results.length > 1){
+            // Show suggestions instead of jumping blindly
+            showSuggestions(document.getElementById(inputId).value);
+            document.getElementById(inputId).focus();
+            return;
+        }
+        // Fallback to category pages
+        if(query.includes("iit")) window.location.href="Main_colleges/iit.html";
+        else if(query.includes("nit")) window.location.href="Main_colleges/nit.html";
+        else if(query.includes("iiit")) window.location.href="Main_colleges/iiit.html";
+        else if(query.includes("bits")||query.includes("vit")||query.includes("srm")||query.includes("manipal")||query.includes("kiit")) window.location.href="Main_colleges/private.html";
+        else {
+            showToast("College not found! Try typing a few letters for suggestions.", "error");
+        }
+    }
+
+    // ── RANK PREDICTOR ───────────────────────────────────────────
+    var PCT_TABLE=[[100,1],[99.9999,2],[99.9998,4],[99.9995,8],[99.999,15],[99.998,30],[99.995,75],[99.99,150],[99.98,300],[99.97,450],[99.96,600],[99.95,750],[99.94,900],[99.93,1050],[99.92,1200],[99.91,1350],[99.9,1500],[99.85,2250],[99.8,3000],[99.75,3750],[99.7,4500],[99.65,5250],[99.6,6000],[99.55,6750],[99.5,7500],[99.4,9000],[99.3,10500],[99.2,12000],[99.1,13500],[99.0,15000],[98.8,18000],[98.6,21000],[98.4,24000],[98.2,27000],[98.0,30000],[97.5,37500],[97.0,45000],[96.5,52500],[96.0,60000],[95.5,67500],[95.0,75000],[94.5,82500],[94.0,90000],[93.5,97500],[93.0,105000],[92.0,120000],[91.0,135000],[90.0,150000],[88.0,180000],[85.0,225000],[80.0,300000],[75.0,375000],[70.0,450000],[60.0,600000],[50.0,750000]];
+    var ADV_CUT={GEN:93.5,EWS:80,OBC:80,SC:65,ST:55};
+    var CAT_MUL={GEN:1.0,EWS:1.2,OBC:1.4,SC:1.8,ST:2.2};
+    function pctToRank(p){if(p>=100)return 1;if(p<=50)return 750000;for(var i=0;i<PCT_TABLE.length-1;i++){var p1=PCT_TABLE[i][0],r1=PCT_TABLE[i][1],p2=PCT_TABLE[i+1][0],r2=PCT_TABLE[i+1][1];if(p<=p1&&p>=p2)return Math.round(r1+(p1-p)/(p1-p2)*(r2-r1));}return Math.round((100-p)/100*1500000);}
+    function miniSync(){var v=parseFloat(document.getElementById("miniSldr").value);document.getElementById("miniPctVal").textContent=v.toFixed(1);document.getElementById("miniPctInput").value=v.toFixed(1);}
+    function miniInputSync(){var v=parseFloat(document.getElementById("miniPctInput").value);if(isNaN(v))return;v=Math.min(100,Math.max(0.01,v));document.getElementById("miniPctVal").textContent=v.toFixed(1);document.getElementById("miniSldr").value=v;}
+    function miniPredict(){
+        var pct=parseFloat(document.getElementById("miniPctInput").value)||parseFloat(document.getElementById("miniSldr").value)||97;
+        pct=Math.min(100,Math.max(0.01,pct));
+        var cat=document.getElementById("miniCat").value;
+        var rank=pctToRank(pct),mul=CAT_MUL[cat]||1,eff=Math.round(rank/mul);
+        var q=pct>=(ADV_CUT[cat]||93.5);
+        document.getElementById("mRank").textContent="#"+rank.toLocaleString("en-IN");
+        document.getElementById("mEff").textContent="#"+eff.toLocaleString("en-IN");
+        document.getElementById("mAdvWrap").innerHTML='<div class="mini-rank-item"><div class="adv-pill '+(q?"yes":"no")+'">'+(q?"JEE Adv ✓":"JEE Adv ✗")+'</div><div class="rl">Qualifier?</div></div>';
+        document.getElementById("miniRankResult").style.display="block";
+        setTimeout(function(){window.location.href="jee_predictor_final.html";},1100);
+    }
+
+    // ── SUPPORT BOT ──────────────────────────────────────────────
+    var MR={stress:["JEE stress is so real 💜 You're not alone. Open Asha's full chat below for a proper talk.","It's okay to feel overwhelmed 🌸 The pressure is massive. Asha is here for you in the full chat!"],rank:["Your rank doesn't write your whole story 🌟 Open the full chat to talk with Asha.","A number on one day can't define a lifetime of potential 💙 Let's talk more below."],fail:["You are NOT a failure 💜 Attempting JEE takes courage most people don't have.","Please don't say that 🌸 Open Asha's full chat — she's here to listen."],parent:["Parent pressure can feel crushing 💙 Their love shows up in difficult ways. Talk more below.","It's hard when those you love cause anxiety 🌸 Asha understands."],sad:["I'm sorry you're feeling sad 💜 Your feelings are completely valid. Asha is here.","Sadness during this journey is normal 🌸 Open the full chat to talk it through."],default:["Thank you for sharing 💜 You don't have to carry this alone. Open Asha's full chat!","I hear you 🌸 Open the full chat with Asha below!","That sounds really tough 💙 You're stronger than you think. Asha is waiting!"]};
+    function miniGetResp(msg){var m=msg.toLowerCase();if(m.includes("stress")||m.includes("anxious")||m.includes("worried")||m.includes("pressure"))return MR.stress[Math.floor(Math.random()*MR.stress.length)];if(m.includes("rank")||m.includes("result")||m.includes("marks")||m.includes("score"))return MR.rank[Math.floor(Math.random()*MR.rank.length)];if(m.includes("fail")||m.includes("disappoint")||m.includes("loser"))return MR.fail[Math.floor(Math.random()*MR.fail.length)];if(m.includes("parent")||m.includes("mom")||m.includes("dad")||m.includes("family"))return MR.parent[Math.floor(Math.random()*MR.parent.length)];if(m.includes("sad")||m.includes("cry")||m.includes("depress"))return MR.sad[Math.floor(Math.random()*MR.sad.length)];return MR.default[Math.floor(Math.random()*MR.default.length)];}
+    function miniAddMsg(txt,bot){var c=document.getElementById("miniChat"),d=document.createElement("div");d.className="mini-msg "+(bot?"bot":"user");d.innerHTML='<div class="mini-avatar">'+(bot?"🌸":"👤")+'</div><div class="mini-bubble">'+txt+"</div>";c.appendChild(d);c.scrollTop=c.scrollHeight;}
+    function miniSupportSend(){var i=document.getElementById("miniSupportInput"),t=i.value.trim();if(!t)return;i.value="";miniAddMsg(t,false);var ty=document.getElementById("miniTyping");ty.style.display="block";setTimeout(function(){ty.style.display="none";miniAddMsg(miniGetResp(t),true);},900+Math.random()*500);}
+    function miniSupportKey(e){if(e.key==="Enter"){e.preventDefault();miniSupportSend();}}
+
+    // ── EXAM CALENDAR ────────────────────────────────────────────
+    var EXAMS=[
+        {n:"JEE Main 2026",ic:"📝",t:"central",examDate:"Jan 21–28 & Apr 2–8",formPeriod:"Nov 2025 – Jan 2026",fee:"₹1000 GEN / ₹500 SC/ST",colleges:"NITs, IIITs, GFTIs (600+ colleges)",status:"active",detail:"75 Q | 3 hrs | NTA | CBT"},
+        {n:"JEE Advanced 2026",ic:"🏆",t:"central",examDate:"May 17, 2026",formPeriod:"Apr – May 2026",fee:"₹3500 GEN / ₹1750 SC/ST",colleges:"All 23 IITs",status:"upcoming",detail:"Top 2.5L JEE Main qualifiers only"},
+        {n:"WBJEE 2026",ic:"📗",t:"central",examDate:"Apr 27, 2026",formPeriod:"Dec 2025 – Jan 2026",fee:"₹500 GEN / ₹400 SC/ST",colleges:"Jadavpur, IIEST + WB colleges",status:"upcoming",detail:"150 Q | PCM | West Bengal"},
+        {n:"CUSAT CAT 2026",ic:"📘",t:"central",examDate:"Apr – May 2026",formPeriod:"Jan – Mar 2026",fee:"₹1000 approx",colleges:"Cochin University of Sc & Tech",status:"upcoming",detail:"NCERT-based | Kerala"},
+        {n:"MHT CET 2026",ic:"📋",t:"state",examDate:"Apr 11–26, 2026",formPeriod:"Feb – Mar 2026",fee:"₹800 GEN / ₹600 SC/ST",colleges:"COEP, VJTI, SPIT + 400+ MH colleges",status:"active",detail:"150 Q | 3 hrs | Maharashtra"},
+        {n:"KCET 2026",ic:"📙",t:"state",examDate:"Apr 16–17, 2026",formPeriod:"Jan – Feb 2026",fee:"₹500 GEN / ₹250 SC/ST",colleges:"RVCE, BMS, MS Ramaiah etc.",status:"upcoming",detail:"120 Q | Karnataka domicile"},
+        {n:"COMEDK UGET 2026",ic:"📒",t:"state",examDate:"May 2026",formPeriod:"Feb – Apr 2026",fee:"₹1600 approx",colleges:"190+ private colleges Karnataka",status:"upcoming",detail:"180 Q | 3 hrs | All India eligible"},
+        {n:"GUJCET 2026",ic:"📗",t:"state",examDate:"Mar 25, 2026",formPeriod:"Feb – Mar 2026",fee:"₹300 GEN / ₹200 SC/ST",colleges:"LDCE, DA-IICT, Nirma + GJ colleges",status:"active",detail:"120 Q | GSEB syllabus | Gujarat"},
+        {n:"BITSAT 2026",ic:"⚡",t:"private",examDate:"Apr 15–16 & May 2026",formPeriod:"Dec 2025 – Mar 2026",fee:"₹3400 GEN / ₹2900 Female",colleges:"BITS Pilani, Goa, Hyderabad",status:"active",detail:"130 Q | 3 hrs | PCM + English + Reasoning"},
+        {n:"VITEEE 2026",ic:"🌟",t:"private",examDate:"Apr 14–25, 2026",formPeriod:"Nov 2025 – Feb 2026",fee:"₹1350",colleges:"VIT Vellore, Chennai, Bhopal, AP",status:"active",detail:"125 Q | 2.5 hrs | PCM + Aptitude + English"},
+        {n:"SRMJEEE 2026",ic:"🎯",t:"private",examDate:"Apr – May 2026",formPeriod:"Nov 2025 – Mar 2026",fee:"₹1100",colleges:"SRM Kattankulathur, Delhi-NCR, AP",status:"active",detail:"125 Q | Remote Proctored CBT"},
+        {n:"LPU NEST 2026",ic:"🎓",t:"private",examDate:"Jan – May 2026 (Rolling)",formPeriod:"Oct 2025 – May 2026",fee:"FREE",colleges:"Lovely Professional University",status:"active",detail:"Free exam + Scholarship | Rolling"},
+        {n:"UGEE 2026 (IIIT-H)",ic:"🔭",t:"research",examDate:"Jun 2026",formPeriod:"Jan – Apr 2026",fee:"₹2000 approx",colleges:"IIIT Hyderabad (Research + B.Tech)",status:"upcoming",detail:"Math + CS Aptitude | Highly competitive"},
+        {n:"IAT 2026 (IISER)",ic:"🧬",t:"research",examDate:"Jun 2026",formPeriod:"Mar – May 2026",fee:"₹2000 GEN / ₹1000 SC/ST",colleges:"All 7 IISERs across India",status:"upcoming",detail:"BS-MS 5yr | PCM + Biology | Research"},
+        {n:"NEST 2026",ic:"⚗️",t:"research",examDate:"Jun 1, 2026",formPeriod:"Feb – Apr 2026",fee:"₹1000 GEN / ₹500 SC/ST",colleges:"NISER Bhubaneswar + UM-DAE CBS Mumbai",status:"upcoming",detail:"PCM + Biology | 5yr integrated B.Sc"},
+        {n:"ISI Admission 2026",ic:"📐",t:"research",examDate:"May 11, 2026",formPeriod:"Feb – Mar 2026",fee:"₹1000",colleges:"ISI Kolkata, Delhi, Bengaluru",status:"upcoming",detail:"B.Stat / B.Math | Pure Maths aptitude"}
+    ];
+    var curEF="ALL";
+    function filterExams(f,btn){curEF=f;document.querySelectorAll(".etab").forEach(function(b){b.classList.remove("on");});btn.classList.add("on");renderExams();}
+    function renderExams(){
+        var list=document.getElementById("examList");
+        var data=curEF==="ALL"?EXAMS:EXAMS.filter(function(e){return e.t===curEF;});
+        if(!data.length){list.innerHTML='<div style="text-align:center;color:rgba(255,255,255,.3);padding:1.5rem;font-size:.82rem;">No exams in this category</div>';return;}
+        var html="";
+        data.forEach(function(e,i){
+            var sc=e.status==="active"?"status-active":e.status==="upcoming"?"status-upcoming":"status-closed";
+            var sl=e.status==="active"?"🟡 Active":"🟢 Upcoming";
+            html+='<div class="exam-item" style="animation-delay:'+(i*0.03)+'s">';
+            html+='<div class="exam-icon">'+e.ic+"</div><div>";
+            html+='<div class="exam-name">'+e.n+' <span class="exam-tag '+e.t+'">'+e.t.charAt(0).toUpperCase()+e.t.slice(1)+"</span></div>";
+            html+='<div class="exam-meta"><span>📋 Form: '+e.formPeriod+"</span><span>📅 Exam: "+e.examDate+"</span><span>💰 "+e.fee+"</span><span>🏛️ "+e.colleges+"</span><span style='color:rgba(255,255,255,.38)'>"+e.detail+"</span></div></div>";
+            html+='<div class="exam-right"><div class="exam-status '+sc+'">'+sl+"</div></div></div>";
+        });
+        list.innerHTML=html;
+    }
+
+    // ── AUTH MODAL ───────────────────────────────────────────────
+    var mode='login';
+    var currentTab='pass';
+
+    function openModal(m){
+        mode=m;
+        setMode(m);
+        switchTab('pass');
+        // Reset phone steps
+        document.getElementById('phoneStep1').style.display='block';
+        document.getElementById('phoneStep2').style.display='none';
+        document.getElementById('pd1').className='pdot active';
+        document.getElementById('pd2').className='pdot';
+        document.getElementById('pd3').className='pdot';
+        clearErrors();
+        document.getElementById('overlay').classList.add('show');
+    }
+
+    function closeModal(){
+        document.getElementById('overlay').classList.remove('show');
+        clearErrors();
+    }
+
+    function handleOverlayClick(e){
+        if(e.target===document.getElementById('overlay'))closeModal();
+    }
+
+    function setMode(m){
+        mode=m;
+        if(m==='signup'){
+            document.getElementById('modalTitle').textContent='Create account';
+            document.getElementById('modalSub').textContent="Join CollegeFinder — it's free";
+            document.getElementById('signupExtra').style.display='block';
+            document.getElementById('signupConfirm').style.display='block';
+            document.getElementById('passSubmitBtn').textContent='Create Account →';
+            document.getElementById('switchLink').innerHTML='Already have an account? <a onclick="toggleMode()">Log in</a>';
+        } else {
+            document.getElementById('modalTitle').textContent='Welcome back';
+            document.getElementById('modalSub').textContent='Sign in to your CollegeFinder account';
+            document.getElementById('signupExtra').style.display='none';
+            document.getElementById('signupConfirm').style.display='none';
+            document.getElementById('passSubmitBtn').textContent='Sign In';
+            document.getElementById('switchLink').innerHTML='New here? <a onclick="toggleMode()">Create account</a>';
+        }
+    }
+
+    function toggleMode(){
+        setMode(mode==='login'?'signup':'login');
+        clearErrors();
+    }
+
+    function switchTab(t){
+        currentTab=t;
+        ['pass','google','phone'].forEach(function(id){
+            document.getElementById('tab-'+id).classList.toggle('active',id===t);
+            document.getElementById('panel-'+id).classList.toggle('active',id===t);
+        });
+        document.getElementById('panel-success').classList.remove('active');
+        document.getElementById('switchLink').style.display='';
+        document.getElementById('modalTabs').style.display='';
+    }
+
+    function clearErrors(){
+        ['nameErr','emailErr','passErr','passCErr','phoneErr','otpErr'].forEach(function(id){
+            var el=document.getElementById(id);if(el){el.style.display='none';el.textContent='';}
+        });
+        ['regName','authEmail','authPass','authPassC'].forEach(function(id){
+            var el=document.getElementById(id);if(el)el.classList.remove('err');
+        });
+    }
+
+    function showErr(fieldId,errId,msg){
+        var f=document.getElementById(fieldId),e=document.getElementById(errId);
+        if(f)f.classList.add('err');
+        if(e){e.textContent=msg;e.style.display='block';}
+        return false;
+    }
+
+    function handlePassAuth(e){
+        clearErrors();
+        var ok=true;
+        if(mode==='signup'){
+            var nm=document.getElementById('regName').value.trim();
+            if(!nm)ok=showErr('regName','nameErr','Name required');
+        }
+        var em=document.getElementById('authEmail').value.trim();
+        if(!em||!em.includes('@'))ok=showErr('authEmail','emailErr','Valid email required');
+        var pw=document.getElementById('authPass').value;
+        if(pw.length<6)ok=showErr('authPass','passErr','Min 6 characters');
+        if(mode==='signup'){
+            var pc=document.getElementById('authPassC').value;
+            if(pw!==pc)ok=showErr('authPassC','passCErr','Passwords do not match');
+        }
+        if(!ok)return;
+        if(mode==='signup'){
+            var users=JSON.parse(localStorage.getItem('cf_users')||'{}');
+            if(users[em]){showErr('authEmail','emailErr','Email already registered');return;}
+            var nm2=document.getElementById('regName').value.trim();
+            users[em]={name:nm2,pass:pw,method:'email',joined:new Date().toISOString()};
+            localStorage.setItem('cf_users',JSON.stringify(users));
+            loginUser({name:nm2,email:em,method:'email'});
+            showSuccess('🎉','Account created!','Welcome to CollegeFinder, '+nm2+'!');
+        } else {
+            var users2=JSON.parse(localStorage.getItem('cf_users')||'{}');
+            if(!users2[em]){showErr('authEmail','emailErr','No account found for this email');return;}
+            if(users2[em].pass!==pw){showErr('authPass','passErr','Wrong password');return;}
+            loginUser({name:users2[em].name,email:em,method:'email'});
+            showSuccess('👋','Welcome back!','Logged in as '+users2[em].name);
+        }
+    }
+
+    function handleGoogle(){
+        var gname='Google User',gem='google@demo.com';
+        var users=JSON.parse(localStorage.getItem('cf_users')||'{}');
+        if(!users[gem]){users[gem]={name:gname,pass:'',method:'google',joined:new Date().toISOString()};localStorage.setItem('cf_users',JSON.stringify(users));}
+        loginUser({name:gname,email:gem,method:'google'});
+        showSuccess('🔑','Google Sign-in!','Welcome, '+gname);
+    }
+
+    var generatedOTP='';
+    function sendOTP(){
+        var ph=document.getElementById('phoneNum').value.replace(/\s/g,'');
+        if(ph.length<10||!/^\d+$/.test(ph)){var e=document.getElementById('phoneErr');e.textContent='Valid 10-digit number required';e.style.display='block';return;}
+        generatedOTP='1234';
+        document.getElementById('phoneMask').textContent=ph.substring(0,3)+'XXXXX'+ph.slice(-2);
+        document.getElementById('phoneStep1').style.display='none';
+        document.getElementById('phoneStep2').style.display='block';
+        document.getElementById('pd1').className='pdot done';
+        document.getElementById('pd2').className='pdot active';
+        document.querySelectorAll('.otp-box').forEach(function(b){b.value='';b.classList.remove('filled');});
+        setTimeout(function(){document.querySelector('.otp-box').focus();},100);
+        showToast('OTP sent! (Demo: 1234)','success');
+    }
+
+    function resendOTP(e){e.preventDefault();showToast('OTP resent! (Demo: 1234)','success');}
+
+    function otpMove(el,idx){
+        var boxes=document.querySelectorAll('.otp-box');
+        el.value=el.value.replace(/[^0-9]/g,'');
+        if(el.value){el.classList.add('filled');if(idx<3)boxes[idx+1].focus();}
+        else el.classList.remove('filled');
+        if(idx===3&&getOTPVal().length===4)verifyOTP();
+    }
+    function otpBack(el,idx,e){if(e.key==='Backspace'&&!el.value&&idx>0)document.querySelectorAll('.otp-box')[idx-1].focus();}
+    function getOTPVal(){return Array.from(document.querySelectorAll('.otp-box')).map(function(b){return b.value;}).join('');}
+
+    function verifyOTP(){
+        var entered=getOTPVal();
+        if(entered.length<4){var e=document.getElementById('otpErr');e.textContent='Enter all 4 digits';e.style.display='block';return;}
+        if(entered!==generatedOTP){var e=document.getElementById('otpErr');e.textContent='Wrong OTP. Try 1234';e.style.display='block';return;}
+        var ph=document.getElementById('phoneNum').value;
+        var pname='User'+ph.slice(-4);
+        var users=JSON.parse(localStorage.getItem('cf_users')||'{}');
+        var key='ph_'+ph;
+        if(!users[key]){users[key]={name:pname,pass:'',phone:ph,method:'phone',joined:new Date().toISOString()};localStorage.setItem('cf_users',JSON.stringify(users));}
+        document.getElementById('pd2').className='pdot done';
+        document.getElementById('pd3').className='pdot active';
+        loginUser({name:users[key].name,phone:ph,method:'phone'});
+        showSuccess('📱','Phone verified!','Welcome, '+pname+'!');
+    }
+
+    function loginUser(data){
+        localStorage.setItem('cf_session',JSON.stringify(Object.assign({},data,{loginTime:new Date().toISOString()})));
+        var initials=data.name?data.name.split(' ').map(function(w){return w[0];}).join('').toUpperCase().slice(0,2):'U';
+        document.getElementById('authBtns').style.display='none';
+        document.getElementById('userBar').style.display='flex';
+        document.getElementById('userAvatar').textContent=initials;
+        document.getElementById('userName').textContent=data.name||'User';
+    }
+
+    function logout(){
+        localStorage.removeItem('cf_session');
+        document.getElementById('authBtns').style.display='flex';
+        document.getElementById('userBar').style.display='none';
+        showToast('Logged out successfully');
+    }
+
+
+    
+    function showSuccess(emoji,title,msg){
+        ['pass','google','phone'].forEach(function(id){document.getElementById('panel-'+id).classList.remove('active');});
+        document.getElementById('successEmoji').textContent=emoji;
+        document.getElementById('successTitle').textContent=title;
+        document.getElementById('successMsgTxt').textContent=msg;
+        document.getElementById('panel-success').classList.add('active');
+        document.getElementById('switchLink').style.display='none';
+        document.getElementById('modalTabs').style.display='none';
+        setTimeout(closeModal,1800);
+    }
+
+
+    function togglePass(id){
+        var el=document.getElementById(id);
+        el.type=el.type==='password'?'text':'password';
+    }
+
+
+
+    function showToast(msg,type){
+        var t=document.getElementById('toast');
+        t.textContent=msg;
+        t.className='toast show'+(type?' '+type:'');
+        clearTimeout(t._tid);
+        t._tid=setTimeout(function(){t.classList.remove('show');},2800);
+    }
+
+
+
+    // ── INIT ─────────────────────────────────────────────────────
+    document.getElementById("miniPctInput").value="97.0";
+    renderExams();
+
+
+
+    // Restore session on page load
+    (function(){
+        var sess=localStorage.getItem('cf_session');
+        if(sess){try{loginUser(JSON.parse(sess));}catch(e){localStorage.removeItem('cf_session');}}
+    })();
+    </script>
+</body>
+</html>

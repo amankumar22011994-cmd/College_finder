@@ -1,0 +1,200 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #020617;
+    color: #f9fafb;
+    line-height: 1.6;
+}
+
+/* ── HEADER ── */
+.sh-header {
+    background: #0f172a;
+    border-bottom: 1px solid #1e293b;
+    padding: 1rem 5vw;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+.sh-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+}
+.sh-logo { display: flex; align-items: center; gap: 0.5rem; cursor: pointer; }
+.sh-logo-icon { font-size: 2rem; }
+.sh-logo-text { font-size: 1.5rem; font-weight: 800; letter-spacing: -1px; }
+.sh-logo-text span { color: #38bdf8; }
+
+.sh-search {
+    flex: 1;
+    max-width: 600px;
+    display: flex;
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+}
+.sh-search-input { flex: 1; padding: 0.8rem; border: none; outline: none; font-size: 0.9rem; color: #333; }
+.sh-search-btn {
+    background: #0ea5e9;
+    color: white;
+    border: none;
+    padding: 0 1.5rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.sh-search-btn:hover { background: #0284c7; }
+
+.sh-nav {
+    display: flex;
+    gap: 2rem;
+    margin-top: 1rem;
+    overflow-x: auto;
+    padding-bottom: 5px;
+}
+.sh-nav a {
+    text-decoration: none;
+    color: #94a3b8;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    transition: 0.3s;
+    white-space: nowrap;
+}
+.sh-nav a:hover { color: #38bdf8; }
+
+/* Compare button in nav */
+.sh-nav .nav-compare-btn {
+    background: #0ea5e9;
+    color: #ffffff !important;
+    padding: 5px 15px;
+    border-radius: 8px;
+    margin-left: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-transform: none;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255,255,255,0.1);
+}
+.sh-nav .nav-compare-btn:hover {
+    background: #ffffff;
+    color: #0ea5e9 !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(14, 165, 233, 0.4);
+}
+
+/* ── HERO ── */
+.hero {
+    position: relative;
+    height: 70vh;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: #1e293b;
+    animation: slideLoop 100s infinite ease-in-out;
+}
+
+@keyframes slideLoop {
+    0%, 4%   { background-image: url('https://www.shutterstock.com/image-photo/kharagpur-01-aug-2022-indian-260nw-2185374483.jpg'); }
+    5%, 9%   { background-image: url('https://images.unsplash.com/photo-1599634874901-e919c4fe1400?fm=jpg&q=60&w=3000&auto=format&fit=crop'); }
+    10%, 14% { background-image: url('https://akm-img-a-in.tosshub.com/indiatoday/images/story/202511/iit-madras-242145297-16x9_0.jpeg?VersionId=XAqac5PdsKnekrnld2kxP7Dj70CYRYay'); }
+    15%, 19% { background-image: url('https://files.iittp.ac.in/images/demo/iit/campus/IIT_Main_Gate.png'); }
+    20%, 24% { background-image: url('https://shaktihormann.com/wp-content/uploads/2024/04/DJI_0573-scaled.jpg'); }
+    25%, 29% { background-image: url('https://www.iitr.ac.in/assets/56f4da26ed956730309fa1488611ee0f13b0ac95ebb1bc9b5d210e31ff70e79c_IITR12.jpg'); }
+    30%, 34% { background-image: url('https://media.swipepages.com/2024/11/646c4f2489778000115ad9d0/3-clx4sv.jpg'); }
+    35%, 39% { background-image: url('https://ik.imagekit.io/syustaging/SYU_PREPROD/Cover-images_r5aDIV2HE.webp?tr=w-3840'); }
+    40%, 44% { background-image: url('https://iitpkd.ac.in/sites/default/files/inline-images/Copy%20of%20DJI_0007.jpg'); }
+    45%, 49% { background-image: url('https://www.iitmandi.ac.in/images/slider/1slider1.jpg'); }
+    50%, 54% { background-image: url('https://coeamt.iitkgp.ac.in/img/carousel-2.jpg.png'); }
+    55%, 59% { background-image: url('https://static.boostmytalent.com/img/univ/iit-kanpur-campus-admission.webp'); }
+    60%, 64% { background-image: url('https://images.shiksha.com/mediadata/images/articles/1631079698phpd69klP.jpeg'); }
+    65%, 69% { background-image: url('https://images.shiksha.com/mediadata/images/articles/1677324187php8MzexJ.jpeg'); }
+    70%, 74% { background-image: url('http://home.iitd.ac.in/public/storage/uploads/itc_1651484470.jpg'); }
+    75%, 79% { background-image: url('https://www.hindustantimes.com/ht-img/img/2025/11/26/original/Indian-Institute-of-Technology-Bombay--HT-PHOTO-_1764184044859.jpg'); }
+    80%, 84% { background-image: url('https://www.iitmandi.ac.in/images/slider/1slider1.jpg'); }
+    85%, 89% { background-image: url('https://akm-img-a-in.tosshub.com/indiatoday/images/story/202511/iit-madras-242145297-16x9_0.jpeg?VersionId=XAqac5PdsKnekrnld2kxP7Dj70CYRYay'); }
+    90%, 94% { background-image: url('https://coeamt.iitkgp.ac.in/img/carousel-2.jpg.png'); }
+    95%, 100% { background-image: url('https://www.shutterstock.com/image-photo/kharagpur-01-aug-2022-indian-260nw-2185374483.jpg'); }
+}
+
+.hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.7);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 0 5vw;
+}
+.hero-overlay h1 { font-size: 3rem; font-weight: 800; max-width: 800px; margin-bottom: 1rem; line-height: 1.2; }
+.hero-overlay p { font-size: 1.2rem; color: #cbd5e1; margin-bottom: 2rem; }
+
+.hero-search {
+    display: flex;
+    width: 100%;
+    max-width: 700px;
+    background: #fff;
+    border-radius: 50px;
+    padding: 5px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+}
+.hero-search input { flex: 1; border: none; padding: 1rem 1.5rem; border-radius: 50px; outline: none; font-size: 1rem; }
+.hero-search button {
+    background: #0ea5e9;
+    color: white;
+    border: none;
+    padding: 0 2rem;
+    border-radius: 50px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+/* ── CATEGORY SECTION ── */
+.category-section { padding: 5rem 8vw; background: #020617; }
+.category-section h2 {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    border-left: 5px solid #0ea5e9;
+    padding-left: 1rem;
+}
+.category-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+}
+.cat-card {
+    background: #1e293b;
+    border: 1px solid #334155;
+    padding: 2rem;
+    border-radius: 1.5rem;
+    text-decoration: none;
+    color: white;
+    transition: 0.4s;
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+}
+.cat-card:hover { transform: translateY(-10px); background: #0ea5e9; border-color: #38bdf8; }
+.cat-card h3 { font-size: 1.5rem; margin-bottom: 0.5rem; }
+.cat-card p { color: #94a3b8; transition: 0.3s; }
+.cat-card:hover p { color: #e0f2fe; }
+
+/* ── FOOTER ── */
+.footer {
+    padding: 3rem;
+    text-align: center;
+    background: #0f172a;
+    color: #64748b;
+    border-top: 1px solid #1e293b;
+}
+
+/* ── MOBILE ── */
+@media (max-width: 768px) {
+    .sh-top { flex-direction: column; gap: 1rem; }
+    .sh-search { width: 100%; }
+    .hero-overlay h1 { font-size: 2rem; }
+    .hero { height: 60vh; }
+    .sh-nav { gap: 1rem; }
+}

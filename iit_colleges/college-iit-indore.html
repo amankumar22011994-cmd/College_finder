@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>IIT Indore - College Detail</title>
+  <style>
+    /* ===== BASE ===== */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
+      color: #111827;
+      font-family: sans-serif;
+      min-height: 100vh;
+    }
+
+    /* ===== PAGE LAYOUT ===== */
+    .page {
+      padding: 2rem 6vw;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* ===== BACK BUTTON ===== */
+    .back-btn {
+      align-self: flex-start;
+      margin-bottom: 1.5rem;
+      padding: .5rem 1rem;
+      background: #dbeafe;
+      border: none;
+      border-radius: 8px;
+      font-size: .9rem;
+      font-weight: 500;
+      cursor: pointer;
+      color: #1e40af;
+      text-decoration: none;
+      display: inline-block;
+      transition: 0.2s;
+    }
+    .back-btn:hover { background: #bfdbfe; }
+
+    /* ===== HERO CARD ===== */
+    .hero-card {
+      width: 100%;
+      max-width: 960px;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.18);
+      overflow: hidden;
+      margin-bottom: 2rem;
+      position: relative;
+      min-height: 200px;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background-image: url('https://www.collegebatch.com/static/clg-gallery/indian-institute-of-technology-indore-239000.webp');
+      background-size: cover;
+      background-position: center;
+      filter: brightness(0.4) saturate(1.1);
+      z-index: 0;
+    }
+
+    .hero-bg-fallback {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      z-index: 0;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      padding: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .hero-logo {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      flex-shrink: 0;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+
+    .hero-logo img {
+      width: 80%;
+      height: 80%;
+      object-fit: contain;
+    }
+
+    .hero-info h1 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin-bottom: .3rem;
+      color: #ffffff;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+    }
+    .hero-info p {
+      color: rgba(255,255,255,0.8);
+      font-size: .9rem;
+      margin-bottom: .5rem;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.5);
+    }
+    .hero-tags { display: flex; flex-wrap: wrap; gap: .5rem; }
+
+    /* ===== TAGS / BADGES ===== */
+    .tag {
+      padding: .25rem .75rem;
+      border-radius: 20px;
+      font-size: .78rem;
+      font-weight: 500;
+    }
+    .tag-blue   { background: rgba(219,234,254,0.9); color: #1e40af; }
+    .tag-green  { background: rgba(220,252,231,0.9); color: #166534; }
+    .tag-amber  { background: rgba(254,243,199,0.9); color: #92400e; }
+    .tag-purple { background: rgba(237,233,254,0.9); color: #5b21b6; }
+    .tag-red    { background: rgba(254,226,226,0.9); color: #991b1b; }
+
+    /* ===== SECTION WRAPPER ===== */
+    .section-wrap  { width: 100%; max-width: 960px; margin-bottom: 2rem; }
+    .section-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 1rem; padding-left: .25rem; color: #111827; }
+
+    /* ===== STATS GRID ===== */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 1rem;
+    }
+    .stat-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 1.1rem 1rem;
+      text-align: center;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+    }
+    .stat-num   { font-size: 1.4rem; font-weight: 700; margin-bottom: .2rem; }
+    .stat-label { font-size: .78rem; color: #6b7280; }
+
+    /* ===== COLORS ===== */
+    .blue   { color: #2563eb; }
+    .green  { color: #16a34a; }
+    .amber  { color: #d97706; }
+    .purple { color: #7c3aed; }
+    .red    { color: #dc2626; }
+    .orange { color: #f97316; }
+
+    /* ===== HIGHLIGHT ROW ===== */
+    .highlight-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 1rem;
+    }
+    .highlight-box {
+      background: #fff;
+      border-radius: 12px;
+      padding: 1.2rem;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+      border-left: 4px solid;
+    }
+    .hl-blue   { border-color: #3b82f6; }
+    .hl-green  { border-color: #22c55e; }
+    .hl-amber  { border-color: #f59e0b; }
+    .hl-purple { border-color: #8b5cf6; }
+
+    .highlight-box h4 { font-size: .88rem; font-weight: 600; margin-bottom: .5rem; }
+    .highlight-box p  { font-size: .8rem; color: #6b7280; line-height: 1.5; }
+
+    /* ===== BRANCHES GRID ===== */
+    .branches-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+    }
+    .branch-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 1.2rem;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+    }
+    .branch-name { font-size: .92rem; font-weight: 600; margin-bottom: .6rem; color: #111827; }
+    .branch-row  { display: flex; justify-content: space-between; font-size: .8rem; margin-bottom: .3rem; }
+    .branch-row span:first-child { color: #6b7280; }
+    .branch-row span:last-child  { font-weight: 600; color: #1d4ed8; }
+    .branch-badge {
+      display: inline-block;
+      margin-top: .5rem;
+      padding: .2rem .6rem;
+      border-radius: 20px;
+      font-size: .72rem;
+      font-weight: 500;
+    }
+
+    /* ===== PLACEMENT BAR ===== */
+    .placement-bar {
+      background: #fff;
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+      margin-bottom: 1rem;
+    }
+    .bar-row { display: flex; align-items: center; gap: 1rem; margin-bottom: .9rem; }
+    .bar-row:last-child { margin-bottom: 0; }
+    .bar-label { font-size: .82rem; color: #4b5563; width: 140px; flex-shrink: 0; }
+    .bar-track { flex: 1; background: #f3f4f6; border-radius: 99px; height: 10px; overflow: hidden; }
+    .bar-fill  { height: 100%; border-radius: 99px; }
+    .bar-val   { font-size: .82rem; font-weight: 600; width: 90px; text-align: right; flex-shrink: 0; }
+
+    /* ===== INFO CARDS ===== */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+    .info-card { background: #fff; border-radius: 12px; padding: 1.2rem; box-shadow: 0 4px 14px rgba(0,0,0,0.08); }
+    .info-card h3 { font-size: .85rem; font-weight: 600; margin-bottom: .8rem; color: #374151; }
+    .info-card ul { list-style: none; }
+    .info-card ul li {
+      font-size: .82rem;
+      color: #4b5563;
+      padding: .3rem 0;
+      border-bottom: .5px solid #f3f4f6;
+      display: flex;
+      align-items: center;
+      gap: .4rem;
+    }
+    .info-card ul li:last-child { border-bottom: none; }
+
+    /* ===== DOTS ===== */
+    .dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+    .dot-blue   { background: #3b82f6; }
+    .dot-green  { background: #22c55e; }
+    .dot-amber  { background: #f59e0b; }
+    .dot-purple { background: #8b5cf6; }
+    .dot-red    { background: #ef4444; }
+
+    /* ===== COMPANIES ===== */
+    .companies-flex { display: flex; flex-wrap: wrap; gap: .75rem; }
+    .company-pill {
+      padding: .5rem 1rem;
+      border-radius: 20px;
+      font-size: .82rem;
+      font-weight: 500;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    /* ===== CAMPUS GRID ===== */
+    .campus-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+    .campus-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 1.2rem;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+      text-align: center;
+    }
+    .campus-icon { font-size: 1.6rem; margin-bottom: .6rem; }
+    .campus-card h4 { font-size: .88rem; font-weight: 600; margin-bottom: .4rem; }
+    .campus-card p  { font-size: .78rem; color: #6b7280; line-height: 1.5; }
+
+    @media (max-width: 600px) {
+      .hero-content { flex-direction: column; align-items: flex-start; }
+      .page { padding: 1.2rem 4vw; }
+    }
+  </style>
+</head>
+<body>
+
+<main class="page">
+
+  <a href="../Main_colleges/iit.html" class="back-btn">← Back to All IITs</a>
+
+  <div class="hero-card">
+    <div class="hero-bg-fallback"></div>
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <div class="hero-logo">
+        <img src="https://upload.wikimedia.org/wikipedia/en/thumb/1/14/IITI_Logo.svg/1280px-IITI_Logo.svg.png" alt="IIT Indore Logo">
+      </div>
+      <div class="hero-info">
+        <h1>IIT Indore</h1>
+        <p>Indian Institute of Technology Indore &nbsp;|&nbsp; Simrol, Madhya Pradesh</p>
+        <div class="hero-tags">
+          <span class="tag tag-blue">Established 2009</span>
+          <span class="tag tag-red">NIRF Rank #14</span>
+          <span class="tag tag-amber">The Fastest Growing IIT</span>
+          <span class="tag tag-purple">High Research Impact</span>
+          <span class="tag tag-green">Eco-Friendly Campus</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-wrap">
+    <div class="section-title">Quick Overview</div>
+    <div class="stats-grid">
+      <div class="stat-card"><div class="stat-num blue">~3,500</div><div class="stat-label">Total Students</div></div>
+      <div class="stat-card"><div class="stat-num green">200+</div><div class="stat-label">Faculty Members</div></div>
+      <div class="stat-card"><div class="stat-num amber">501 acres</div><div class="stat-label">Campus Area</div></div>
+      <div class="stat-card"><div class="stat-num purple">11</div><div class="stat-label">Departments</div></div>
+      <div class="stat-card"><div class="stat-num red">₹68 LPA</div><div class="stat-label">Highest Package</div></div>
+      <div class="stat-card"><div class="stat-num blue">90%+</div><div class="stat-label">Placement Rate</div></div>
+    </div>
+  </div>
+
+  <div class="section-wrap">
+    <div class="section-title">About IIT Indore</div>
+    <div class="highlight-row">
+      <div class="highlight-box hl-blue">
+        <h4>Modern Infrastructure</h4>
+        <p>Located in Simrol, the campus is fully residential with state-of-the-art labs and hostels. It is one of the most aesthetically planned new-generation IITs.</p>
+      </div>
+      <div class="highlight-box hl-green">
+        <h4>Research Ranking</h4>
+        <p>IIT Indore consistently ranks very high in global research citations (THE World University Rankings), often beating older IITs in research impact per faculty.</p>
+      </div>
+      <div class="highlight-box hl-amber">
+        <h4>Space & Astronomy</h4>
+        <p>It is the only IIT to have a dedicated department for Astronomy, Astrophysics, and Space Engineering, working closely with ISRO and global space agencies.</p>
+      </div>
+      <div class="highlight-box hl-purple">
+        <h4>Industry Connect</h4>
+        <p>Strong ties with the industrial hub of Pithampur and Indore, facilitating real-world projects, internships, and high-quality placements in core sectors.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-wrap">
+    <div class="section-title">Branches & Programs (B.Tech)</div>
+    <div class="branches-grid">
+      <div class="branch-card">
+        <div class="branch-name">Computer Science & Engineering</div>
+        <div class="branch-row"><span>JEE Rank</span><span>~1100-1300</span></div>
+        <div class="branch-row"><span>Avg Pack</span><span>₹32.5 LPA</span></div>
+        <span class="branch-badge tag-blue">Elite</span>
+      </div>
+      <div class="branch-card">
+        <div class="branch-name">Electrical Engineering</div>
+        <div class="branch-row"><span>JEE Rank</span><span>~3500</span></div>
+        <div class="branch-row"><span>Avg Pack</span><span>₹21.0 LPA</span></div>
+        <span class="branch-badge tag-green">Core</span>
+      </div>
+      <div class="branch-card">
+        <div class="branch-name">Mechanical Engineering</div>
+        <div class="branch-row"><span>JEE Rank</span><span>~7000</span></div>
+        <div class="branch-row"><span>Avg Pack</span><span>₹16.5 LPA</span></div>
+        <span class="branch-badge tag-amber">Robust</span>
+      </div>
+      <div class="branch-card">
+        <div class="branch-name">Space Science & Engineering</div>
+        <div class="branch-row"><span>JEE Rank</span><span>~6000-8000</span></div>
+        <div class="branch-row"><span>Avg Pack</span><span>₹18.0 LPA</span></div>
+        <span class="branch-badge tag-purple">Unique Offering</span>
+      </div>
+      <div class="branch-card">
+        <div class="branch-name">Civil Engineering</div>
+        <div class="branch-row"><span>JEE Rank</span><span>~9500</span></div>
+        <div class="branch-row"><span>Avg Pack</span><span>₹13.5 LPA</span></div>
+        <span class="branch-badge tag-green">Core</span>
+      </div>
+      <div class="branch-card">
+        <div class="branch-name">Metallurgical & Materials</div>
+        <div class="branch-row"><span>JEE Rank</span><span>~11000</span></div>
+        <div class="branch-row"><span>Avg Pack</span><span>₹14.0 LPA</span></div>
+        <span class="branch-badge tag-amber">Research Focus</span>
+      </div>
+      <div class="branch-card">
+        <div class="branch-name">Chemical Engineering</div>
+        <div class="branch-row"><span>JEE Rank</span><span>~8500</span></div>
+        <div class="branch-row"><span>Avg Pack</span><span>₹15.0 LPA</span></div>
+        <span class="branch-badge tag-blue">New Tech</span>
+      </div>
+      <div class="branch-card">
+        <div class="branch-name">Engineering Physics</div>
+        <div class="branch-row"><span>JEE Rank</span><span>~5500</span></div>
+        <div class="branch-row"><span>Avg Pack</span><span>₹19.5 LPA</span></div>
+        <span class="branch-badge tag-purple">Academic</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-wrap">
+    <div class="section-title">JEE Advanced Cutoffs (2025 General Category Trend)</div>
+    <div class="placement-bar">
+      
+      <div class="bar-row">
+        <span class="bar-label">CSE</span>
+        <div class="bar-track"><div class="bar-fill" style="width:96%;background:#3b82f6"></div></div>
+        <span class="bar-val blue">~1100–1300</span>
+      </div>
+
+      <div class="bar-row">
+        <span class="bar-label">Electrical</span>
+        <div class="bar-track"><div class="bar-fill" style="width:82%;background:#22c55e"></div></div>
+        <span class="bar-val green">~3200–3800</span>
+      </div>
+
+      <div class="bar-row">
+        <span class="bar-label">Engg. Physics</span>
+        <div class="bar-track"><div class="bar-fill" style="width:72%;background:#8b5cf6"></div></div>
+        <span class="bar-val purple">~5000–5800</span>
+      </div>
+
+      <div class="bar-row">
+        <span class="bar-label">Space Science</span>
+        <div class="bar-track"><div class="bar-fill" style="width:64%;background:#6366f1"></div></div>
+        <span class="bar-val" style="color:#6366f1">~6500–7500</span>
+      </div>
+
+      <div class="bar-row">
+        <span class="bar-label">Mechanical</span>
+        <div class="bar-track"><div class="bar-fill" style="width:58%;background:#f59e0b"></div></div>
+        <span class="bar-val amber">~6800–7500</span>
+      </div>
+
+      <div class="bar-row">
+        <span class="bar-label">Chemical</span>
+        <div class="bar-track"><div class="bar-fill" style="width:48%;background:#ec4899"></div></div>
+        <span class="bar-val" style="color:#ec4899">~8200–9000</span>
+      </div>
+
+      <div class="bar-row">
+        <span class="bar-label">Civil</span>
+        <div class="bar-track"><div class="bar-fill" style="width:38%;background:#ef4444"></div></div>
+        <span class="bar-val red">~9200–10000</span>
+      </div>
+
+      <div class="bar-row">
+        <span class="bar-label">Metallurgy</span>
+        <div class="bar-track"><div class="bar-fill" style="width:25%;background:#64748b"></div></div>
+        <span class="bar-val" style="color:#64748b">~10500–11500</span>
+      </div>
+
+    </div>
+    <p style="font-size:.75rem;color:#9ca3af;padding-left:.25rem;margin-top:.5rem">
+      * Bar width indicates competitiveness (Higher = Tougher to get). Ranks are approximate for General Gender-Neutral category.
+    </p>
+  </div>
+  <div class="section-wrap">
+    <div class="section-title">Placement Statistics</div>
+    <div class="cards-grid">
+      <div class="info-card">
+        <h3>Salary Insights</h3>
+        <ul>
+          <li><span class="dot dot-blue"></span>Highest CTC: ₹68 LPA</li>
+          <li><span class="dot dot-green"></span>Average CTC: ₹25.4 LPA</li>
+          <li><span class="dot dot-amber"></span>Median CTC: ₹21.0 LPA</li>
+          <li><span class="dot dot-purple"></span>Average (CSE): ₹34.5 LPA</li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <h3>Recruiter Mix</h3>
+        <ul>
+          <li><span class="dot dot-blue"></span>Software/IT: 48%</li>
+          <li><span class="dot dot-green"></span>Core Engineering: 22%</li>
+          <li><span class="dot dot-amber"></span>Finance & Consulting: 20%</li>
+          <li><span class="dot dot-red"></span>R&D/Analytics: 10%</li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <h3>Engagement</h3>
+        <ul>
+          <li><span class="dot dot-green"></span>Companies Participated: 150+</li>
+          <li><span class="dot dot-blue"></span>Job Offers: 350+</li>
+          <li><span class="dot dot-amber"></span>Placement Rate: 90.1%</li>
+          <li><span class="dot dot-purple"></span>PPOs Secured: 60+</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-wrap">
+    <div class="section-title">Major Recruiters</div>
+    <div class="companies-flex">
+      <span class="company-pill" style="background:#dbeafe;color:#1e40af">Google</span>
+      <span class="company-pill" style="background:#dcfce7;color:#166534">Amazon</span>
+      <span class="company-pill" style="background:#fef3c7;color:#92400e">Microsoft</span>
+      <span class="company-pill" style="background:#ede9fe;color:#5b21b6">Goldman Sachs</span>
+      <span class="company-pill" style="background:#cffafe;color:#155e75">Salesforce</span>
+      <span class="company-pill" style="background:#fbcfe8;color:#9d174d">Oracle</span>
+      <span class="company-pill" style="background:#fde68a;color:#78350f">Nvidia</span>
+      <span class="company-pill" style="background:#bfdbfe;color:#1e3a8a">ISRO</span>
+      <span class="company-pill" style="background:#bbf7d0;color:#14532d">Intel</span>
+      <span class="company-pill" style="background:#ddd6fe;color:#4c1d95">Arista Networks</span>
+    </div>
+  </div>
+
+  <div class="section-wrap">
+    <div class="section-title">Campus Life & Fests</div>
+    <div class="campus-grid">
+      <div class="campus-card"><div class="campus-icon">🎡</div><h4>Fluxus</h4><p>Annual techno-cultural fest, known as the biggest in MP, attracting talent from all over India.</p></div>
+      <div class="campus-card"><div class="campus-icon">🔭</div><h4>Astronomy Club</h4><p>Active stargazing sessions and workshops using high-end telescopes on campus.</p></div>
+      <div class="campus-card"><div class="campus-icon">🏢</div><h4>Modern Hostels</h4><p>La-Xenia and other hostels provide studio-apartment style rooms with excellent amenities.</p></div>
+      <div class="campus-card"><div class="campus-icon">🌳</div><h4>Green Campus</h4><p>Awarded for eco-friendly designs, waste management, and solar energy utilization.</p></div>
+    </div>
+  </div>
+
+  <div class="section-wrap">
+    <div class="section-title">Notable Alumni Network</div>
+    <div class="cards-grid">
+      <div class="info-card">
+        <h3>Entrepreneurship</h3>
+        <ul>
+          <li><span class="dot dot-blue"></span>Multiple startup founders in AI</li>
+          <li><span class="dot dot-blue"></span>Tech leads at Fortune 500</li>
+          <li><span class="dot dot-blue"></span>Innovators in CleanTech</li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <h3>Academia & Research</h3>
+        <ul>
+          <li><span class="dot dot-green"></span>Researchers at CERN & NASA</li>
+          <li><span class="dot dot-green"></span>Scientists at ISRO</li>
+          <li><span class="dot dot-green"></span>PhDs at MIT & Stanford</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <footer style="max-width: 960px; width: 100%; margin: 4rem auto 2rem; position: relative; overflow: hidden; border-radius: 30px; box-shadow: 0 15px 40px rgba(0,0,0,0.3); color: #fff; font-family: 'Segoe UI', sans-serif;">
+    <div style="position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(15, 23, 42, 0.7), rgba(2, 6, 23, 0.95)), url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9TWV-Qx9dqHFxuIN9umTxOTB5a0WLv_h71g&s') center/cover no-repeat; z-index: -1;"></div>
+    <div style="padding: 4rem 3rem 1.5rem;">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 3rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 3rem;">
+        <div>
+          <h4 style="color: #fcd34d; margin-bottom: 1.2rem; font-size: 1.3rem;">IIT Indore</h4>
+          <p style="font-size: 0.95rem; line-height: 1.7; color: #cbd5e1; margin-bottom: 1.5rem;">
+            A premier institution for technical education and research, setting benchmarks in innovation and academic excellence.
+          </p>
+          <div style="display: flex; gap: 1rem;">
+            <div style="width: 35px; height: 35px; background: rgba(255,255,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer;">🌐</div>
+            <div style="width: 35px; height: 35px; background: rgba(255,255,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer;">📘</div>
+          </div>
+        </div>
+        <div style="padding-left: 20px;">
+          <h4 style="color: #fcd34d; margin-bottom: 1.2rem; font-size: 1.1rem;">Quick Links</h4>
+          <ul style="list-style: none; font-size: 0.9rem; line-height: 2.5; padding: 0; color: #e2e8f0;">
+            <li><a href="#" style="color: inherit; text-decoration: none;">🏛️ Academics</a></li>
+            <li><a href="#" style="color: inherit; text-decoration: none;">💼 Placements</a></li>
+            <li><a href="#" style="color: inherit; text-decoration: none;">🔭 Research</a></li>
+          </ul>
+        </div>
+        <div style="text-align: right;">
+          <h4 style="color: #fcd34d; margin-bottom: 1.2rem; font-size: 1.1rem;">Contact Info</h4>
+          <ul style="list-style: none; font-size: 0.9rem; line-height: 2.2; padding: 0; color: #cbd5e1;">
+            <li>📍 Khandwa Road, Simrol</li>
+            <li>Indore, MP - 453552</li>
+            <li>📧 aoic@iiti.ac.in</li>
+            <li>📞 +91-731-6603503</li>
+          </ul>
+        </div>
+      </div>
+      <div style="padding-top: 2rem; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem;">
+        <p style="font-size: 0.85rem; color: #94a3b8;">© 2026 College Knowledge Portal. All Rights Reserved.</p>
+        <p style="font-size: 0.9rem; font-weight: 500;">
+          Built with ❤️ by 
+          <span style="background: linear-gradient(90deg, #fcd34d, #fbbf24); background-clip: text; -webkit-background-clip: text; color: transparent; -webkit-text-fill-color: transparent; font-weight: 700;">
+            Aman Kumar
+          </span>
+        </p>
+      </div>
+    </div>
+  </footer>
+
+</main>
+</body>
+</html>

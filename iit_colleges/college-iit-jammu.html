@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>IIT Jammu - College Detail</title>
+  <style>
+
+    /* ===== BASE ===== */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+      color: #111827;
+      font-family: sans-serif;
+      min-height: 100vh;
+    }
+
+    /* ===== PAGE LAYOUT ===== */
+    .page {
+      padding: 2rem 6vw;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* ===== BACK BUTTON ===== */
+    .back-btn {
+      align-self: flex-start;
+      margin-bottom: 1.5rem;
+      padding: .5rem 1rem;
+      background: #f1f5f9;
+      border: none;
+      border-radius: 8px;
+      font-size: .9rem;
+      font-weight: 500;
+      cursor: pointer;
+      color: #334155;
+      text-decoration: none;
+      display: inline-block;
+      transition: 0.2s;
+    }
+    .back-btn:hover { background: #e2e8f0; }
+
+    /* ===== HERO CARD ===== */
+    .hero-card {
+      width: 100%;
+      max-width: 960px;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.18);
+      overflow: hidden;
+      margin-bottom: 2rem;
+      position: relative;
+      min-height: 200px;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background-image: url('https://images.shiksha.com/mediadata/images/articles/1677324187php8MzexJ.jpeg');
+      background-size: cover;
+      background-position: center;
+      filter: brightness(0.4) saturate(1.2);
+      z-index: 0;
+    }
+
+    .hero-bg-fallback {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, #0f172a 0%, #334155 100%);
+      z-index: 0;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      padding: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .hero-logo {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      flex-shrink: 0;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+
+    .hero-logo img {
+      width: 80%;
+      height: 80%;
+      object-fit: contain;
+    }
+
+    .hero-info h1 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin-bottom: .3rem;
+      color: #ffffff;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+    }
+    .hero-info p {
+      color: rgba(255,255,255,0.9);
+      font-size: .9rem;
+      margin-bottom: .5rem;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.5);
+    }
+    .hero-tags { display: flex; flex-wrap: wrap; gap: .5rem; }
+
+    .tag { padding: .25rem .75rem; border-radius: 20px; font-size: .78rem; font-weight: 500; }
+    .tag-blue   { background: rgba(219,234,254,0.9); color: #1e40af; }
+    .tag-green  { background: rgba(220,252,231,0.9); color: #166534; }
+    .tag-amber  { background: rgba(254,243,199,0.9); color: #92400e; }
+    .tag-purple { background: rgba(237,233,254,0.9); color: #5b21b6; }
+    .tag-red    { background: rgba(254,226,226,0.9); color: #991b1b; }
+
+    .section-wrap  { width: 100%; max-width: 960px; margin-bottom: 2rem; }
+    .section-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 1rem; padding-left: .25rem; color: #111827; }
+
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1rem; }
+    .stat-card { background: #fff; border-radius: 12px; padding: 1.1rem 1rem; text-align: center; box-shadow: 0 4px 14px rgba(0,0,0,0.08); }
+    .stat-num   { font-size: 1.4rem; font-weight: 700; margin-bottom: .2rem; }
+    .stat-label { font-size: .78rem; color: #6b7280; }
+
+    .blue   { color: #2563eb; }
+    .green  { color: #16a34a; }
+    .amber  { color: #d97706; }
+    .purple { color: #7c3aed; }
+    .red    { color: #dc2626; }
+
+    .highlight-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 1rem; }
+    .highlight-box { background: #fff; border-radius: 12px; padding: 1.2rem; box-shadow: 0 4px 14px rgba(0,0,0,0.08); border-left: 4px solid; }
+    .hl-blue { border-color: #3b82f6; } .hl-green { border-color: #22c55e; } .hl-amber { border-color: #f59e0b; } .hl-purple { border-color: #8b5cf6; }
+    .highlight-box h4 { font-size: .88rem; font-weight: 600; margin-bottom: .5rem; }
+    .highlight-box p  { font-size: .8rem; color: #6b7280; line-height: 1.5; }
+
+    .branches-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; }
+    .branch-card { background: #fff; border-radius: 12px; padding: 1.2rem; box-shadow: 0 4px 14px rgba(0,0,0,0.08); }
+    .branch-name { font-size: .92rem; font-weight: 600; margin-bottom: .6rem; color: #111827; }
+    .branch-row  { display: flex; justify-content: space-between; font-size: .8rem; margin-bottom: .3rem; }
+    .branch-row span:first-child { color: #6b7280; }
+    .branch-row span:last-child  { font-weight: 600; color: #1d4ed8; }
+    .branch-badge { display: inline-block; margin-top: .5rem; padding: .2rem .6rem; border-radius: 20px; font-size: .72rem; font-weight: 500; }
+
+    .placement-bar { background: #fff; border-radius: 12px; padding: 1.5rem; box-shadow: 0 4px 14px rgba(0,0,0,0.08); margin-bottom: 1rem; }
+    .bar-row { display: flex; align-items: center; gap: 1rem; margin-bottom: .9rem; }
+    .bar-label { font-size: .82rem; color: #4b5563; width: 140px; flex-shrink: 0; }
+    .bar-track { flex: 1; background: #f3f4f6; border-radius: 99px; height: 10px; overflow: hidden; }
+    .bar-fill  { height: 100%; border-radius: 99px; }
+    .bar-val   { font-size: .82rem; font-weight: 600; width: 90px; text-align: right; flex-shrink: 0; }
+
+    .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }
+    .info-card { background: #fff; border-radius: 12px; padding: 1.2rem; box-shadow: 0 4px 14px rgba(0,0,0,0.08); }
+    .info-card h3 { font-size: .85rem; font-weight: 600; margin-bottom: .8rem; color: #374151; }
+    .info-card ul { list-style: none; }
+    .info-card ul li { font-size: .82rem; color: #4b5563; padding: .3rem 0; border-bottom: .5px solid #f3f4f6; display: flex; align-items: center; gap: .4rem; }
+    .dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+    .dot-blue { background: #3b82f6; } .dot-green { background: #22c55e; } .dot-amber { background: #f59e0b; } .dot-purple { background: #8b5cf6; }
+
+    .companies-flex { display: flex; flex-wrap: wrap; gap: .75rem; }
+    .company-pill { padding: .5rem 1rem; border-radius: 20px; font-size: .82rem; font-weight: 500; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+
+    .campus-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }
+    .campus-card { background: #fff; border-radius: 12px; padding: 1.2rem; box-shadow: 0 4px 14px rgba(0,0,0,0.08); text-align: center; }
+    .campus-icon { font-size: 1.6rem; margin-bottom: .6rem; }
+    .campus-card h4 { font-size: .88rem; font-weight: 600; margin-bottom: .4rem; }
+    .campus-card p  { font-size: .78rem; color: #6b7280; line-height: 1.5; }
+
+    @media (max-width: 600px) { .hero-content { flex-direction: column; align-items: flex-start; } .page { padding: 1.2rem 4vw; } }
+  </style>
+</head>
+<body>
+
+<main class="page">
+
+  <a href="../Main_colleges/iit.html" class="back-btn">← Back to All IITs</a>
+
+  <div class="hero-card">
+    <div class="hero-bg-fallback"></div>
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <div class="hero-logo">
+        <img src="https://secure.gravatar.com/avatar/bcc2e2435f99d7b3c1e2c187de438a86d9e702f75de778471f41888842b656c2?s=200&d=identicon&r=g" alt="IIT Jammu Logo">
+      </div>
+      <div class="hero-info">
+        <h1>IIT Jammu</h1>
+        <p>Indian Institute of Technology Jammu &nbsp;|&nbsp; Jagti, PO Nagrota, J&K</p>
+        <div class="hero-tags">
+          <span class="tag tag-blue">Established 2016</span>
+          <span class="tag tag-red">NIRF Rank #62</span>
+          <span class="tag tag-amber">3rd Gen IIT</span>
+          <span class="tag tag-purple">Himalayan Foothills</span>
+          <span class="tag tag-green">Smart Campus</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-wrap">
+    <div class="section-title">Quick Overview</div>
+    <div class="stats-grid">
+      <div class="stat-card"><div class="stat-num blue">~1,500</div><div class="stat-label">Total Students</div></div>
+      <div class="stat-card"><div class="stat-num green">100+</div><div class="stat-label">Faculty Members</div></div>
+      <div class="stat-card"><div class="stat-num amber">400 acres</div><div class="stat-label">Campus Area</div></div>
+      <div class="stat-card"><div class="stat-num purple">08</div><div class="stat-label">B.Tech Specializations</div></div>
+      <div class="stat-card"><div class="stat-num red">₹53 LPA</div><div class="stat-label">Highest Package</div></div>
+      <div class="stat-card"><div class="stat-num blue">82%</div><div class="stat-label">Placement Rate</div></div>
+    </div>
+  </div>
+
+  <div class="section-wrap">
+    <div class="section-title">About IIT Jammu</div>
+    <div class="highlight-row">
+      <div class="highlight-box hl-blue">
+        <h4>Modern Infrastructure</h4>
+        <p>Operates from its permanent campus at Jagti. The campus is designed as a sustainable smart city with state-of-the-art labs and high-speed connectivity in the lap of nature.</p>
+      </div>
+      <div class="highlight-box hl-green">
+        <h4>Strategic Research</h4>
+        <p>Focuses on regional challenges like landslide mitigation, cold climate engineering, and sustainable energy. Collaborative research with defense and security agencies due to its location.</p>
+      </div>
+      <div class="highlight-box hl-amber">
+        <h4>Collaborative Learning</h4>
+        <p>Strong mentorship from IIT Delhi in its initial years. Currently has MoUs with various international universities and industry leaders for student exchange and internships.</p>
+      </div>
+      <div class="highlight-box hl-purple">
+        <h4>Entrepreneurship (I2EDC)</h4>
+        <p>The Institute Innovation and Entrepreneurship Development Centre (I2EDC) supports student startups and provides a platform for converting ideas into scalable products.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-wrap">
+    <div class="section-title">Branches & Programs</div>
+    <div class="branches-grid">
+      <div class="branch-card">
+        <div class="branch-name">Computer Science & Engineering</div>
+        <div class="branch-row"><span>JEE Cutoff (GEN)</span><span>~3500–5000 rank</span></div>
+        <div class="branch-row"><span>Avg Package</span><span>₹20–24 LPA</span></div>
+        <div class="branch-row"><span>Seats</span><span>40</span></div>
+        <span class="branch-badge tag-blue">Top Branch</span>
+      </div>
+
+      <div class="branch-card">
+        <div class="branch-name">Mathematics & Computing</div>
+        <div class="branch-row"><span>JEE Cutoff (GEN)</span><span>~6000–7500 rank</span></div>
+        <div class="branch-row"><span>Avg Package</span><span>₹18–22 LPA</span></div>
+        <div class="branch-row"><span>Seats</span><span>30</span></div>
+        <span class="branch-badge tag-purple">High Growth</span>
+      </div>
+
+      <div class="branch-card">
+        <div class="branch-name">Electrical Engineering</div>
+        <div class="branch-row"><span>JEE Cutoff (GEN)</span><span>~8000–9500 rank</span></div>
+        <div class="branch-row"><span>Avg Package</span><span>₹14–18 LPA</span></div>
+        <div class="branch-row"><span>Seats</span><span>40</span></div>
+        <span class="branch-badge tag-green">Core Branch</span>
+      </div>
+
+      <div class="branch-card">
+        <div class="branch-name">Mechanical Engineering</div>
+        <div class="branch-row"><span>JEE Cutoff (GEN)</span><span>~11000–13000 rank</span></div>
+        <div class="branch-row"><span>Avg Package</span><span>₹12–15 LPA</span></div>
+        <div class="branch-row"><span>Seats</span><span>40</span></div>
+        <span class="branch-badge tag-amber">Core Branch</span>
+      </div>
+
+      <div class="branch-card">
+        <div class="branch-name">Chemical Engineering</div>
+        <div class="branch-row"><span>JEE Cutoff (GEN)</span><span>~13000–15000 rank</span></div>
+        <div class="branch-row"><span>Avg Package</span><span>₹11–14 LPA</span></div>
+        <div class="branch-row"><span>Seats</span><span>35</span></div>
+        <span class="branch-badge tag-purple">Research Focus</span>
+      </div>
+
+      <div class="branch-card">
+        <div class="branch-name">Civil Engineering</div>
+        <div class="branch-row"><span>JEE Cutoff (GEN)</span><span>~14000–16000 rank</span></div>
+        <div class="branch-row"><span>Avg Package</span><span>₹10–13 LPA</span></div>
+        <div class="branch-row"><span>Seats</span><span>40</span></div>
+        <span class="branch-badge tag-amber">Infrastructure</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-wrap">
+    <div class="section-title">JEE Advanced Cutoffs (2024 Est, General)</div>
+    <div class="placement-bar">
+      <div class="bar-row">
+        <span class="bar-label">CSE</span>
+        <div class="bar-track"><div class="bar-fill" style="width:90%;background:#3b82f6"></div></div>
+        <span class="bar-val blue">~3500–5000</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-label">Math & Computing</span>
+        <div class="bar-track"><div class="bar-fill" style="width:75%;background:#8b5cf6"></div></div>
+        <span class="bar-val purple">~6000–7500</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-label">Electrical</span>
+        <div class="bar-track"><div class="bar-fill" style="width:60%;background:#16a34a"></div></div>
+        <span class="bar-val green">~8000–9500</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-label">Mechanical</span>
+        <div class="bar-track"><div class="bar-fill" style="width:40%;background:#f59e0b"></div></div>
+        <span class="bar-val amber">~11k–13k</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-wrap">
+    <div class="section-title">Placements 2024</div>
+    <div class="cards-grid">
+      <div class="info-card">
+        <h3>Package Summary</h3>
+        <ul>
+          <li><span class="dot dot-blue"></span>Highest Package: ₹53 LPA</li>
+          <li><span class="dot dot-green"></span>Average (CSE): ₹22 LPA</li>
+          <li><span class="dot dot-amber"></span>Overall Average: ₹17 LPA</li>
+          <li><span class="dot dot-purple"></span>Median Package: ₹15 LPA</li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <h3>Sector Hiring</h3>
+        <ul>
+          <li><span class="dot dot-blue"></span>Software & IT: 60%</li>
+          <li><span class="dot dot-green"></span>Core Engineering: 20%</li>
+          <li><span class="dot dot-amber"></span>Analytics: 15%</li>
+          <li><span class="dot dot-purple"></span>Others: 5%</li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <h3>Stats</h3>
+        <ul>
+          <li><span class="dot dot-green"></span>Placement %: 82%+</li>
+          <li><span class="dot dot-blue"></span>Companies: 150+</li>
+          <li><span class="dot dot-amber"></span>PPOs Offered: 30+</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-wrap">
+    <div class="section-title">Key Recruiters</div>
+    <div class="companies-flex">
+      <span class="company-pill" style="background:#dbeafe;color:#1e40af">Amazon</span>
+      <span class="company-pill" style="background:#dcfce7;color:#166534">Microsoft</span>
+      <span class="company-pill" style="background:#fef3c7;color:#92400e">Intel</span>
+      <span class="company-pill" style="background:#ede9fe;color:#5b21b6">Sprinklr</span>
+      <span class="company-pill" style="background:#cffafe;color:#155e75">Samsung</span>
+      <span class="company-pill" style="background:#fbcfe8;color:#9d174d">Adobe</span>
+      <span class="company-pill" style="background:#bfdbfe;color:#1e3a8a">TCS</span>
+      <span class="company-pill" style="background:#bbf7d0;color:#14532d">L&T</span>
+    </div>
+  </div>
+
+  <div class="section-wrap">
+    <div class="section-title">Campus Life</div>
+    <div class="campus-grid">
+      <div class="campus-card">
+        <div class="campus-icon">🏔️</div>
+        <h4>Scenic Location</h4>
+        <p>Located on the NH-44, the campus offers a breathtaking view of the Trikuta hills, providing a serene environment for study.</p>
+      </div>
+      <div class="campus-card">
+        <div class="campus-icon">🎭</div>
+        <h4>Renaissance</h4>
+        <p>The annual cultural fest featuring music, dance, and fashion, attracting talent from across the region.</p>
+      </div>
+      <div class="campus-card">
+        <div class="campus-icon">⚙️</div>
+        <h4>Technuarium</h4>
+        <p>The technical fest of IIT Jammu where students showcase robotics, coding skills, and innovative projects.</p>
+      </div>
+      <div class="campus-card">
+        <div class="campus-icon">🏠</div>
+        <h4>Smart Hostels</h4>
+        <p>Modern hostels with mountain views, air-conditioning, and high-speed Wi-Fi, fostering a vibrant student community.</p>
+      </div>
+    </div>
+  </div>
+
+  <footer style="max-width: 960px; width: 100%; margin: 4rem auto 2rem; position: relative; overflow: hidden; border-radius: 30px; box-shadow: 0 15px 40px rgba(0,0,0,0.3); color: #fff; font-family: 'Segoe UI', sans-serif;">
+    <div style="position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(15, 23, 42, 0.7), rgba(0, 0, 0, 0.9)), url('https://cdn.pwskills.com/assets/uploads/partner-institutes-pages/c0ca90e3-99ed-4775-a738-33e0919a6627.jpeg') center/cover no-repeat; z-index: -1;"></div>
+    <div style="padding: 4rem 2.5rem 1.5rem; text-shadow: 0 2px 4px rgba(0,0,0,0.8);">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 3rem; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 2.5rem;">
+        <div>
+          <h4 style="color: #fcd34d; margin-bottom: 1rem; font-size: 1.5rem;">IIT Jammu</h4>
+          <p style="font-size: 1rem; line-height: 1.7; color: #e2e8f0;">Engineering the <span style="font-weight: 800; color: #fcd34d;">Future</span> in the Himalayas. A fast-growing 3rd Gen IIT.</p>
+        </div>
+        <div style="text-align: right;">
+          <h4 style="color: #fcd34d; margin-bottom: 1.2rem; font-size: 1.1rem;">Contact</h4>
+          <ul style="list-style: none; font-size: 0.95rem; line-height: 2.2; padding: 0;">
+            <li>📍 Jagti, Jammu</li>
+            <li>🌐 iitjammu.ac.in</li>
+            <li>🏛️ Smart Himalayan Campus</li>
+          </ul>
+        </div>
+      </div>
+      <p style="text-align: center; padding-top: 1.8rem; font-size: 0.85rem;">© 2026 | Developed by <b style="color: #fcd34d;">Aman Kumar</b></p>
+    </div>
+  </footer>
+
+</main>
+</body>
+</html>

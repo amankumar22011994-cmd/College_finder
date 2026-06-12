@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>IIT Hyderabad - College Detail</title>
+  <style>
+    /* ===== BASE ===== */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
+      color: #111827;
+      font-family: sans-serif;
+      min-height: 100vh;
+    }
+
+    /* ===== PAGE LAYOUT ===== */
+    .page {
+      padding: 2rem 6vw;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* ===== BACK BUTTON ===== */
+    .back-btn {
+      align-self: flex-start;
+      margin-bottom: 1.5rem;
+      padding: .5rem 1rem;
+      background: #dbeafe;
+      border: none;
+      border-radius: 8px;
+      font-size: .9rem;
+      font-weight: 500;
+      cursor: pointer;
+      color: #1e40af;
+      text-decoration: none;
+      display: inline-block;
+      transition: 0.2s;
+    }
+    .back-btn:hover { background: #bfdbfe; }
+
+    /* ===== HERO CARD ===== */
+    .hero-card {
+      width: 100%;
+      max-width: 960px;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.18);
+      overflow: hidden;
+      margin-bottom: 2rem;
+      position: relative;
+      min-height: 200px;
+    }
+.hero-bg { 
+      position: absolute; 
+      inset: 0; 
+      /* Updated with your new Telangana Today image link */
+      background-image: url('https://image.telanganatoday.com/wp-content/uploads/2022/06/IIT-Hyderabad-1_V_jpg--442x260-4g.webp'); 
+      background-size: cover; 
+      background-position: center; 
+      filter: brightness(0.4) saturate(1.1); 
+      z-index: 0; 
+    }
+
+    .hero-bg-fallback {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, #1e3a5f 0%, #0f4c3a 100%);
+      z-index: 0;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      padding: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .hero-logo {
+      width:72px;
+      height:72px;
+      border-radius:50%;
+      background:white;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      overflow:hidden;
+      flex-shrink:0;
+      box-shadow:0 4px 10px rgba(0,0,0,0.3);
+    }
+
+    .hero-logo img {
+      width:75%;
+      height:75%;
+      object-fit:contain;
+    }
+
+    .hero-info h1 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin-bottom: .3rem;
+      color: #ffffff;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+    }
+    .hero-info p {
+      color: rgba(255,255,255,0.8);
+      font-size: .9rem;
+      margin-bottom: .5rem;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.5);
+    }
+    .hero-tags { display: flex; flex-wrap: wrap; gap: .5rem; }
+
+    /* ===== TAGS / BADGES ===== */
+    .tag {
+      padding: .25rem .75rem;
+      border-radius: 20px;
+      font-size: .78rem;
+      font-weight: 500;
+    }
+    .tag-blue   { background: rgba(219,234,254,0.9); color: #1e40af; }
+    .tag-green  { background: rgba(220,252,231,0.9); color: #166534; }
+    .tag-amber  { background: rgba(254,243,199,0.9); color: #92400e; }
+    .tag-purple { background: rgba(237,233,254,0.9); color: #5b21b6; }
+    .tag-red    { background: rgba(254,226,226,0.9); color: #991b1b; }
+
+    /* ===== SECTION WRAPPER ===== */
+    .section-wrap  { width: 100%; max-width: 960px; margin-bottom: 2rem; }
+    .section-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 1rem; padding-left: .25rem; color: #111827; }
+
+    /* ===== STATS GRID ===== */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 1rem;
+    }
+    .stat-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 1.1rem 1rem;
+      text-align: center;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+    }
+    .stat-num   { font-size: 1.4rem; font-weight: 700; margin-bottom: .2rem; }
+    .stat-label { font-size: .78rem; color: #6b7280; }
+
+    /* COLORS */
+    .blue   { color: #2563eb; }
+    .green  { color: #16a34a; }
+    .amber  { color: #d97706; }
+    .purple { color: #7c3aed; }
+    .red    { color: #dc2626; }
+    .orange { color: #f97316; }
+
+    /* ===== HIGHLIGHT ROW ===== */
+    .highlight-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 1rem;
+    }
+    .highlight-box {
+      background: #fff;
+      border-radius: 12px;
+      padding: 1.2rem;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+      border-left: 4px solid;
+    }
+    .hl-blue   { border-color: #3b82f6; }
+    .hl-green  { border-color: #22c55e; }
+    .hl-amber  { border-color: #f59e0b; }
+    .hl-purple { border-color: #8b5cf6; }
+    .highlight-box h4 { font-size: .88rem; font-weight: 600; margin-bottom: .5rem; }
+    .highlight-box p  { font-size: .8rem; color: #6b7280; line-height: 1.5; }
+
+    /* ===== BRANCHES GRID ===== */
+    .branches-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+    }
+    .branch-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 1.2rem;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+    }
+    .branch-name { font-size: .92rem; font-weight: 600; margin-bottom: .6rem; color: #111827; }
+    .branch-row  { display: flex; justify-content: space-between; font-size: .8rem; margin-bottom: .3rem; }
+    .branch-row span:first-child { color: #6b7280; }
+    .branch-row span:last-child  { font-weight: 600; color: #1d4ed8; }
+    .branch-badge {
+      display: inline-block;
+      margin-top: .5rem;
+      padding: .2rem .6rem;
+      border-radius: 20px;
+      font-size: .72rem;
+      font-weight: 500;
+    }
+
+    /* ===== PLACEMENT BAR ===== */
+    .placement-bar {
+      background: #fff;
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+      margin-bottom: 1rem;
+    }
+    .bar-row { display: flex; align-items: center; gap: 1rem; margin-bottom: .9rem; }
+    .bar-label { font-size: .82rem; color: #4b5563; width: 140px; flex-shrink: 0; }
+    .bar-track { flex: 1; background: #f3f4f6; border-radius: 99px; height: 10px; overflow: hidden; }
+    .bar-fill  { height: 100%; border-radius: 99px; }
+    .bar-val   { font-size: .82rem; font-weight: 600; width: 90px; text-align: right; flex-shrink: 0; }
+
+    /* ===== INFO CARDS ===== */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+    .info-card { background: #fff; border-radius: 12px; padding: 1.2rem; box-shadow: 0 4px 14px rgba(0,0,0,0.08); }
+    .info-card h3 { font-size: .85rem; font-weight: 600; margin-bottom: .8rem; color: #374151; }
+    .info-card ul { list-style: none; }
+    .info-card ul li {
+      font-size: .82rem;
+      color: #4b5563;
+      padding: .3rem 0;
+      border-bottom: .5px solid #f3f4f6;
+      display: flex;
+      align-items: center;
+      gap: .4rem;
+    }
+
+    /* ===== DOTS ===== */
+    .dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+    .dot-blue { background: #3b82f6; }
+    .dot-green { background: #22c55e; }
+    .dot-amber { background: #f59e0b; }
+    .dot-purple { background: #8b5cf6; }
+
+    /* ===== COMPANIES (BUTTON PILLS) ===== */
+    .companies-flex { display: flex; flex-wrap: wrap; gap: .75rem; }
+    .company-pill {
+      padding: .5rem 1rem;
+      border-radius: 20px;
+      font-size: .82rem;
+      font-weight: 500;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      border: 1px solid rgba(0,0,0,0.05);
+      transition: 0.2s;
+      cursor: default;
+    }
+    .company-pill:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.12); }
+
+    /* ===== CAMPUS GRID ===== */
+    .campus-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+    .campus-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 1.2rem;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+      text-align: center;
+    }
+    .campus-icon { font-size: 1.6rem; margin-bottom: .6rem; }
+    .campus-card h4 { font-size: .88rem; font-weight: 600; margin-bottom: .4rem; }
+    .campus-card p  { font-size: .78rem; color: #6b7280; line-height: 1.5; }
+
+    @media (max-width: 600px) {
+      .hero-content { flex-direction: column; align-items: flex-start; }
+      .page { padding: 1.2rem 4vw; }
+    }
+  </style>
+</head>
+<body>
+
+<main class="page">
+
+  <a href="../Main_colleges/iit.html" class="back-btn">← Back to All IITs</a>
+
+  <div class="hero-card">
+    <div class="hero-bg-fallback"></div>
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <div class="hero-logo">
+        <img src="data:image/png;base64,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" alt="IIT Hyderabad Logo">
+      </div>
+      <div class="hero-info">
+        <h1>IIT Hyderabad</h1>
+        <p>Indian Institute of Technology Hyderabad &nbsp;|&nbsp; Sangareddy, Telangana</p>
+        <div class="hero-tags">
+          <span class="tag tag-blue">Established 2008</span>
+          <span class="tag tag-red">NIRF Rank #8</span>
+          <span class="tag tag-amber">Japan-JICA Partner</span>
+          <span class="tag tag-purple">Govt. Autonomous</span>
+          <span class="tag tag-green">AI Pioneer</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-wrap">
+    <div class="section-title">Quick Overview</div>
+    <div class="stats-grid">
+      <div class="stat-card"><div class="stat-num blue">~4,200</div><div class="stat-label">Total Students</div></div>
+      <div class="stat-card"><div class="stat-num green">280+</div><div class="stat-label">Faculty Members</div></div>
+      <div class="stat-card"><div class="stat-num amber">576 acres</div><div class="stat-label">Campus Area</div></div>
+      <div class="stat-card"><div class="stat-num purple">18</div><div class="stat-label">Depts & Schools</div></div>
+      <div class="stat-card"><div class="stat-num red">₹94.5 LPA</div><div class="stat-label">Highest Package</div></div>
+      <div class="stat-card"><div class="stat-num blue">24.3 LPA</div><div class="stat-label">Avg B.Tech CTC</div></div>
+    </div>
+  </div>
+
+  <div class="section-wrap">
+    <div class="section-title">Why IIT Hyderabad?</div>
+    <div class="highlight-row">
+      <div class="highlight-box hl-blue">
+        <h4>Fractal Geometry</h4>
+        <p>Famous for its unique 'Fractal' design buildings and heat-resistant architecture developed with Japanese experts.</p>
+      </div>
+      <div class="highlight-box hl-green">
+        <h4>Japan Collaboration</h4>
+        <p>Strategic JICA partnership. Huge opportunities for student exchange and direct recruitment into Japanese tech giants.</p>
+      </div>
+      <div class="highlight-box hl-amber">
+        <h4>TiHAN Testbed</h4>
+        <p>India's first real-world testing track for Autonomous Vehicles (Self-driving cars & drones) is right here on campus.</p>
+      </div>
+      <div class="highlight-box hl-purple">
+        <h4>AI Leadership</h4>
+        <p>IITH was the first institute in India to start a full B.Tech in Artificial Intelligence, leading the Industry 4.0 wave.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-wrap">
+    <div class="section-title">Branches & Programs (Detailed)</div>
+    <div class="branches-grid">
+      <div class="branch-card">
+        <div class="branch-name">Computer Science & Engg.</div>
+        <div class="branch-row"><span>JEE Cutoff (GEN)</span><span>~400–650</span></div>
+        <div class="branch-row"><span>Avg Package</span><span>₹36.5 LPA</span></div>
+        <span class="branch-badge tag-blue">Elite Branch</span>
+      </div>
+      <div class="branch-card">
+        <div class="branch-name">Artificial Intelligence</div>
+        <div class="branch-row"><span>JEE Cutoff (GEN)</span><span>~750–950</span></div>
+        <div class="branch-row"><span>Avg Package</span><span>₹32.0 LPA</span></div>
+        <span class="branch-badge tag-purple">India's First AI Dept</span>
+      </div>
+      <div class="branch-card">
+        <div class="branch-name">Mathematics & Computing</div>
+        <div class="branch-row"><span>JEE Cutoff (GEN)</span><span>~1000–1250</span></div>
+        <div class="branch-row"><span>Avg Package</span><span>₹29.2 LPA</span></div>
+        <span class="branch-badge tag-amber">FinTech Focus</span>
+      </div>
+      <div class="branch-card">
+        <div class="branch-name">Electrical Engineering</div>
+        <div class="branch-row"><span>JEE Cutoff (GEN)</span><span>~1900–2400</span></div>
+        <div class="branch-row"><span>Avg Package</span><span>₹24.1 LPA</span></div>
+        <span class="branch-badge tag-green">Core Excellence</span>
+      </div>
+      <div class="branch-card">
+        <div class="branch-name">Engineering Physics</div>
+        <div class="branch-row"><span>JEE Cutoff (GEN)</span><span>~2600–3300</span></div>
+        <div class="branch-row"><span>Avg Package</span><span>₹20.5 LPA</span></div>
+        <span class="branch-badge tag-blue">Research Focus</span>
+      </div>
+      <div class="branch-card">
+        <div class="branch-name">Mechanical & Aerospace</div>
+        <div class="branch-row"><span>JEE Cutoff (GEN)</span><span>~4600–5600</span></div>
+        <div class="branch-row"><span>Avg Package</span><span>₹18.2 LPA</span></div>
+        <span class="branch-badge tag-amber">Smart Mfg</span>
+      </div>
+      <div class="branch-card">
+        <div class="branch-name">Chemical Engineering</div>
+        <div class="branch-row"><span>JEE Cutoff (GEN)</span><span>~6200–7600</span></div>
+        <div class="branch-row"><span>Avg Package</span><span>₹16.4 LPA</span></div>
+        <span class="branch-badge tag-purple">Process Design</span>
+      </div>
+      <div class="branch-card">
+        <div class="branch-name">Biomedical Engineering</div>
+        <div class="branch-row"><span>JEE Cutoff (GEN)</span><span>~8200–9600</span></div>
+        <div class="branch-row"><span>Avg Package</span><span>₹14.0 LPA</span></div>
+        <span class="branch-badge tag-green">Bio-Innovation</span>
+      </div>
+      <div class="branch-card">
+        <div class="branch-name">Civil Engineering</div>
+        <div class="branch-row"><span>JEE Cutoff (GEN)</span><span>~8600–10500</span></div>
+        <div class="branch-row"><span>Avg Package</span><span>₹12.5 LPA</span></div>
+        <span class="branch-badge tag-red">Smart City</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-wrap">
+    <div class="section-title">JEE Advanced Cutoffs (Competition Chart)</div>
+    <div class="placement-bar">
+      <div class="bar-row">
+        <span class="bar-label">CSE</span>
+        <div class="bar-track"><div class="bar-fill" style="width:98%;background:#3b82f6"></div></div>
+        <span class="bar-val blue">~600</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-label">AI</span>
+        <div class="bar-track"><div class="bar-fill" style="width:91%;background:#8b5cf6"></div></div>
+        <span class="bar-val purple">~850</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-label">Maths & Comp</span>
+        <div class="bar-track"><div class="bar-fill" style="width:84%;background:#f59e0b"></div></div>
+        <span class="bar-val amber">~1150</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-label">Electrical</span>
+        <div class="bar-track"><div class="bar-fill" style="width:72%;background:#22c55e"></div></div>
+        <span class="bar-val green">~2100</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-label">Engg Physics</span>
+        <div class="bar-track"><div class="bar-fill" style="width:62%;background:#3b82f6"></div></div>
+        <span class="bar-val blue">~2900</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-label">Mechanical</span>
+        <div class="bar-track"><div class="bar-fill" style="width:50%;background:#f97316"></div></div>
+        <span class="bar-val orange">~5000</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-label">Chemical</span>
+        <div class="bar-track"><div class="bar-fill" style="width:35%;background:#7c3aed"></div></div>
+        <span class="bar-val purple">~6800</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-label">Biomedical</span>
+        <div class="bar-track"><div class="bar-fill" style="width:22%;background:#10b981"></div></div>
+        <span class="bar-val" style="color:#10b981">~8500</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-label">Civil</span>
+        <div class="bar-track"><div class="bar-fill" style="width:15%;background:#ef4444"></div></div>
+        <span class="bar-val red">~9200</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-wrap">
+    <div class="section-title">Placements 2024</div>
+    <div class="cards-grid">
+      <div class="info-card">
+        <h3>Package Summary</h3>
+        <ul>
+          <li><span class="dot dot-blue"></span>Highest Package: ₹94.5 LPA</li>
+          <li><span class="dot dot-green"></span>Average Package: ₹24.3 LPA</li>
+          <li><span class="dot dot-amber"></span>Median Package: ₹20 LPA</li>
+          <li><span class="dot dot-purple"></span>International Offers: 140+</li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <h3>Recruitment Stats</h3>
+        <ul>
+          <li><span class="dot dot-blue"></span>Placement Rate: 82.5%</li>
+          <li><span class="dot dot-green"></span>Companies Visited: 200+</li>
+          <li><span class="dot dot-amber"></span>PPOs (Pre-Placement): 100+</li>
+          <li><span class="dot dot-purple"></span>Japanese Companies: 30+</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-wrap">
+    <div class="section-title">Top Recruiting Companies</div>
+    <div class="companies-flex">
+      <span class="company-pill" style="background:#dbeafe;color:#1e40af;border:1px solid #bfdbfe;">Google</span>
+      <span class="company-pill" style="background:#dcfce7;color:#166534;border:1px solid #bbf7d0;">Microsoft</span>
+      <span class="company-pill" style="background:#fef3c7;color:#92400e;border:1px solid #fde68a;">Amazon</span>
+      <span class="company-pill" style="background:#ede9fe;color:#5b21b6;border:1px solid #ddd6fe;">Meta</span>
+      <span class="company-pill" style="background:#fee2e2;color:#991b1b;border:1px solid #fecaca;">Toyota Japan</span>
+      <span class="company-pill" style="background:#e0f2fe;color:#075985;border:1px solid #bae6fd;">Sony</span>
+      <span class="company-pill" style="background:#d1fae5;color:#065f46;border:1px solid #a7f3d0;">Rakuten Japan</span>
+      <span class="company-pill" style="background:#ffedd5;color:#9a3412;border:1px solid #fed7aa;">Suzuki</span>
+      <span class="company-pill" style="background:#bfdbfe;color:#1e3a8a;border:1px solid #93c5fd;">Qualcomm</span>
+      <span class="company-pill" style="background:#bbf7d0;color:#14532d;border:1px solid #86efac;">Intel</span>
+      <span class="company-pill" style="background:#ddd6fe;color:#4c1d95;border:1px solid #c4b5fd;">Nvidia</span>
+      <span class="company-pill" style="background:#fbcfe8;color:#9d174d;border:1px solid #f9a8d4;">Apple</span>
+      <span class="company-pill" style="background:#fef3c7;color:#92400e;border:1px solid #fde68a;">Goldman Sachs</span>
+      <span class="company-pill" style="background:#dcfce7;color:#166534;border:1px solid #bbf7d0;">Deloitte</span>
+      <span class="company-pill" style="background:#fee2e2;color:#991b1b;border:1px solid #fecaca;">Zomato</span>
+      <span class="company-pill" style="background:#e0f2fe;color:#075985;border:1px solid #bae6fd;">Ola Electric</span>
+      <span class="company-pill" style="background:#d1fae5;color:#065f46;border:1px solid #a7f3d0;">Ather Energy</span>
+      <span class="company-pill" style="background:#fde68a;color:#78350f;border:1px solid #fcd34d;">Flipkart</span>
+      <span class="company-pill" style="background:#cffafe;color:#155e75;border:1px solid #a5f3fc;">ISRO</span>
+      <span class="company-pill" style="background:#ede9fe;color:#5b21b6;border:1px solid #ddd6fe;">Samsung</span>
+    </div>
+  </div>
+
+  <div class="section-wrap">
+    <div class="section-title">Campus Life</div>
+    <div class="campus-grid">
+      <div class="campus-card"><div class="campus-icon">🏘️</div><h4>Radiant Cooling</h4><p>World-class design hostels that use radiant cooling technology to stay cool naturally.</p></div>
+      <div class="campus-card"><div class="campus-icon">🎭</div><h4>Elan & nVision</h4><p>A high-energy cultural and tech festival with footfall from all over India.</p></div>
+      <div class="campus-card"><div class="campus-icon">🎌</div><h4>Japan Hub</h4><p>Language classes and special desks for students aiming for research in Japan.</p></div>
+      <div class="campus-card"><div class="campus-icon">⚙️</div><h4>FAB LAB</h4><p>Advanced labs for chip design and fabrication, unique among new IITs.</p></div>
+    </div>
+  </div>
+
+</main>
+<footer style="max-width: 960px; width: 100%; margin: 4rem auto 2rem; position: relative; overflow: hidden; border-radius: 30px; box-shadow: 0 15px 40px rgba(0,0,0,0.3); color: #fff; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+  
+  <div style="position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(153, 27, 27, 0.45), rgba(0, 0, 0, 0.9)), url('https://image.telanganatoday.com/wp-content/uploads/2022/06/IIT-Hyderabad-1_V_jpg--442x260-4g.webp?sw=412&dsz=442x260&iw=392&p=false&r=2.625') center/cover no-repeat; z-index: -1;"></div>
+  
+  <div style="padding: 4rem 2.5rem 1.5rem; text-shadow: 0 2px 4px rgba(0,0,0,0.8);">
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 3rem; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 2.5rem;">
+      
+      <div>
+        <h4 style="color: #f87171; margin-bottom: 1rem; font-size: 1.5rem; letter-spacing: 1px;">IIT Hyderabad</h4>
+        <p style="font-size: 1rem; line-height: 1.7; color: #e2e8f0;">
+          A leader in <span style="font-weight: 800; color: #f87171;">AI & 5G Technology</span>. Known for its unique fractal-based architecture and strong collaboration with Japanese universities.
+        </p>
+      </div>
+
+      <div style="text-align: right;">
+        <h4 style="color: #f87171; margin-bottom: 1.2rem; font-size: 1.1rem;">Campus Info</h4>
+        <ul style="list-style: none; font-size: 0.95rem; line-height: 2.2; padding: 0;">
+          <li>📍 Kandi, Sangareddy, Telangana</li>
+          <li>🌐 ith.ac.in</li>
+          <li>⚡ Innovation & Entrepreneurship</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 1.8rem; font-size: 0.85rem; color: #cbd5e1;">
+      <p>© 2026 College Knowledge</p>
+      <p>Developed with ❤️ by <b style="color: #f87171;">Aman Kumar</b></p>
+    </div>
+  </div>
+</footer>
+</body>
+</html>
