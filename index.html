@@ -691,7 +691,11 @@
 
     function smartSearch(inputId){
         var query = document.getElementById(inputId).value.toLowerCase().trim();
-        if(!query) return;
+
+        if (!query) {
+                showToast("Please enter a college name to search.", "error");
+            return;
+        }
         // Check exact or close match in DB first
         var results = COLLEGE_DB.filter(function(c){ return searchMatch(c, query); });
         if(results.length === 1){
