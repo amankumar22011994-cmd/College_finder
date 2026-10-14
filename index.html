@@ -195,6 +195,11 @@
     .toast.error{border-color:#f87171;background:#1a0f0f;color:#f87171;}
     </style>
 </head>
+
+<button id="backToTop" aria-label="Back to top" title="Back to top">
+    ↑
+</button>
+
 <body>
     <header class="sh-header">
         <div class="sh-top">
@@ -1012,6 +1017,26 @@
         var sess=localStorage.getItem('cf_session');
         if(sess){try{loginUser(JSON.parse(sess));}catch(e){localStorage.removeItem('cf_session');}}
     })();
+
+    const backToTop = document.getElementById('backToTop');
+
+    window.addEventListener('scroll', function () {
+        if (window.scrollY > 300) {
+            backToTop.style.display = 'block';
+        } else {
+            backToTop.style.display = 'none';
+        }
+    });
+
+    backToTop.addEventListener('click', function () {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
+
+    
     </script>
+
 </body>
 </html>
