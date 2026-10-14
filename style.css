@@ -226,26 +226,25 @@ body {
     }
 
     .sh-nav {
-    .sh-nav {
-    display: flex;
-    gap: 1rem;
-    margin-top: 0.75rem;
-    padding: 0.5rem 0 0.75rem;
-    overflow-x: auto;
-    overflow-y: hidden;
-    white-space: nowrap;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: thin;
-}
+        display: flex;
+        gap: 1rem;
+        margin-top: 0.75rem;
+        padding: 0.5rem 0 0.75rem;
+        overflow-x: auto;
+        overflow-y: hidden;
+        white-space: nowrap;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: thin;
+    }
 
-.sh-nav a {
-    flex-shrink: 0;
-}
+    .sh-nav a {
+        flex-shrink: 0;
+    }
 
-.sh-nav .nav-compare-btn {
-    flex-shrink: 0;
-    margin-left: 0;
-}
+    .sh-nav .nav-compare-btn {
+        flex-shrink: 0;
+        margin-left: 0;
+    }
 
     .hero {
         height: auto;
@@ -268,6 +267,7 @@ body {
 
     .hero-search {
         width: 100%;
+        min-width: 0;
         border-radius: 14px;
         gap: 0.25rem;
     }
@@ -340,5 +340,4 @@ body {
     .cat-card {
         padding: 1.25rem;
     }
-}
 }
