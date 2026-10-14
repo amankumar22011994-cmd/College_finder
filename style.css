@@ -341,3 +341,15 @@ body {
         padding: 1.25rem;
     }
 }
+
+/* Fix college search suggestions on mobile */
+@media (max-width: 600px) {
+    #searchSuggestions {
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        max-height: 250px;
+        overflow-y: auto;
+        z-index: 9999;
+    }
+}
