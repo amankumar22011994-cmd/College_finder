@@ -353,3 +353,25 @@ body {
         z-index: 9999;
     }
 }
+
+/* Back to Top Button */
+#backToTop {
+    display: none;
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    width: 45px;
+    height: 45px;
+    border: none;
+    border-radius: 50%;
+    background: #0ea5e9;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    z-index: 1000;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+#backToTop:hover {
+    background: #0284c7;
+}
